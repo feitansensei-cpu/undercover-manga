@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Undercover Manga</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #080508 url('https://i.imgur.com/EMJ4VFL.jpeg') center/cover no-repeat fixed;
+            color: #f0e8e8;
+            min-height: 100vh;
+            margin: 0;
+            overscroll-behavior: none;
+        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+
+        /* ─── BORDEAUX/NOIR PALETTE ─── */
+        :root {
+            --amber: #a83232;
+            --amber-light: #e8c8c8;
+            --amber-dim: rgba(120,25,25,0.2);
+            --ember: #6e1a1a;
+            --ember-light: #8a2020;
+            --cream: #f0e0e0;
+            --warm-dark: #060305;
+            --warm-mid: #100606;
+            --warm-card: rgba(10,4,4,0.94);
+            --warm-border: rgba(130,22,22,0.28);
+            --warm-border-strong: rgba(130,22,22,0.48);
+            --text-muted: rgba(220,205,205,0.6);
+            --text-dim: rgba(225,210,210,0.82);
+        }
+
+        /* ─── OVERLAY / POPUP ─── */
+        .uc-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.88);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(6px);
+            animation: fadeIn 0.12s ease;
+        }
+        .uc-card {
+            background: linear-gradient(160deg, #140808 0%, #0d0404 100%);
+            border: 1px solid var(--warm-border-strong);
+            border-top: 2px solid var(--amber);
+            border-radius: 20px;
+            padding: 36px 28px 28px;
+            max-width: 420px;
+            width: calc(100% - 32px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.02);
+            animation: slideUp 0.16s ease;
+        }
+        .uc-btn {
+            width: 100%; padding: 13px 20px; border-radius: 12px;
+            font-weight: 700; font-size: 13px; letter-spacing: 0.6px;
+            cursor: pointer; transition: all 0.18s; border: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .uc-btn-primary {
+            background: linear-gradient(135deg, #a52828, #7f1d1d);
+            color: #ffffff;
+        }
+        .uc-btn-primary:hover { filter: brightness(1.12); transform: translateY(-1px); }
+        .uc-btn-secondary {
+            background: rgba(120,20,20,0.15);
+            border: 1px solid var(--warm-border);
+            color: var(--amber-light);
+        }
+        .uc-btn-secondary:hover { background: rgba(140,25,25,0.22); border-color: var(--amber); }
+        .uc-btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-muted);
+        }
+        .uc-btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text-dim); }
+        .uc-sep { width: 40px; height: 1px; background: rgba(140,25,25,0.35); margin: 14px auto; }
+        .uc-input {
+            width: 100%; background: rgba(255,255,255,0.04);
+            border: 1px solid var(--warm-border);
+            border-radius: 10px; padding: 12px 16px;
+            color: #f5f0eb; font-size: 14px; outline: none;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .uc-input:focus { border-color: var(--amber); }
+        .uc-input::placeholder { color: var(--text-muted); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(28px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse-amber {
+            0%,100% { box-shadow: none; }
+            50% { box-shadow: 0 0 14px rgba(150,30,30,0.4); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes countdownTick {
+            0% { transform: scale(1.15); color: #d47070; }
+            100% { transform: scale(1); color: #f5f0eb; }
+        }
+
+        /* ─── CHARACTER CARD ─── */
+        .char-card {
+            background: linear-gradient(160deg, #140808 0%, #0d0404 100%);
+            border: 1px solid var(--warm-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .char-card:hover { border-color: var(--amber); transform: translateY(-3px); }
+
+        /* ─── LOBBY PLAYER CHIP ─── */
+        .player-chip {
+            background: rgba(20,8,8,0.8);
+            border: 1px solid var(--warm-border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            display: flex; align-items: center; gap: 10px;
+            animation: slideUp 0.18s ease;
+        }
+        .player-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--amber);
+            box-shadow: 0 0 8px rgba(220,38,38,0.6);
+        }
+
+        /* ─── TIMER BAR ─── */
+        .timer-bar {
+            width: 100%; height: 4px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .timer-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #b03030, #7f1d1d);
+            transition: width 1s linear;
+            border-radius: 2px;
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(140,25,25,0.3); border-radius: 2px; }
+
+        /* ─── HINT CHIP ─── */
+        .hint-chip {
+            background: rgba(20,8,8,0.9);
+            border: 1px solid var(--warm-border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+        }
+        .hint-chip .author { font-size: 10px; font-weight: 700; color: #c08080; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+        .hint-chip .text { color: #f5f0eb; font-weight: 500; }
+
+        /* ─── VOTE BUTTON ─── */
+        .vote-btn {
+            background: rgba(20,8,8,0.8);
+            border: 1.5px solid var(--warm-border);
+            border-radius: 12px; padding: 14px 16px;
+            cursor: pointer; transition: all 0.18s;
+            text-align: left; width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+        .vote-btn:hover { border-color: var(--amber); background: rgba(120,20,20,0.1); }
+        .vote-btn.selected { border-color: var(--amber); background: rgba(120,20,20,0.2); animation: pulse-amber 1.5s infinite; }
+
+        /* ─── SCORE ROW ─── */
+        .score-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px;
+            background: rgba(20,8,8,0.8);
+            border: 1px solid var(--warm-border);
+            border-radius: 12px;
+        }
+        .score-badge {
+            background: linear-gradient(135deg, #a52828, #7f1d1d);
+            color: #ffffff; font-weight: 700; font-size: 13px;
+            padding: 3px 10px; border-radius: 20px; min-width: 50px; text-align: center;
+        }
+
+        /* ─── REVEAL CARD ─── */
+        .reveal-card {
+            background: linear-gradient(160deg, #140808 0%, #0d0404 100%);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--warm-border);
+        }
+        .reveal-card.undercover-card { border-color: #991b1b; box-shadow: 0 0 20px rgba(120,20,20,0.4); }
+        .reveal-card.citizen-card { border-color: var(--amber); }
+
+        /* ─── TITLE GLOW ─── */
+        .title-glow {
+            text-shadow: 0 2px 20px rgba(0,0,0,0.95);
+        }
+
+        /* ─── SELECT ─── */
+        .uc-select {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--warm-border);
+            border-radius: 10px; padding: 10px 14px;
+            color: #f5f0eb; font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            outline: none; cursor: pointer;
+            width: 100%;
+        }
+        .uc-select:focus { border-color: var(--amber); }
+        .uc-select option { background: #140808; color: #f5f0eb; }
+
+        /* ─── UNDERCOVER BADGE ─── */
+        .uc-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(185,28,28,0.18);
+            border: 1px solid rgba(120,20,20,0.5);
+            border-radius: 20px; padding: 4px 12px;
+            font-size: 11px; font-weight: 700; color: #c08080;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        .citizen-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(120,20,20,0.18);
+            border: 1px solid rgba(140,25,25,0.35);
+            border-radius: 20px; padding: 4px 12px;
+            font-size: 11px; font-weight: 700; color: var(--amber-light);
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        /* ─── RECONNECT OVERLAY ─── */
+        #reconnect-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.92); z-index: 99998;
+            align-items: center; justify-content: center;
+            flex-direction: column; gap: 14px;
+        }
+        #reconnect-overlay.visible { display: flex; }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid rgba(120,20,20,0.2);
+            border-top-color: var(--amber);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── CHARACTER IMAGE REVEAL ─── */
+        .char-reveal-container {
+            position: relative;
+            background: linear-gradient(160deg, #140808, #0d0404);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--warm-border-strong);
+        }
+        .char-img {
+            width: 100%; height: 260px; object-fit: cover; object-position: center top;
+            display: block;
+        }
+        .char-img-gradient {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, #080508);
+        }
+        .char-name-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 16px; text-align: center;
+        }
+
+        /* ─── HINT INPUT AREA ─── */
+        .hint-textarea {
+            width: 100%; background: rgba(255,255,255,0.04);
+            border: 1px solid var(--warm-border);
+            border-radius: 12px; padding: 14px 16px;
+            color: #f5f0eb; font-size: 15px; outline: none;
+            font-family: 'Inter', sans-serif;
+            resize: none; min-height: 60px;
+            transition: border-color 0.2s;
+        }
+        .hint-textarea:focus { border-color: var(--amber); }
+        .hint-textarea::placeholder { color: var(--text-muted); }
+        .hint-textarea:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* ─── PENDING DOT ─── */
+        .pending-dot { animation: blink 1.2s ease infinite; }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* ─── PAGE TRANSITION ─── */
+        #app { animation: fadeIn 0.18s ease; }
+
+        /* ─── ROUND BADGE ─── */
+        .round-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(120,20,20,0.15);
+            border: 1px solid var(--warm-border);
+            border-radius: 20px; padding: 5px 14px;
+            font-size: 11px; font-weight: 700; color: var(--amber);
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+
+        /* ─── LOCK ICON ─── */
+        .lock-icon {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(8,4,4,0.85);
+            backdrop-filter: blur(3px);
+            border-radius: 16px;
+        }
+
+        /* ─── LOADING DOTS ─── */
+        .loading-dots span {
+            display: inline-block;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--amber);
+            animation: dotBounce 1.2s ease infinite;
+        }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dotBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
+
+    </style>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="reconnect-overlay">
+    <div class="spinner"></div>
+    <p style="color:#ffffff;font-size:14px;font-weight:600">Reconnexion en cours...</p>
+    <p style="color:rgba(255,255,255,0.4);font-size:12px">Ne quittez pas la page</p>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  UNDERCOVER MANGA — Single-file multiplayer game
+// ══════════════════════════════════════════════════════
+
+const { createClient } = window.supabase;
+const SUPA_URL = 'https://okyvhpxiyernbxvubwzg.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9reXZocHhpeWVybmJ4dnVid3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MzkwNTgsImV4cCI6MjA4ODQxNTA1OH0.0zo-wFIgeFsvNoFmTfSttpQ31-3zStORzqJgGF53W0c';
+const db = createClient(SUPA_URL, SUPA_KEY);
+
+// ══════════════════════════════════════════════════════
+//  MANGA PAIRS DATABASE
+// ══════════════════════════════════════════════════════
+// Format: { citizen: { name, img }, undercover: { name, img }, tag: 'description connexion' }
+// Images: Wikimedia commons / libre de droit / placeholder coloré
+
+const PAIRS = [
+    // ── NARUTO ──
+    { citizen: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, undercover: { name: 'Gojo Satoru', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png' }, tag: 'masque blanc / œil caché' },
+    { citizen: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'génie qui cache ses intentions' },
+    { citizen: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, undercover: { name: 'Monkey D. Luffy', img: 'https://static.wikia.nocookie.net/onepiece/images/7/7b/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png' }, tag: 'héros solaire, manger énorme, protéger ses amis' },
+    { citizen: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'guerrier pur, manger beaucoup, dépasser ses limites' },
+    { citizen: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, undercover: { name: 'Kurapika', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png' }, tag: 'survivant de clan, vengeance, yeux rouges activés par la colère' },
+    { citizen: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, undercover: { name: 'Zuko', img: 'https://static.wikia.nocookie.net/avatar/images/b/be/ZukoPrince.jpg' }, tag: 'prince héritier marqué, rédemption, antagoniste puis allié' },
+    { citizen: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'enfant assassin cheveux sombres, rivalité fraternelle' },
+    { citizen: { name: 'Minato Namikaze', img: 'https://static.wikia.nocookie.net/naruto/images/b/b3/Minato_Namikaze.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'père et fils Hokage aux cheveux blonds' },
+    { citizen: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, undercover: { name: 'Might Guy', img: 'https://static.wikia.nocookie.net/naruto/images/9/93/Guy_Migth.png' }, tag: 'combattants taijutsu, combinaison verte, sourcils épais' },
+    { citizen: { name: 'Hinata Hyuga', img: 'https://static.wikia.nocookie.net/naruto/images/b/b2/Hinata_Hyuga.png' }, undercover: { name: 'Sakura Haruno', img: 'https://static.wikia.nocookie.net/naruto/images/d/d5/Sakura_Haruno.png' }, tag: 'kunoichi, sentiments envers un Uchiha, evolue énormément' },
+    { citizen: { name: 'Hinata Hyuga', img: 'https://static.wikia.nocookie.net/naruto/images/b/b2/Hinata_Hyuga.png' }, undercover: { name: 'Neji Hyuga', img: 'https://static.wikia.nocookie.net/naruto/images/c/ce/Neji_Hyuga.png' }, tag: 'clan Hyuga, byakugan, même sang' },
+    { citizen: { name: 'Obito Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/1/1d/Tobi.png' }, undercover: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, tag: 'ninjas masqués liés par un drame du passé, même équipe' },
+    { citizen: { name: 'Pain (Nagato)', img: 'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'imprévisibles, fascinants, philosophie tordue' },
+    { citizen: { name: 'Orochimaru', img: 'https://static.wikia.nocookie.net/naruto/images/8/87/Orochimaru_anime.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'prédateurs ambigus, obsédés par trouver de fortes proies' },
+    { citizen: { name: 'Jiraiya', img: 'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png' }, undercover: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, tag: 'vieux géant protecteur, mourra pour ses enfants' },
+
+    // ── DRAGON BALL ──
+    { citizen: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'saiyans, rival/adversaire, dépasser ses limites' },
+    { citizen: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, undercover: { name: 'Saitama', img: 'https://static.wikia.nocookie.net/onepunchman/images/0/05/Saitama_Artwork.png' }, tag: 'guerrier le plus fort, cherche un défi à sa hauteur' },
+    { citizen: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, undercover: { name: 'Frieza', img: 'https://static.wikia.nocookie.net/dragonball/images/9/9e/Frieza_First_Form.png' }, tag: 'orgueil galactique, noblesse corrompue, racine du mal' },
+    { citizen: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, undercover: { name: 'Tetsuo Shima', img: 'https://static.wikia.nocookie.net/akira-comic/images/9/9d/Tetsuo_Shima_Akira.jpeg' }, tag: 'puissance qui explose et submerge son propre porteur' },
+    { citizen: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, undercover: { name: 'Bardock', img: 'https://static.wikia.nocookie.net/dragonball/images/1/12/Bardock_anime.png' }, tag: 'saiyans père et fils, même visage, même destinée' },
+
+    // ── ONE PIECE ──
+    { citizen: { name: 'Roronoa Zoro', img: 'https://static.wikia.nocookie.net/onepiece/images/5/5d/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'combattants à l\'épée, solitaires, blessés au même œil' },
+    { citizen: { name: 'Trafalgar Law', img: 'https://static.wikia.nocookie.net/onepiece/images/f/f8/Trafalgar_D._Water_Law_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Kurapika', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png' }, tag: 'vengeance de clan, plan au long terme, antagoniste ambigu' },
+    { citizen: { name: 'Portgas D. Ace', img: 'https://static.wikia.nocookie.net/onepiece/images/4/4b/Portgas_D._Ace_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Sabo', img: 'https://static.wikia.nocookie.net/onepiece/images/3/34/Sabo_Anime_Post_Timeskip_Infobox.png' }, tag: 'frères de serment de sang, chapeau haut de forme, flammes' },
+    { citizen: { name: 'Shanks', img: 'https://static.wikia.nocookie.net/onepiece/images/6/6b/Shanks_Anime_Infobox.png' }, undercover: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, tag: 'Yonkous respectés, protecteurs, mourront debout' },
+    { citizen: { name: 'Nico Robin', img: 'https://static.wikia.nocookie.net/onepiece/images/e/e1/Nico_Robin_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Byakuya Kuchiki', img: 'https://static.wikia.nocookie.net/bleach/images/1/18/Byakuya_Kuchiki.png' }, tag: 'aristocrates froids cachant profondément leur affection' },
+    { citizen: { name: 'Eustass Kid', img: 'https://static.wikia.nocookie.net/onepiece/images/d/d3/Eustass_Kid_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Bakugo Katsuki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png' }, tag: 'agressifs, explosifs, pouvoirs rouges, ambition de numéro 1' },
+    { citizen: { name: 'Doflamingo', img: 'https://static.wikia.nocookie.net/onepiece/images/0/09/Donquixote_Doflamingo_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'sourire machiavélique, jouer à être dieu, manipuler des pions' },
+
+    // ── BLEACH ──
+    { citizen: { name: 'Ichigo Kurosaki', img: 'https://static.wikia.nocookie.net/bleach/images/7/7f/Ichigo_Kurosaki.png' }, undercover: { name: 'Yusuke Urameshi', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/0/09/Yusuke_Urameshi.png' }, tag: 'adolescents délinquants recrutés comme agents du surnaturel' },
+    { citizen: { name: 'Kenpachi Zaraki', img: 'https://static.wikia.nocookie.net/bleach/images/a/a5/Kenpachi_Zaraki.png' }, undercover: { name: 'Baki Hanma', img: 'https://static.wikia.nocookie.net/bakihanma/images/7/75/Baki_render.png' }, tag: 'guerriers obsédés par la joie du combat, puissance brute' },
+    { citizen: { name: 'Ulquiorra Cifer', img: 'https://static.wikia.nocookie.net/bleach/images/5/52/Ulquiorra_arrancar.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'silencieux, cheveux noirs, regard froid, vide intérieur' },
+    { citizen: { name: 'Byakuya Kuchiki', img: 'https://static.wikia.nocookie.net/bleach/images/1/18/Byakuya_Kuchiki.png' }, undercover: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, tag: 'aîné de clan qui sacrifie tout pour son devoir' },
+    { citizen: { name: 'Grimmjow Jaegerjaquez', img: 'https://static.wikia.nocookie.net/bleach/images/d/df/Grimmjow_Jaegerjaquez.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'orgueilleux en bleu, veut battre le héros par lui-même' },
+
+    // ── ATTACK ON TITAN ──
+    { citizen: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'transformation en monstre, perdu son humanité progressivement' },
+    { citizen: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, undercover: { name: 'Roronoa Zoro', img: 'https://static.wikia.nocookie.net/onepiece/images/5/5d/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png' }, tag: 'guerriers froids, cheveux sombres, les plus forts de leur époque' },
+    { citizen: { name: 'Reiner Braun', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/d/d0/Reiner_Braun_character_image.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'traîtres au camp adverse, déchiré entre deux appartenances' },
+    { citizen: { name: 'Armin Arlert', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/5/52/Armin_Arlert_character_image.png' }, undercover: { name: 'Shikamaru Nara', img: 'https://static.wikia.nocookie.net/naruto/images/d/d9/Shikamaru.png' }, tag: 'cerveaux stratèges, faibles physiquement mais décisifs' },
+
+    // ── JUJUTSU KAISEN ──
+    { citizen: { name: 'Gojo Satoru', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png' }, undercover: { name: 'Rimuru Tempest', img: 'https://static.wikia.nocookie.net/tensura/images/a/ae/Rimuru_Slime.png' }, tag: 'surpuissants nonchalants devenus quasi-divins' },
+    { citizen: { name: 'Ryomen Sukuna', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/e/e6/Ryomen_Sukuna_Anime.png' }, undercover: { name: 'DIO', img: 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png' }, tag: 'rois maudits, luxure du mal, mépris total envers la vie humaine' },
+    { citizen: { name: 'Megumi Fushiguro', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/6/6c/Megumi_Fushiguro.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'combattants calmes aux cheveux noirs, convoquent des entités' },
+
+    // ── HUNTER X HUNTER ──
+    { citizen: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, undercover: { name: 'Gon Freecss', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/8/8a/Gon_Freecss_2011.png' }, tag: 'meilleur ami, duo inséparable de chasseurs enfants' },
+    { citizen: { name: 'Gon Freecss', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/8/8a/Gon_Freecss_2011.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros naïfs et optimistes cherchant leur figure paternelle' },
+    { citizen: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, undercover: { name: 'DIO', img: 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png' }, tag: 'charismatiques terrifiants, aiment jouer avec leurs proies' },
+    { citizen: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, undercover: { name: 'Orochimaru', img: 'https://static.wikia.nocookie.net/naruto/images/8/87/Orochimaru_anime.png' }, tag: 'deux créatures malsaines aux désirs de collection' },
+    { citizen: { name: 'Chrollo Lucilfer', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/47/Chrollo_2011.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'deux prédateurs de la Troupe des Brigands, tension permanente' },
+    { citizen: { name: 'Illumi Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/b/b0/Illumi_2011.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'marié de manière bizarre, duo sinistre de la Troupe' },
+    { citizen: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, undercover: { name: 'Hiei', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/2/24/Hiei_%28anime%29.png' }, tag: 'assassins aux capacités électriques, froids, cheveux noirs' },
+
+    // ── DEATH NOTE ──
+    { citizen: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'génies qui manipulent les masses pour devenir dieu' },
+    { citizen: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'face à face le plus brillant du manga, chat et souris' },
+
+    // ── FULLMETAL ALCHEMIST ──
+    { citizen: { name: 'Edward Elric', img: 'https://static.wikia.nocookie.net/fma/images/4/41/Edward_Elric_anime.png' }, undercover: { name: 'Alphonse Elric', img: 'https://static.wikia.nocookie.net/fma/images/1/16/Alphonse_Elric_anime.png' }, tag: 'frères alchimistes, corps perdu, pénitence commune' },
+    { citizen: { name: 'Roy Mustang', img: 'https://static.wikia.nocookie.net/fma/images/6/6a/Roy_Mustang.png' }, undercover: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, tag: 'officiers militaires cachant leur passé sous une façade froide' },
+
+    // ── DEMON SLAYER ──
+    { citizen: { name: 'Tanjiro Kamado', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/0d/Tanjiro_Kamado.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros bienveillants qui gardent la foi malgré tout' },
+    { citizen: { name: 'Giyu Tomioka', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/3/36/Giyu_Tomioka.png' }, undercover: { name: 'Muichiro Tokito', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/a/a9/Muichiro_Tokito.png' }, tag: 'Piliers silencieux aux expressions figées' },
+    { citizen: { name: 'Rengoku Kyojuro', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/06/Kyojuro_Rengoku.png' }, undercover: { name: 'Might Guy', img: 'https://static.wikia.nocookie.net/naruto/images/9/93/Guy_Migth.png' }, tag: 'personnalités en feu, mentor solaire, sacrifice ultime' },
+    { citizen: { name: 'Zenitsu Agatsuma', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/4/40/Zenitsu_Agatsuma.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'technique unique liée à la foudre, potentiel caché' },
+
+    // ── JOJO ──
+    { citizen: { name: 'Jotaro Kujo', img: 'https://static.wikia.nocookie.net/jojo/images/3/3f/Jotaro_Kujo_%28Anime%29.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'auras froides, puissance maximale, avares en mots' },
+    { citizen: { name: 'DIO', img: 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'antagonistes qui maîtrisent la beauté du mal absolu' },
+    { citizen: { name: 'Giorno Giovanna', img: 'https://static.wikia.nocookie.net/jojo/images/a/a2/Giorno_Giovanna.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'jeunes gens déterminés à régner, morale personnelle absolue' },
+    { citizen: { name: 'Yoshikage Kira', img: 'https://static.wikia.nocookie.net/jojo/images/f/f7/Kira_Yoshikage_Anime.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'tueurs en série élégants qui veulent vivre tranquillement' },
+    { citizen: { name: 'Joseph Joestar', img: 'https://static.wikia.nocookie.net/jojo/images/6/6c/Joseph_Joestar_Anime.png' }, undercover: { name: 'Monkey D. Luffy', img: 'https://static.wikia.nocookie.net/onepiece/images/7/7b/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png' }, tag: 'farceurs génialissimes, improvisateurs nés, victoire insolente' },
+
+    // ── ONE PUNCH MAN ──
+    { citizen: { name: 'Saitama', img: 'https://static.wikia.nocookie.net/onepunchman/images/0/05/Saitama_Artwork.png' }, undercover: { name: 'Mob (Kageyama Shigeo)', img: 'https://static.wikia.nocookie.net/mob-psycho-100/images/1/12/Mob_in_Mob_Psycho_100.png' }, tag: 'puissances dépassant l\'entendement chez des gens ordinaires' },
+
+    // ── CODE GEASS ──
+    { citizen: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'princes masqués manipulateurs à la chute tragique calculée' },
+
+    // ── COWBOY BEBOP ──
+    { citizen: { name: 'Spike Spiegel', img: 'https://static.wikia.nocookie.net/cowboybebop/images/7/77/Spike_spiegel.png' }, undercover: { name: 'Mugen', img: 'https://static.wikia.nocookie.net/samuraichamploo/images/3/37/Mugen-sama.png' }, tag: 'vagabonds au style unique, passé obscur, combat instinctif' },
+
+    // ── FAIRY TAIL ──
+    { citizen: { name: 'Natsu Dragneel', img: 'https://static.wikia.nocookie.net/fairytail/images/9/9c/Natsu_Dragneel_2.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros enflammés criards qui protègent leurs nakamas' },
+    { citizen: { name: 'Erza Scarlet', img: 'https://static.wikia.nocookie.net/fairytail/images/3/31/Erza_anime.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'guerrières inébranlables aux cheveux noirs et rouge' },
+
+    // ── SEVEN DEADLY SINS ──
+    { citizen: { name: 'Meliodas', img: 'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/3/3c/Meliodas_Sds.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros blonds au démon intérieur, protège ses proches avant tout' },
+    { citizen: { name: 'Ban', img: 'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/5/52/Ban_new_design.png' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'guerriers immortels marqués par une perte tragique' },
+
+    // ── CHAINSAW MAN ──
+    { citizen: { name: 'Denji', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'humains fusionnés avec des monstres, perdent leur forme' },
+    { citizen: { name: 'Makima', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/7/77/Makima_Anime.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'manipulateurs souriant cachant leurs pouvoirs de contrôle' },
+
+    // ── BERSERK ──
+    { citizen: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, undercover: { name: 'Griffith', img: 'https://static.wikia.nocookie.net/berserk/images/e/e8/Griffith_berserk.png' }, tag: 'anciens meilleurs amis liés par la trahison ultime' },
+    { citizen: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'survivants traumatisés, épée légendaire, avancent malgré tout' },
+
+    // ── FIRE FORCE ──
+    { citizen: { name: 'Shinra Kusakabe', img: 'https://static.wikia.nocookie.net/fire-force/images/a/aa/Shinra_Kusakabe_Anime.png' }, undercover: { name: 'Tanjiro Kamado', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/0d/Tanjiro_Kamado.png' }, tag: 'héros aux pieds de feu, retrouver une famille transformée' },
+
+    // ── SOUL EATER ──
+    { citizen: { name: 'Maka Albarn', img: 'https://static.wikia.nocookie.net/souleater/images/1/14/Maka_Albarn_Anime.png' }, undercover: { name: 'Rukia Kuchiki', img: 'https://static.wikia.nocookie.net/bleach/images/1/1e/Rukia_Kuchiki_anime.png' }, tag: 'filles fonceuses chasseuses d\'âmes/esprits' },
+    { citizen: { name: 'Death the Kid', img: 'https://static.wikia.nocookie.net/souleater/images/b/b2/Soul_Eater_Death_The_Kid_Render.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'fils de la Mort, obsessionnel, posture bizarre en combat' },
+
+    // ── SAINT SEIYA ──
+    { citizen: { name: 'Seiya de Pégase', img: 'https://static.wikia.nocookie.net/saintseiya/images/3/3a/Seiya_01.jpg' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'guerriers solaires de lumière qui meurent et reviennent' },
+    { citizen: { name: 'Ikki de Phénix', img: 'https://static.wikia.nocookie.net/saintseiya/images/e/e9/Ikki_SS.jpg' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'antagoniste indomptable qui devient un allié fier' },
+
+    // ── HAJIME NO IPPO ──
+    { citizen: { name: 'Makunouchi Ippo', img: 'https://static.wikia.nocookie.net/ippo/images/f/fa/IppoMakunouchi.png' }, undercover: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, tag: 'force brute pure, travail acharné contre les dons naturels' },
+
+    // ── HAIKYUU ──
+    { citizen: { name: 'Shoyo Hinata', img: 'https://static.wikia.nocookie.net/haikyuu/images/b/b7/Shoyo_Hinata_anime.png' }, undercover: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, tag: 'sous-estimés qui compensent par l\'effort et la vitesse' },
+    { citizen: { name: 'Tobio Kageyama', img: 'https://static.wikia.nocookie.net/haikyuu/images/2/22/Tobio_Kageyama_anime.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'génies froids mal à l\'aise avec l\'amitié, aux cheveux noirs' },
+    { citizen: { name: 'Keiji Akaashi', img: 'https://static.wikia.nocookie.net/haikyuu/images/0/0f/Akaashi_Keiji_anime.png' }, undercover: { name: 'Shikamaru Nara', img: 'https://static.wikia.nocookie.net/naruto/images/d/d9/Shikamaru.png' }, tag: 'stratèges impassibles qui analysent tout' },
+
+    // ── MY HERO ACADEMIA ──
+    { citizen: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros sans talent recevant le pouvoir d\'un prédécesseur légendaire' },
+    { citizen: { name: 'Bakugo Katsuki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'orgueil explosif, obsédés d\'être numéro 1, tsundere' },
+    { citizen: { name: 'Himiko Toga', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/3/3e/Himiko_Toga_Anime.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'psychopathes joyeux dont l\'amour se confond avec le meurtre' },
+
+    // ── YUYU HAKUSHO ──
+    { citizen: { name: 'Yusuke Urameshi', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/0/09/Yusuke_Urameshi.png' }, undercover: { name: 'Ichigo Kurosaki', img: 'https://static.wikia.nocookie.net/bleach/images/7/7f/Ichigo_Kurosaki.png' }, tag: 'délinquants recrutés de force pour combattre le surnaturel' },
+    { citizen: { name: 'Hiei', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/2/24/Hiei_%28anime%29.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'antagonistes solitaires au feu qui rejoignent les héros' },
+
+    // ── AKIRA ──
+    { citizen: { name: 'Tetsuo Shima', img: 'https://static.wikia.nocookie.net/akira-comic/images/9/9d/Tetsuo_Shima_Akira.jpeg' }, undercover: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, tag: 'puissances dépassant leur porteur, deviennent des catastrophes' },
+
+    // ── DEMON SLAYER SUPPL ──
+    { citizen: { name: 'Kokushibo', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/e/ec/Kokushibo_anime.png' }, undercover: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, tag: 'aînés maudits qui choisissent le mal pour dépasser leur frère' },
+];
+
+// ══════════════════════════════════════════════════════
+//  GAME STATE
+// ══════════════════════════════════════════════════════
+let _hintTimer = null;
+let _hintTimerSeconds = 30;
+function clearHintTimer() {
+    if (_hintTimer) { clearInterval(_hintTimer); _hintTimer = null; }
+}
+
+const gameState = {
+    screen: 'home',        // home | lobby | game-reveal | game-hints | game-vote | game-roundresult | game-final
+    roomCode: null,
+    playerName: null,
+    isHost: false,
+    players: [],           // [{ name, score, ready }]
+    // Game settings
+    settings: { rounds: 3, hintsPerRound: 2 },
+    // Runtime
+    currentRound: 0,       // 1-based
+    currentPairIdx: null,  // index into PAIRS
+    undercoverName: null,  // name of undercover player
+    // Per-round hints: { playerName: [hint1, hint2] }
+    hints: {},
+    currentHintPhase: 1,   // 1 or 2 (or more)
+    // Votes: { voterName: targetName }
+    votes: {},
+    // Scores: { playerName: totalScore }
+    scores: {},
+    // Track used pairs
+    usedPairIndices: [],
+    _savedAt: null,
+};
+
+let pollInterval = null;
+let _realtimeChannel = null;
+let _pollFailCount = 0;
+
+// ══════════════════════════════════════════════════════
+//  UTILITIES
+// ══════════════════════════════════════════════════════
+function generateCode() {
+    return Array.from({length: 5}, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+}
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+function ucAlert(msg) {
+    return new Promise(resolve => {
+        const old = document.getElementById('uc-alert');
+        if (old) old.remove();
+        const ov = document.createElement('div');
+        ov.id = 'uc-alert';
+        ov.className = 'uc-overlay';
+        ov.innerHTML = `
+            <div class="uc-card" style="text-align:center">
+                <p style="font-size:15px;font-weight:800;color:#f5f0eb;letter-spacing:0.5px;margin-bottom:8px">${msg}</p>
+                <div class="uc-sep"></div>
+                <button id="uc-alert-ok" class="uc-btn uc-btn-primary" style="margin-top:4px">OK</button>
+            </div>`;
+        document.body.appendChild(ov);
+        const close = () => { ov.remove(); resolve(); };
+        document.getElementById('uc-alert-ok').onclick = close;
+        ov.addEventListener('click', e => { if (e.target === ov) close(); });
+        document.addEventListener('keydown', function k(e) { if (e.key === 'Enter' || e.key === 'Escape') { document.removeEventListener('keydown', k); close(); } });
+    });
+}
+function showReconnect(show) {
+    const el = document.getElementById('reconnect-overlay');
+    if (el) el.classList[show ? 'add' : 'remove']('visible');
+}
+
+// ══════════════════════════════════════════════════════
+//  SUPABASE SAVE / LOAD
+// ══════════════════════════════════════════════════════
+async function saveGame() {
+    if (!gameState.roomCode) return;
+    const now = new Date().toISOString();
+    gameState._savedAt = now;
+    const { error } = await db.from('uc_games').upsert({
+        room_code: gameState.roomCode,
+        data: gameState,
+        updated_at: now
+    });
+    if (error) {
+        console.error('[SAVE] Supabase error:', error.code, error.message);
+        if (error.code === '42P01') {
+            ucAlert('❌ Table "uc_games" introuvable dans Supabase !\n\nExécute ce SQL dans Supabase > SQL Editor :\n\nCREATE TABLE uc_games (\n  room_code text PRIMARY KEY,\n  data jsonb,\n  updated_at timestamptz DEFAULT now()\n);\nALTER TABLE uc_games DISABLE ROW LEVEL SECURITY;');
+        } else if (error.message?.includes('permission') || error.code === '42501') {
+            ucAlert('❌ Permission refusée (RLS).\n\nDans Supabase, désactive le Row Level Security sur la table uc_games.');
+        }
+    }
+}
+
+// loadGameSilent: merges remote data but does NOT call render() — used for initial fetches
+async function loadGameSilent(code) {
+    try {
+        const { data, error } = await db.from('uc_games').select('data').eq('room_code', code).single();
+        if (error) {
+            console.error('[LOAD SILENT] Supabase error:', error.code, error.message, error.details);
+            // PGRST116 = row not found (normal), everything else is a real error
+            if (error.code === 'PGRST116') return false; // room genuinely not found
+            // Table missing or RLS block — show specific message
+            if (error.code === '42P01') throw new Error('TABLE_MISSING');
+            if (error.code === '42501' || error.message?.includes('permission') || error.message?.includes('policy')) throw new Error('RLS_BLOCK');
+            return false;
+        }
+        if (data && data.data) {
+            const myName   = gameState.playerName;
+            const myCode   = gameState.roomCode;
+            Object.assign(gameState, data.data);
+            gameState.playerName = myName;
+            gameState.roomCode   = myCode;
+            gameState.isHost     = false; // joiner is never host
+            return true;
+        }
+        return false;
+    } catch(err) {
+        console.error('[LOAD SILENT] Exception:', err);
+        if (err.message === 'TABLE_MISSING') throw err;
+        if (err.message === 'RLS_BLOCK') throw err;
+        return false;
+    }
+}
+
+// loadGame: merges + renders — used by polling
+async function loadGame(code) {
+    try {
+        const { data, error } = await db.from('uc_games').select('data').eq('room_code', code).single();
+        if (error) { console.error('[LOAD]', error.code, error.message); return; }
+        if (!data || !data.data) return;
+
+        const remote   = data.data;
+        const myName   = gameState.playerName;
+        const myCode   = gameState.roomCode;
+        const myIsHost = gameState.isHost;
+        const myReady  = gameState.players?.find(p => p.name === myName)?.ready;
+        const myHints  = gameState.hints?.[myName] ? [...gameState.hints[myName]] : null;
+
+        Object.assign(gameState, remote);
+        gameState.playerName = myName;
+        gameState.roomCode   = myCode;
+        if (myIsHost) gameState.isHost = true;
+
+        // Preserve my ready state if remote hasn't caught up
+        const meRemote = gameState.players?.find(p => p.name === myName);
+        if (meRemote && myReady === true && meRemote.ready !== true) meRemote.ready = true;
+
+        // Preserve my hints if remote hasn't caught up
+        if (myHints && myHints.length > 0) {
+            if (!gameState.hints) gameState.hints = {};
+            if (!gameState.hints[myName] || gameState.hints[myName].length < myHints.length) {
+                gameState.hints[myName] = myHints;
+            }
+        }
+
+        render();
+    } catch(err) { console.error('[LOAD]', err); }
+}
+
+async function loadGameAndCheck(code) {
+    await loadGame(code);
+}
+
+async function startPolling(code) {
+    if (_realtimeChannel) { try { db.removeChannel(_realtimeChannel); } catch(e) {} _realtimeChannel = null; }
+    if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+
+    // Poll toutes les 2s sans condition — fiable partout (CodeSandbox, mobile, etc.)
+    pollInterval = setInterval(async () => {
+        await loadGameAndCheck(code);
+    }, 2000);
+
+    // Realtime en bonus (push instantané si dispo)
+    try {
+        _realtimeChannel = db.channel('uc-' + code)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'uc_games', filter: 'room_code=eq.' + code }, async () => {
+                await loadGameAndCheck(code);
+            })
+            .subscribe();
+    } catch(e) { console.warn('[REALTIME] Non disponible:', e.message); }
+
+    // Premier chargement immédiat
+    await loadGameAndCheck(code);
+}
+
+function stopPolling() {
+    if (_realtimeChannel) { try { db.removeChannel(_realtimeChannel); } catch(e) {} _realtimeChannel = null; }
+    if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+}
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && gameState.roomCode) {
+        _pollFailCount = 0;
+        if (!pollInterval) startPolling(gameState.roomCode);
+    }
+});
+window.addEventListener('online', () => {
+    showReconnect(false);
+    if (!pollInterval && gameState.roomCode) startPolling(gameState.roomCode);
+});
+window.addEventListener('offline', () => showReconnect(true));
+
+// ══════════════════════════════════════════════════════
+//  LOBBY ACTIONS
+// ══════════════════════════════════════════════════════
+window.createRoom = async function() {
+    const input = document.getElementById('lobby-pseudo');
+    const pseudo = input ? input.value.trim() : '';
+    if (!pseudo) return ucAlert('Entre ton pseudo !');
+    if (pseudo.length > 14) return ucAlert('Pseudo trop long (14 max)');
+
+    // Settings
+    const rounds = parseInt(document.getElementById('settings-rounds')?.value || 3);
+    const hints  = parseInt(document.getElementById('settings-hints')?.value || 2);
+
+    gameState.playerName = pseudo;
+    gameState.roomCode = generateCode();
+    gameState.isHost = true;
+    gameState.screen = 'lobby';
+    gameState.players = [{ name: pseudo, score: 0, ready: true, isHost: true }];
+    gameState.settings = { rounds, hintsPerRound: hints };
+    gameState.scores = { [pseudo]: 0 };
+    gameState.usedPairIndices = [];
+    gameState.currentRound = 0;
+    gameState.hints = {};
+    gameState.votes = {};
+
+    await saveGame();
+    startPolling(gameState.roomCode);
+    render();
+};
+
+window.joinRoom = async function() {
+    const pseudo = document.getElementById('join-pseudo')?.value.trim();
+    const code   = document.getElementById('join-code')?.value.trim().toUpperCase();
+    if (!pseudo) return ucAlert('Entre ton pseudo !');
+    if (pseudo.length > 14) return ucAlert('Pseudo trop long (14 max)');
+    if (!code || code.length < 3) return ucAlert('Entre le code de la room !');
+
+    gameState.playerName = pseudo;
+    gameState.roomCode = code;
+    gameState.isHost = false;
+
+    let ok = false;
+    try {
+        ok = await loadGameSilent(code);
+    } catch(err) {
+        gameState.playerName = null; gameState.roomCode = null;
+        if (err.message === 'TABLE_MISSING') {
+            return ucAlert('❌ Table Supabase manquante !\n\nCrée la table "uc_games" dans Supabase.\nVoir les instructions dans la console.');
+        }
+        if (err.message === 'RLS_BLOCK') {
+            return ucAlert('❌ Accès bloqué par Supabase RLS !\n\nDésactive Row Level Security sur la table "uc_games".');
+        }
+        return ucAlert('Erreur de connexion. Vérifie ta connexion internet.');
+    }
+
+    if (!ok) {
+        gameState.playerName = null; gameState.roomCode = null;
+        return ucAlert('Room introuvable.\nVérifie le code et réessaie.');
+    }
+    if (!gameState.players || !Array.isArray(gameState.players) || gameState.players.length === 0) {
+        gameState.playerName = null; gameState.roomCode = null;
+        return ucAlert('Room corrompue ou vide. Demande à l\'hôte de recréer une partie.');
+    }
+    if (gameState.players.length >= 8) {
+        gameState.playerName = null; gameState.roomCode = null;
+        return ucAlert('Room pleine (8 joueurs max)');
+    }
+    if (gameState.screen !== 'lobby') {
+        gameState.playerName = null; gameState.roomCode = null;
+        return ucAlert('La partie a déjà commencé !');
+    }
+    if (gameState.players.find(p => p.name === pseudo)) {
+        gameState.playerName = null; gameState.roomCode = null;
+        return ucAlert('Ce pseudo est déjà pris dans cette room !');
+    }
+
+    gameState.players.push({ name: pseudo, score: 0, ready: false, isHost: false });
+    if (!gameState.scores) gameState.scores = {};
+    gameState.scores[pseudo] = 0;
+    gameState.screen = 'lobby';
+    gameState.isHost = false;
+
+    await saveGame();
+    startPolling(code);
+    render();
+};
+
+window.toggleReady = async function() {
+    const me = gameState.players.find(p => p.name === gameState.playerName);
+    if (!me || me.isHost) return;
+    me.ready = !me.ready;
+    render(); // feedback visuel immédiat sans attendre le réseau
+    await saveGame();
+};
+
+window.startGame = async function() {
+    if (!gameState.isHost) return ucAlert('Seul l\'hôte peut lancer la partie');
+    if (gameState.players.length < 2) return ucAlert('2 joueurs minimum requis');
+    const allReady = gameState.players.every(p => p.ready);
+    if (!allReady) return ucAlert('Tous les joueurs doivent être prêts !');
+
+    // Init scores
+    gameState.scores = {};
+    gameState.players.forEach(p => { gameState.scores[p.name] = 0; });
+    gameState.usedPairIndices = [];
+    gameState.currentRound = 0;
+
+    await beginNewRound();
+};
+
+async function beginNewRound() {
+    gameState.currentRound += 1;
+    gameState.hints = {};
+    gameState.votes = {};
+    gameState.currentHintPhase = 1;
+    gameState.currentTurnIdx = 0; // index dans players[] pour qui écrit l'indice
+
+    // Pick a random pair not yet used
+    const available = PAIRS.map((_, i) => i).filter(i => !(gameState.usedPairIndices || []).includes(i));
+    const pairIdx = shuffle(available)[0];
+    gameState.currentPairIdx = pairIdx;
+    if (!gameState.usedPairIndices) gameState.usedPairIndices = [];
+    gameState.usedPairIndices.push(pairIdx);
+
+    // Randomly assign undercover (1 player)
+    gameState.undercoverName = shuffle(gameState.players.map(p => p.name))[0];
+
+    gameState.screen = 'game-reveal';
+    await saveGame();
+    render();
+}
+
+// ══════════════════════════════════════════════════════
+//  HINT SUBMISSION
+// ══════════════════════════════════════════════════════
+window.submitHint = async function() {
+    const me = gameState.playerName;
+    const currentPlayer = gameState.players[gameState.currentTurnIdx];
+    if (!currentPlayer || currentPlayer.name !== me) return ucAlert('Ce n\'est pas ton tour !');
+
+    const hint = (document.getElementById('hint-input')?.value || '').trim();
+    if (!hint) return ucAlert('Écris un indice !');
+    if (hint.length > 60) return ucAlert('Indice trop long (60 caractères max)');
+
+    if (!gameState.hints) gameState.hints = {};
+    if (!gameState.hints[me]) gameState.hints[me] = [];
+    gameState.hints[me].push(hint);
+
+    // Advance turn
+    const nextTurnIdx = gameState.currentTurnIdx + 1;
+    if (nextTurnIdx >= gameState.players.length) {
+        // All players wrote for this phase
+        if (gameState.currentHintPhase < gameState.settings.hintsPerRound) {
+            // Next phase — reset turn order
+            gameState.currentHintPhase += 1;
+            gameState.currentTurnIdx = 0;
+        } else {
+            // All phases done — go to vote
+            gameState.screen = 'game-vote';
+            gameState.currentTurnIdx = 0;
+        }
+    } else {
+        gameState.currentTurnIdx = nextTurnIdx;
+    }
+
+    await saveGame();
+    render();
+};
+
+// checkHintPhaseComplete — remplacé par la logique turn-based dans submitHint
+
+// ══════════════════════════════════════════════════════
+//  VOTING
+// ══════════════════════════════════════════════════════
+window.castVote = async function(targetName) {
+    const me = gameState.playerName;
+    if (me === targetName) return ucAlert('Tu ne peux pas voter pour toi-même !');
+    if (gameState.votes && gameState.votes[me]) return ucAlert('Tu as déjà voté !');
+
+    if (!gameState.votes) gameState.votes = {};
+    gameState.votes[me] = targetName;
+
+    // Check if everyone voted
+    const voted = Object.keys(gameState.votes).length;
+    if (voted >= gameState.players.length) {
+        calculateRoundScores();
+        return;
+    }
+
+    await saveGame();
+    render();
+};
+
+// checkVoteComplete — intégré dans castVote
+
+function calculateRoundScores() {
+    const undercover = gameState.undercoverName;
+    const players = gameState.players;
+    const votes = gameState.votes || {};
+    const n = players.length;
+
+    if (!gameState.scores) gameState.scores = {};
+    // Ensure all players have a score entry (don't reset existing)
+    players.forEach(p => { if (gameState.scores[p.name] === undefined) gameState.scores[p.name] = 0; });
+
+    // Count votes on undercover (from citizens only, not from undercover themselves)
+    let votesOnUndercover = 0;
+    players.forEach(p => {
+        if (p.name !== undercover && votes[p.name] === undercover) votesOnUndercover++;
+    });
+    // Citizens who voted WRONG (did not pick the undercover)
+    const citizenCount = n - 1;
+    const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
+
+    players.forEach(p => {
+        if (p.name === undercover) {
+            // Undercover gains 10 pts per citizen who didn't vote them, loses 10 per citizen who did
+            const gain = citizensWhoVotedWrong * 10;
+            const loss = votesOnUndercover * 10;
+            gameState.scores[p.name] += (gain - loss);
+        } else {
+            // Citizen: +10 if they voted correctly, -10 per ally who voted wrong
+            const votedCorrectly = (votes[p.name] === undercover) ? 1 : 0;
+            // Allies who voted wrong = all citizens who didn't vote undercover, except self
+            const alliesWhoVotedWrong = players.filter(x =>
+                x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
+            ).length;
+            gameState.scores[p.name] += (votedCorrectly * 10) - (alliesWhoVotedWrong * 10);
+        }
+    });
+
+    // Sync scores back to players array for display
+    players.forEach(p => { p.score = gameState.scores[p.name]; });
+
+    // Advance screen
+    if (gameState.currentRound >= gameState.settings.rounds) {
+        gameState.screen = 'game-final';
+    } else {
+        gameState.screen = 'game-roundresult';
+    }
+    saveGame().then(() => render());
+}
+
+window.nextRound = async function() {
+    if (!gameState.isHost) return;
+    await beginNewRound();
+};
+
+window.goHome = function() {
+    stopPolling();
+    Object.assign(gameState, {
+        screen: 'home', roomCode: null, playerName: null, isHost: false,
+        players: [], settings: { rounds: 3, hintsPerRound: 2 },
+        currentRound: 0, currentPairIdx: null, undercoverName: null,
+        hints: {}, currentHintPhase: 1, votes: {}, scores: {}, usedPairIndices: [], _savedAt: null
+    });
+    render();
+};
+
+// ══════════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════════
+let _lastScreen = null;
+
+function render() {
+    const app = document.getElementById('app');
+    if (!app) return;
+
+    // ANTI-RESET : si on est sur game-hints et que l'input a le focus, ne pas re-render
+    // (le polling appelait render() toutes les 2s et effaçait la saisie)
+    if (gameState.screen === 'game-hints') {
+        const inp = document.getElementById('hint-input');
+        if (inp && document.activeElement === inp) return;
+    }
+
+    // Clear running hint timer if leaving that screen
+    if (gameState.screen !== 'game-hints') clearHintTimer();
+
+    // Render per screen
+    if (gameState.screen === 'home') renderHome(app);
+    else if (gameState.screen === 'lobby') renderLobby(app);
+    else if (gameState.screen === 'game-reveal') renderRevealGate(app);
+    else if (gameState.screen === 'game-hints') renderHints(app);
+    else if (gameState.screen === 'game-vote') renderVote(app);
+    else if (gameState.screen === 'game-roundresult') renderRoundResult(app);
+    else if (gameState.screen === 'game-final') renderFinal(app);
+    else { app.innerHTML = '<div style="padding:40px;text-align:center;color:#ffffff">Écran inconnu : ' + gameState.screen + '</div>'; }
+}
+
+// ──────────────────────────────────────
+//  HOME
+// ──────────────────────────────────────
+function renderHome(app) {
+    app.innerHTML = `
+        <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden">
+            <!-- Ambient background -->
+            <div style="position:fixed;inset:0;background:rgba(4,2,2,0.75);pointer-events:none;z-index:0"></div>
+
+            <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:360px">
+
+                <!-- Logo -->
+                <div style="text-align:center;margin-bottom:48px">
+                    <p style="color:rgba(200,60,60,0.75);font-size:9px;letter-spacing:7px;text-transform:uppercase;margin-bottom:16px;font-family:'Cinzel',serif">Manga</p>
+                    <h1 class="font-cinzel" style="font-size:clamp(32px,7vw,54px);font-weight:900;color:rgba(220,200,200,0.75);margin:0 0 6px 0;letter-spacing:6px;line-height:1;-webkit-text-stroke:1px rgba(180,60,60,0.6);text-shadow:0 2px 20px rgba(0,0,0,0.95)">
+                        UNDERCOVER
+                    </h1>
+                    <div style="width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(140,25,25,0.5),transparent);margin:12px auto"></div>
+                    <p style="color:rgba(255,255,255,0.5);font-size:11px;letter-spacing:4px;text-transform:uppercase;font-family:'Cinzel',serif">Jeu d'infiltration</p>
+                </div>
+
+                <!-- JOUER button -->
+                <button onclick="showPlayMenu()" 
+                    style="background:rgba(120,20,20,0.35);backdrop-filter:blur(10px);color:#ffffff;font-weight:800;font-size:17px;padding:16px 40px;border-radius:12px;border:1px solid rgba(140,25,25,0.4);cursor:pointer;letter-spacing:3px;transition:all 0.2s;width:100%;max-width:280px;margin-bottom:12px;font-family:'Inter',sans-serif"
+                    onmouseover="this.style.background='rgba(120,20,20,0.55)';this.style.transform='scale(1.02)'"
+                    onmouseout="this.style.background='rgba(120,20,20,0.35)';this.style.transform='scale(1)'">
+                    JOUER
+                </button>
+
+                <p style="margin-top:40px;color:rgba(255,255,255,0.1);font-size:10px;letter-spacing:1px">Undercover Manga • v2.0</p>
+                <button onclick="window._testSupabase()" style="margin-top:8px;background:transparent;border:none;color:rgba(255,255,255,0.1);font-size:10px;cursor:pointer;letter-spacing:0.5px;padding:4px 8px;border-radius:6px" onmouseover="this.style.color='rgba(255,255,255,0.3)'" onmouseout="this.style.color='rgba(255,255,255,0.1)'">🔧 tester la connexion</button>
+            </div>
+        </div>
+
+        <!-- Play Menu overlay (hidden by default) -->
+        <div id="play-menu" style="display:none" class="uc-overlay">
+            <div class="uc-card" style="max-height:90vh;overflow-y:auto">
+                <p style="font-size:10px;font-weight:700;color:var(--amber);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:4px">Mode de jeu</p>
+                <h2 class="font-cinzel" style="font-size:22px;font-weight:700;color:#f5f0eb;text-align:center;margin-bottom:4px">Rejoindre / Créer</h2>
+                <div class="uc-sep"></div>
+
+                <!-- TABS -->
+                <div style="display:flex;gap:8px;margin-bottom:20px;background:rgba(255,255,255,0.04);border-radius:10px;padding:4px">
+                    <button id="tab-create" onclick="showTab('create')" style="flex:1;padding:10px;border-radius:8px;background:rgba(120,20,20,0.2);border:1px solid var(--warm-border-strong);color:#ffffff;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.18s;font-family:'Inter',sans-serif">
+                        ✦ Créer
+                    </button>
+                    <button id="tab-join" onclick="showTab('join')" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid transparent;color:var(--text-muted);font-weight:600;font-size:13px;cursor:pointer;transition:all 0.18s;font-family:'Inter',sans-serif">
+                        Rejoindre
+                    </button>
+                </div>
+
+                <!-- CREATE FORM -->
+                <div id="form-create">
+                    <label style="display:block;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Ton pseudo</label>
+                    <input id="lobby-pseudo" class="uc-input" placeholder="Nom affiché en partie..." maxlength="14" style="margin-bottom:14px">
+
+                    <label style="display:block;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Nombre de rounds</label>
+                    <select id="settings-rounds" class="uc-select" style="margin-bottom:14px">
+                        <option value="1">1 round</option>
+                        <option value="2">2 rounds</option>
+                        <option value="3" selected>3 rounds</option>
+                        <option value="4">4 rounds</option>
+                        <option value="5">5 rounds</option>
+                        <option value="7">7 rounds</option>
+                        <option value="10">10 rounds</option>
+                    </select>
+
+                    <label style="display:block;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Indices par round</label>
+                    <select id="settings-hints" class="uc-select" style="margin-bottom:20px">
+                        <option value="1">1 indice (rapide)</option>
+                        <option value="2" selected>2 indices (standard)</option>
+                        <option value="3">3 indices (intense)</option>
+                        <option value="4">4 indices (long)</option>
+                    </select>
+
+                    <button class="uc-btn uc-btn-primary" onclick="window.createRoom()" style="margin-bottom:8px">✦ Créer la room</button>
+                    <button class="uc-btn uc-btn-ghost" onclick="document.getElementById('play-menu').style.display='none'">Annuler</button>
+                </div>
+
+                <!-- JOIN FORM -->
+                <div id="form-join" style="display:none">
+                    <label style="display:block;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Ton pseudo</label>
+                    <input id="join-pseudo" class="uc-input" placeholder="Nom affiché en partie..." maxlength="14" style="margin-bottom:14px">
+
+                    <label style="display:block;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Code de la room</label>
+                    <input id="join-code" class="uc-input" placeholder="Ex: AB3XK" maxlength="5" style="margin-bottom:20px;text-transform:uppercase;letter-spacing:4px;font-size:18px;font-weight:700">
+
+                    <button class="uc-btn uc-btn-primary" onclick="window.joinRoom()" style="margin-bottom:8px">Rejoindre la room</button>
+                    <button class="uc-btn uc-btn-ghost" onclick="document.getElementById('play-menu').style.display='none'">Annuler</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    window.showPlayMenu = () => { document.getElementById('play-menu').style.display = 'flex'; };
+    window.showTab = (tab) => {
+        const isCreate = tab === 'create';
+        document.getElementById('form-create').style.display = isCreate ? 'block' : 'none';
+        document.getElementById('form-join').style.display   = isCreate ? 'none' : 'block';
+        const tc = document.getElementById('tab-create');
+        const tj = document.getElementById('tab-join');
+        tc.style.background    = isCreate ? 'rgba(120,20,20,0.2)'  : 'transparent';
+        tc.style.border        = isCreate ? '1px solid var(--warm-border-strong)' : '1px solid transparent';
+        tc.style.color         = isCreate ? '#d47070' : 'var(--text-muted)';
+        tj.style.background    = !isCreate ? 'rgba(120,20,20,0.2)'  : 'transparent';
+        tj.style.border        = !isCreate ? '1px solid var(--warm-border-strong)' : '1px solid transparent';
+        tj.style.color         = !isCreate ? '#d47070' : 'var(--text-muted)';
+    };
+}
+
+// ──────────────────────────────────────
+//  LOBBY
+// ──────────────────────────────────────
+function renderLobby(app) {
+    const me = gameState.players.find(p => p.name === gameState.playerName);
+    const allReady = gameState.players.every(p => p.ready);
+    const playerList = gameState.players.map(p => `
+        <div class="player-chip">
+            <div class="player-dot"></div>
+            <div style="flex:1">
+                <p style="font-weight:700;font-size:14px;color:#f5f0eb">${p.name} ${p.isHost ? '<span style="font-size:10px;color:var(--amber);letter-spacing:1px">HÔTE</span>' : ''}</p>
+            </div>
+            <div>
+                ${p.isHost ? '<span style="font-size:11px;color:rgba(220,38,38,0.6)">—</span>' : (p.ready ? '<span style="color:#4ade80;font-size:13px;font-weight:700">✓</span>' : '<span style="color:rgba(255,255,255,0.2);font-size:13px">○</span>')}
+            </div>
+        </div>
+    `).join('');
+
+    app.innerHTML = `
+        <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px;background:transparent;position:relative">
+            <!-- ambient -->
+            <div style="position:fixed;inset:0;background:rgba(4,2,2,0.75);pointer-events:none;z-index:0"></div>
+
+            <div style="position:relative;z-index:1;width:100%;max-width:420px">
+
+                <!-- Header -->
+                <div style="text-align:center;margin-bottom:28px;padding-top:16px">
+                    <div class="round-badge" style="margin-bottom:12px">Salon d'attente</div>
+                    <h1 class="font-cinzel title-glow" style="font-size:28px;font-weight:900;color:#ffffff;margin-bottom:6px">UNDERCOVER</h1>
+
+                    <!-- Room code -->
+                    <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(220,38,38,0.1);border:1px solid var(--warm-border);border-radius:10px;padding:10px 20px;margin-top:8px;cursor:pointer" onclick="navigator.clipboard&&navigator.clipboard.writeText('${gameState.roomCode}').then(()=>showCopyFeedback())">
+                        <span style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Code</span>
+                        <span style="font-size:22px;font-weight:900;color:#ffffff;letter-spacing:5px;font-family:'Cinzel',serif">${gameState.roomCode}</span>
+                        <span style="font-size:11px;color:var(--text-muted)">📋</span>
+                    </div>
+                    <div id="copy-feedback" style="height:16px;margin-top:4px">
+                        <p style="display:none;font-size:11px;color:#4ade80;text-align:center">Copié !</p>
+                    </div>
+                </div>
+
+                <!-- Settings preview -->
+                <div style="background:rgba(20,8,8,0.7);border:1px solid var(--warm-border);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;gap:16px;justify-content:center">
+                    <div style="text-align:center">
+                        <p style="font-size:9px;font-weight:700;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Rounds</p>
+                        <p style="font-size:20px;font-weight:900;color:#ffffff">${gameState.settings?.rounds || 3}</p>
+                    </div>
+                    <div style="width:1px;background:rgba(120,20,20,0.2)"></div>
+                    <div style="text-align:center">
+                        <p style="font-size:9px;font-weight:700;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Indices / round</p>
+                        <p style="font-size:20px;font-weight:900;color:#ffffff">${gameState.settings?.hintsPerRound || 2}</p>
+                    </div>
+                    <div style="width:1px;background:rgba(120,20,20,0.2)"></div>
+                    <div style="text-align:center">
+                        <p style="font-size:9px;font-weight:700;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Joueurs</p>
+                        <p style="font-size:20px;font-weight:900;color:#ffffff">${gameState.players.length}</p>
+                    </div>
+                </div>
+
+                <!-- Player list -->
+                <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+                    ${playerList}
+                    ${gameState.players.length < 8 ? `<div class="player-chip" style="opacity:0.3;border-style:dashed"><div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2)"></div><p style="font-size:13px;color:var(--text-muted)">En attente de joueurs... (${gameState.players.length}/8)</p></div>` : ''}
+                </div>
+
+                <!-- Action buttons -->
+                <div style="display:flex;flex-direction:column;gap:8px">
+                    ${gameState.isHost
+                        ? `<button class="uc-btn uc-btn-primary" onclick="window.startGame()" ${!allReady || gameState.players.length < 2 ? 'disabled style="opacity:0.4;cursor:not-allowed"' : ''}>
+                            ${allReady && gameState.players.length >= 2 ? '▶ Lancer la partie' : 'En attente des joueurs...'}
+                           </button>`
+                        : `<button class="uc-btn ${me?.ready ? 'uc-btn-ghost' : 'uc-btn-secondary'}" onclick="window.toggleReady()">
+                            ${me?.ready ? '○ Annuler le prêt' : '✓ Je suis prêt !'}
+                           </button>`
+                    }
+                    <button class="uc-btn uc-btn-ghost" onclick="window.goHome()">← Quitter</button>
+                </div>
+
+                ${!gameState.isHost && !me?.ready ? '<p style="text-align:center;color:var(--text-muted);font-size:12px;margin-top:12px">En attente que l\'hôte lance la partie...</p>' : ''}
+            </div>
+        </div>
+    `;
+
+    window.showCopyFeedback = () => {
+        const el = document.querySelector('#copy-feedback p');
+        if (el) { el.style.display = 'block'; setTimeout(() => { el.style.display = 'none'; }, 1500); }
+    };
+}
+
+// ──────────────────────────────────────
+//  GAME-REVEAL — chaque joueur voit son perso sur son écran
+// ──────────────────────────────────────
+function renderRevealGate(app) {
+    const pair = PAIRS[gameState.currentPairIdx];
+    const me = gameState.playerName;
+    const isUndercover = me === gameState.undercoverName;
+    const myChar = isUndercover ? pair.undercover : pair.citizen;
+
+    app.innerHTML = `
+        <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:transparent;position:relative">
+            <div style="position:fixed;inset:0;background:rgba(6,3,3,0.82);pointer-events:none;z-index:0"></div>
+            <div style="position:relative;z-index:1;text-align:center;max-width:340px;width:100%">
+                <div class="round-badge" style="margin:0 auto 16px;display:table">Round ${gameState.currentRound} / ${gameState.settings.rounds}</div>
+
+                <p style="color:var(--text-muted);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Ton personnage — <strong style="color:#ffffff">${me}</strong></p>
+                <p style="color:rgba(255,255,255,0.25);font-size:11px;margin-bottom:18px">Ne montre pas ton écran aux autres</p>
+
+                <!-- Character card -->
+                <div class="char-reveal-container" style="max-width:260px;margin:0 auto 20px">
+                    <img src="${myChar.img}" style="width:100%;height:280px;object-fit:cover;object-position:center top;display:block"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${myChar.name}">
+                    <div style="height:280px;display:none;align-items:center;justify-content:center;background:linear-gradient(160deg,#2a1a08,#1a0e04);font-size:80px">🥷</div>
+                    <div class="char-img-gradient"></div>
+                    <div class="char-name-overlay" style="padding:18px">
+                        <p style="color:#ffffff;font-size:20px;font-weight:900;text-shadow:0 2px 12px rgba(0,0,0,0.9)">${myChar.name}</p>
+                    </div>
+                </div>
+
+                ${gameState.isHost
+                    ? `<button class="uc-btn uc-btn-primary" onclick="window.launchHints()" style="max-width:280px;margin:0 auto;display:block">
+                        ▶ Tout le monde est prêt — Lancer les indices
+                       </button>
+                       <p style="color:var(--text-muted);font-size:11px;margin-top:8px">Seul l'hôte peut démarrer</p>`
+                    : `<div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:8px">
+                        <div class="loading-dots" style="display:flex;gap:6px"><span></span><span></span><span></span></div>
+                        <p style="color:var(--text-muted);font-size:13px">En attente que l'hôte lance les indices...</p>
+                       </div>`
+                }
+            </div>
+        </div>
+    `;
+}
+
+window.launchHints = async function() {
+    if (!gameState.isHost) return;
+    gameState.screen = 'game-hints';
+    gameState.currentTurnIdx = 0;
+    await saveGame();
+    render();
+};
+
+// ──────────────────────────────────────
+//  GAME-HINTS — écran commun, tour par tour
+// ──────────────────────────────────────
+
+function renderHints(app) {
+    const me = gameState.playerName;
+    const pair = PAIRS[gameState.currentPairIdx];
+    const isUndercover = me === gameState.undercoverName;
+    const myChar = isUndercover ? pair.undercover : pair.citizen;
+    const phase = gameState.currentHintPhase;
+    const totalPhases = gameState.settings.hintsPerRound;
+    const currentPlayer = gameState.players[gameState.currentTurnIdx || 0];
+    const isMyTurn = currentPlayer?.name === me;
+
+    // Build hints list — all hints so far ordered by player turn
+    const allHints = [];
+    for (let ph = 1; ph <= totalPhases; ph++) {
+        gameState.players.forEach(p => {
+            const playerHints = gameState.hints?.[p.name] || [];
+            if (playerHints[ph - 1]) {
+                allHints.push({ player: p.name, hint: playerHints[ph - 1], phase: ph });
+            }
+        });
+    }
+
+    app.innerHTML = `
+        <div style="min-height:100vh;display:flex;flex-direction:column;background:transparent;position:relative">
+            <!-- Fond d'écran -->
+            <div style="position:fixed;inset:0;background:rgba(6,3,3,0.82);pointer-events:none;z-index:0"></div>
+
+            <div style="position:relative;z-index:1;width:100%;padding:10px 10px 120px">
+
+                <!-- Header compact -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+                    <div style="display:flex;gap:6px">
+                        <div class="round-badge">R${gameState.currentRound}/${gameState.settings.rounds}</div>
+                        <div class="round-badge" style="background:rgba(120,20,20,0.2);border-color:rgba(120,20,20,0.4);color:#c08080">Indice ${phase}/${totalPhases}</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px">
+                        <span style="font-size:12px;color:var(--text-muted)">Tour :</span>
+                        <span style="font-size:13px;font-weight:800;color:#ffffff">${currentPlayer?.name || '?'}</span>
+                        ${isMyTurn ? '<span style="font-size:11px;color:#4ade80;font-weight:700">← toi !</span>' : ''}
+                    </div>
+                </div>
+
+                <!-- Mon perso (petit rappel) -->
+                <div style="display:flex;align-items:center;gap:8px;background:rgba(20,8,8,0.75);border:1px solid var(--warm-border);border-radius:10px;padding:8px 12px;margin-bottom:10px">
+                    <img src="${myChar.img}" style="width:36px;height:36px;border-radius:6px;object-fit:cover;object-position:top;flex-shrink:0"
+                        onerror="this.textContent='🥷';this.style.display='flex';this.style.alignItems='center';this.style.justifyContent='center'" alt="">
+                    <div style="flex:1;min-width:0">
+                        <p style="font-size:9px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Ton personnage</p>
+                        <p style="font-size:13px;font-weight:800;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${myChar.name}</p>
+                    </div>
+                </div>
+
+                <!-- GRILLE JOUEURS — colonnes -->
+                <div style="display:grid;grid-template-columns:repeat(${Math.min(gameState.players.length, 4)},1fr);gap:6px;margin-bottom:8px">
+                    ${gameState.players.map(p => {
+                        const pHints = gameState.hints?.[p.name] || [];
+                        const isActive = currentPlayer?.name === p.name;
+                        const pChar = p.name === gameState.undercoverName ? pair.undercover : pair.citizen;
+                        return `
+                        <div style="background:rgba(20,8,8,${isActive ? '0.95' : '0.7'});border:1px solid ${isActive ? 'rgba(220,38,38,0.7)' : 'rgba(120,20,20,0.2)'};border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:5px;${isActive ? 'box-shadow:0 0 8px rgba(150,30,30,0.2)' : ''}">
+                            <!-- Pseudo + image perso -->
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+                                <img src="${pChar.img}" style="width:28px;height:28px;border-radius:5px;object-fit:cover;object-position:top;flex-shrink:0;border:1px solid rgba(255,255,255,0.1)"
+                                    onerror="this.textContent='🥷';this.style.fontSize='16px'" alt="">
+                                <div style="min-width:0">
+                                    <p style="font-size:11px;font-weight:800;color:${isActive ? '#d47070' : '#f5f0eb'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</p>
+                                    <p style="font-size:9px;color:var(--text-muted)">${gameState.scores?.[p.name] ?? 0} pts</p>
+                                </div>
+                                ${isActive ? '<span style="margin-left:auto;font-size:14px">✏️</span>' : ''}
+                            </div>
+                            <!-- Indices de ce joueur -->
+                            ${pHints.map((h, i) => `
+                                <div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:5px 7px">
+                                    <p style="font-size:9px;font-weight:700;color:var(--amber);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:2px">Indice ${i+1}</p>
+                                    <p style="font-size:12px;color:#f5f0eb;font-weight:500;word-break:break-word">"${h}"</p>
+                                </div>`).join('')}
+                            <!-- Placeholder si en train d'écrire -->
+                            ${isActive && pHints.length < phase ? `
+                                <div style="background:rgba(120,20,20,0.1);border:1px dashed rgba(140,25,25,0.3);border-radius:6px;padding:5px 7px;display:flex;align-items:center;gap:5px">
+                                    <span class="pending-dot" style="width:5px;height:5px;border-radius:50%;background:var(--amber);display:inline-block;flex-shrink:0"></span>
+                                    <span style="font-size:11px;color:var(--text-muted);font-style:italic">En train d'écrire...</span>
+                                </div>` : ''}
+                        </div>`;
+                    }).join('')}
+                </div>
+
+            </div>
+
+            <!-- Fixed input at bottom -->
+            <div style="position:fixed;bottom:0;left:0;right:0;padding:10px 14px;background:rgba(4,2,2,0.95);border-top:1px solid var(--warm-border);backdrop-filter:blur(12px);z-index:10">
+                <div style="max-width:600px;margin:0 auto">
+                    ${isMyTurn ? `
+                        <div>
+                            <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+                                <span style="font-size:10px;font-weight:700;color:var(--amber);letter-spacing:1px;text-transform:uppercase">Ton indice ${phase}</span>
+                                <span id="hint-timer" style="font-size:11px;font-weight:700;color:#ffffff">30s</span>
+                            </div>
+                            <div style="display:flex;gap:8px;align-items:center">
+                                <input id="hint-input" type="text" class="uc-input" placeholder="Un mot, un concept..." maxlength="60" style="flex:1"
+                                    onkeydown="if(event.key==='Enter'){event.preventDefault();window.submitHint()}"
+                                    autofocus>
+                                <button class="uc-btn uc-btn-primary" onclick="window.submitHint()" style="padding:10px 18px;width:auto;flex-shrink:0">Envoyer</button>
+                            </div>
+                            <div class="timer-bar" style="margin-top:5px"><div id="hint-timer-fill" class="timer-fill" style="width:100%"></div></div>
+                        </div>
+                    ` : `
+                        <div style="text-align:center;padding:6px">
+                            <p style="color:var(--text-muted);font-size:13px">En attente de <strong style="color:#ffffff">${currentPlayer?.name}</strong>...</p>
+                        </div>
+                    `}
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Timer only when it's my turn
+    clearHintTimer();
+    if (isMyTurn) {
+        _hintTimerSeconds = 30;
+        const updateTimer = () => {
+            const lbl = document.getElementById('hint-timer');
+            const fill = document.getElementById('hint-timer-fill');
+            if (lbl) { lbl.textContent = Math.max(0, _hintTimerSeconds) + 's'; lbl.style.color = _hintTimerSeconds <= 10 ? '#d47070' : '#d47070'; }
+            if (fill) fill.style.width = Math.max(0, (_hintTimerSeconds / 30) * 100) + '%';
+        };
+        updateTimer();
+        _hintTimer = setInterval(() => {
+            _hintTimerSeconds--;
+            updateTimer();
+            if (_hintTimerSeconds <= 0) {
+                clearHintTimer();
+                const inp = document.getElementById('hint-input');
+                if (inp) { if (!inp.value.trim()) inp.value = '...'; window.submitHint(); }
+            }
+        }, 1000);
+        // Focus input
+        setTimeout(() => document.getElementById('hint-input')?.focus(), 100);
+    }
+}
+
+// ──────────────────────────────────────
+//  GAME-VOTE — commun, chacun vote
+// ──────────────────────────────────────
+function renderVote(app) {
+    const me = gameState.playerName;
+    const myVote = gameState.votes?.[me];
+    const votedCount = Object.keys(gameState.votes || {}).length;
+    const others = gameState.players.filter(p => p.name !== me);
+
+    const allHints = [];
+    gameState.players.forEach(p => {
+        (gameState.hints?.[p.name] || []).forEach((h, i) => {
+            allHints.push({ player: p.name, hint: h, phase: i + 1 });
+        });
+    });
+
+    app.innerHTML = `
+        <div style="min-height:100vh;display:flex;flex-direction:column;padding:16px 16px 140px;background:transparent;position:relative;overflow-y:auto">
+            <div style="position:fixed;inset:0;background:rgba(6,3,3,0.82);pointer-events:none;z-index:0"></div>
+
+            <div style="position:relative;z-index:1;max-width:480px;width:100%;margin:0 auto">
+                <div style="text-align:center;margin-bottom:16px;padding-top:10px">
+                    <div class="round-badge" style="margin:0 auto 10px;display:table;background:rgba(120,20,20,0.25);border-color:rgba(120,20,20,0.5);color:#c08080">⚡ Vote</div>
+                    <h2 class="font-cinzel" style="font-size:20px;font-weight:700;color:#ffffff;margin-bottom:6px">Qui est l'Undercover ?</h2>
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px">
+                        <div style="flex:1;max-width:160px;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden">
+                            <div style="width:${(votedCount/gameState.players.length)*100}%;height:100%;background:linear-gradient(90deg,#c08080,#991b1b);transition:width 0.4s"></div>
+                        </div>
+                        <span style="font-size:11px;color:var(--text-muted)">${votedCount}/${gameState.players.length} votes</span>
+                    </div>
+                </div>
+
+                <!-- Hints recap -->
+                <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px">
+                    <p style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Rappel des indices</p>
+                    ${allHints.map(h => `
+                        <div class="hint-chip">
+                            <div class="author">${h.player} — Indice ${h.phase}</div>
+                            <div class="text">"${h.hint}"</div>
+                        </div>`).join('')}
+                </div>
+            </div>
+        </div>
+
+        <!-- Fixed vote panel -->
+        <div style="position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:rgba(4,2,2,0.95);border-top:1px solid var(--warm-border);backdrop-filter:blur(12px);z-index:10">
+            <div style="max-width:480px;margin:0 auto">
+                ${myVote
+                    ? `<div style="padding:12px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:12px;text-align:center">
+                        <p style="color:#4ade80;font-weight:700;font-size:14px">✓ Voté pour <strong>${myVote}</strong></p>
+                        <p style="color:var(--text-muted);font-size:11px">En attente des ${gameState.players.length - votedCount} autre(s)...</p>
+                       </div>`
+                    : `<div>
+                        <p style="font-size:10px;font-weight:700;color:#c08080;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Qui est l'Undercover ?</p>
+                        <div style="display:grid;grid-template-columns:${others.length <= 3 ? '1fr' : '1fr 1fr'};gap:6px">
+                            ${others.map(p => `
+                                <button class="vote-btn" onclick="window.castVote('${p.name}')">
+                                    <p style="font-size:14px;font-weight:700;color:#f5f0eb;margin-bottom:2px">${p.name}</p>
+                                    <p style="font-size:10px;color:var(--text-muted)">${gameState.votes?.[p.name] ? '✓ a voté' : '○ en attente'}</p>
+                                </button>`).join('')}
+                        </div>
+                       </div>`
+                }
+            </div>
+        </div>
+    `;
+}
+
+
+// ──────────────────────────────────────
+//  GAME-ROUNDRESULT
+// ──────────────────────────────────────
+function renderRoundResult(app) {
+    const pair = PAIRS[gameState.currentPairIdx];
+    const undercover = gameState.undercoverName;
+    const votes = gameState.votes || {};
+
+    // Recompute deltas for display (same logic as calculateRoundScores, read-only)
+    const n = gameState.players.length;
+    let votesOnUndercover = 0;
+    gameState.players.forEach(p => {
+        if (p.name !== undercover && votes[p.name] === undercover) votesOnUndercover++;
+    });
+    const citizenCount = n - 1;
+    const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
+
+    const deltas = {};
+    gameState.players.forEach(p => {
+        if (p.name === undercover) {
+            deltas[p.name] = (citizensWhoVotedWrong * 10) - (votesOnUndercover * 10);
+        } else {
+            const votedCorrectly = (votes[p.name] === undercover) ? 1 : 0;
+            const alliesWrong = gameState.players.filter(x =>
+                x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
+            ).length;
+            deltas[p.name] = (votedCorrectly * 10) - (alliesWrong * 10);
+        }
+    });
+
+    const sorted = [...gameState.players].sort((a, b) => (gameState.scores?.[b.name] ?? 0) - (gameState.scores?.[a.name] ?? 0));
+
+    app.innerHTML = `
+        <div style="min-height:100vh;display:flex;flex-direction:column;padding:16px 16px 100px;background:transparent;position:relative;overflow-y:auto">
+            <div style="position:fixed;inset:0;background:rgba(4,2,2,0.75);pointer-events:none;z-index:0"></div>
+
+            <div style="position:relative;z-index:1;max-width:480px;width:100%;margin:0 auto">
+
+                <!-- Header -->
+                <div style="text-align:center;margin:16px 0 20px">
+                    <div class="round-badge" style="margin:0 auto 10px;display:table">Round ${gameState.currentRound} / ${gameState.settings.rounds}</div>
+                    <h2 class="font-cinzel title-glow" style="font-size:26px;font-weight:900;color:#ffffff;margin-bottom:2px">Révélation !</h2>
+                </div>
+
+                <!-- Pair reveal -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+                    <div class="reveal-card citizen-card">
+                        <img src="${pair.citizen.img}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" onerror="this.style.display='none'" alt="${pair.citizen.name}">
+                        <div style="padding:10px;text-align:center">
+                            <div class="citizen-badge" style="font-size:9px;padding:3px 8px;margin-bottom:5px">Citoyen</div>
+                            <p style="font-size:12px;font-weight:800;color:#f5f0eb;line-height:1.2">${pair.citizen.name}</p>
+                        </div>
+                    </div>
+                    <div class="reveal-card undercover-card">
+                        <img src="${pair.undercover.img}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" onerror="this.style.display='none'" alt="${pair.undercover.name}">
+                        <div style="padding:10px;text-align:center">
+                            <div class="uc-badge" style="font-size:9px;padding:3px 8px;margin-bottom:5px">Undercover</div>
+                            <p style="font-size:12px;font-weight:800;color:#f5f0eb;line-height:1.2">${pair.undercover.name}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Connexion -->
+                <div style="background:rgba(20,8,8,0.8);border:1px solid var(--warm-border);border-radius:10px;padding:10px 14px;text-align:center;margin-bottom:14px">
+                    <p style="font-size:9px;font-weight:700;color:var(--amber);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px">Connexion secrète</p>
+                    <p style="font-size:13px;color:#f5f0eb;font-style:italic">"${pair.tag}"</p>
+                </div>
+
+                <!-- Who was undercover -->
+                <div style="background:rgba(185,28,28,0.10);border:1px solid rgba(185,28,28,0.32);border-radius:10px;padding:10px 14px;text-align:center;margin-bottom:14px">
+                    <p style="font-size:10px;font-weight:700;color:#c08080;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">L'Undercover était</p>
+                    <p style="font-size:18px;font-weight:900;color:#ffffff">${undercover}</p>
+                    <p style="font-size:11px;color:var(--text-muted);margin-top:1px">jouait le rôle de <em>${pair.undercover.name}</em></p>
+                </div>
+
+                <!-- Votes + score deltas -->
+                <div style="margin-bottom:16px">
+                    <p style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Votes & points ce round</p>
+                    ${gameState.players.map(p => {
+                        const delta = deltas[p.name] ?? 0;
+                        const votedRight = votes[p.name] === undercover;
+                        const isUC = p.name === undercover;
+                        const deltaColor = delta > 0 ? '#4ade80' : delta < 0 ? '#d47070' : 'var(--text-muted)';
+                        const deltaStr = delta > 0 ? '+' + delta : String(delta);
+                        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:rgba(20,8,8,0.7);border-radius:8px;margin-bottom:5px;border:1px solid ${isUC ? 'rgba(120,20,20,0.4)' : (votedRight ? 'rgba(74,222,128,0.18)' : 'rgba(248,113,113,0.18)')}">
+                            <div style="flex:1">
+                                <span style="font-weight:700;font-size:13px;color:#f5f0eb">${p.name}</span>
+                                ${isUC ? '<span style="font-size:9px;color:#c08080;margin-left:6px;letter-spacing:1px;font-weight:700">UNDERCOVER</span>' : ''}
+                            </div>
+                            <div style="text-align:right">
+                                <span style="font-size:11px;color:var(--text-muted);margin-right:10px">→ ${votes[p.name] || '?'} ${!isUC ? (votedRight ? '✓' : '✗') : ''}</span>
+                                <span style="font-size:14px;font-weight:800;color:${deltaColor}">${deltaStr} pts</span>
+                            </div>
+                        </div>`;
+                    }).join('')}
+                </div>
+
+                <!-- Cumulated scores -->
+                <div style="margin-bottom:20px">
+                    <p style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Scores cumulés</p>
+                    ${sorted.map((p, i) => `
+                        <div class="score-row" style="margin-bottom:5px${p.name === gameState.playerName ? ';border-color:rgba(140,25,25,0.5)' : ''}">
+                            <span style="font-size:16px;width:26px;text-align:center">${i === 0 ? '🏆' : '#' + (i + 1)}</span>
+                            <span style="flex:1;font-weight:${i === 0 ? '800' : '600'};font-size:14px;color:${i === 0 ? '#f5f0eb' : 'var(--text-dim)'}">
+                                ${p.name}${p.name === undercover ? ' <span style="font-size:9px;color:#c08080;font-weight:700">UC</span>' : ''}
+                            </span>
+                            <div class="score-badge">${gameState.scores?.[p.name] ?? 0} pts</div>
+                        </div>`).join('')}
+                </div>
+
+                <!-- CTA fixed bottom -->
+                <div style="position:fixed;bottom:0;left:0;right:0;padding:12px 16px;background:rgba(8,4,4,0.96);border-top:1px solid var(--warm-border);backdrop-filter:blur(12px);z-index:10">
+                    <div style="max-width:480px;margin:0 auto">
+                        ${gameState.isHost
+                            ? `<button class="uc-btn uc-btn-primary" onclick="window.nextRound()">
+                                ${gameState.currentRound < gameState.settings.rounds ? '▶ Round suivant' : '🏁 Classement final'}
+                               </button>`
+                            : `<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 0">
+                                <div class="loading-dots" style="display:flex;gap:5px"><span></span><span></span><span></span></div>
+                                <p style="color:var(--text-muted);font-size:13px">En attente de l'hôte...</p>
+                               </div>`
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+}
+
+// ──────────────────────────────────────
+//  GAME-FINAL
+// ──────────────────────────────────────
+function renderFinal(app) {
+    const sorted = [...gameState.players].sort((a, b) => (gameState.scores?.[b.name] ?? 0) - (gameState.scores?.[a.name] ?? 0));
+    const winner = sorted[0];
+
+    const medals = ['🥇', '🥈', '🥉'];
+
+    app.innerHTML = `
+        <div style="min-height:100vh;display:flex;flex-direction:column;padding:16px;background:transparent;position:relative">
+            <div style="position:fixed;inset:0;background:rgba(4,2,2,0.75);pointer-events:none;z-index:0"></div>
+
+            <div style="position:relative;z-index:1;max-width:480px;width:100%;margin:0 auto">
+
+                <!-- Header -->
+                <div style="text-align:center;margin:20px 0 28px">
+                    <p class="font-cinzel" style="font-size:11px;letter-spacing:4px;color:var(--amber);text-transform:uppercase;margin-bottom:8px">Fin de partie</p>
+                    <h1 class="font-cinzel title-glow" style="font-size:30px;font-weight:900;color:#ffffff;margin-bottom:8px">Classement Final</h1>
+                    <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,rgba(140,25,25,0.5),transparent);margin:0 auto"></div>
+                </div>
+
+                <!-- Winner highlight -->
+                <div style="background:linear-gradient(135deg,rgba(120,20,20,0.2),rgba(120,20,20,0.2));border:1px solid rgba(140,25,25,0.4);border-radius:16px;padding:20px;text-align:center;margin-bottom:20px;animation:pulse-amber 2s infinite">
+                    <p style="font-size:32px;margin-bottom:6px">🏆</p>
+                    <p style="font-size:10px;font-weight:700;color:var(--amber);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Vainqueur</p>
+                    <p class="font-cinzel" style="font-size:26px;font-weight:900;color:#ffffff">${winner.name}</p>
+                    <p style="font-size:18px;font-weight:800;color:rgba(255,255,255,0.6);margin-top:4px">${gameState.scores?.[winner.name] ?? 0} points</p>
+                </div>
+
+                <!-- Full ranking -->
+                <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:28px">
+                    ${sorted.map((p, i) => `
+                        <div class="score-row" style="margin-bottom:6px${p.name === gameState.playerName ? ';border-color:rgba(140,25,25,0.5)' : ''}">
+                            <span style="font-size:18px;width:28px;text-align:center">${medals[i] || ('#' + (i + 1))}</span>
+                            <span style="flex:1;font-weight:700;font-size:15px;color:${i === 0 ? '#f5f0eb' : 'var(--text-dim)'}">${p.name}</span>
+                            <div class="score-badge" style="font-size:15px;padding:4px 14px">${gameState.scores?.[p.name] ?? 0}</div>
+                        </div>`).join('')}
+                </div>
+
+                <!-- Rounds summary -->
+                <div style="background:rgba(20,8,8,0.7);border:1px solid var(--warm-border);border-radius:12px;padding:12px 16px;text-align:center;margin-bottom:24px">
+                    <p style="font-size:12px;color:var(--text-muted)">${gameState.settings.rounds} rounds joués • ${gameState.players.length} joueurs</p>
+                </div>
+
+                <button class="uc-btn uc-btn-primary" onclick="window.goHome()" style="margin-bottom:8px">← Retour à l'accueil</button>
+            </div>
+        </div>
+    `;
+}
+
+// ══════════════════════════════════════════════════════
+//  POLL MONITORING — startPolling + loadGameAndCheck
+//  defined above near the other Supabase functions
+// ══════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════
+//  DIAGNOSTIC — test Supabase connection
+// ══════════════════════════════════════════════════════
+window._testSupabase = async function() {
+    const lines = [];
+    lines.push('🔍 Test connexion Supabase...\n');
+
+    // 1. Test SELECT
+    try {
+        const { data, error } = await db.from('uc_games').select('room_code').limit(1);
+        if (error) {
+            if (error.code === '42P01') lines.push('❌ Table "uc_games" INTROUVABLE\n→ Exécute le SQL de création (voir console)');
+            else if (error.code === '42501' || error.message?.includes('permission')) lines.push('❌ RLS BLOQUANT les lectures\n→ Désactive RLS sur uc_games');
+            else lines.push('❌ Erreur SELECT : ' + error.code + ' — ' + error.message);
+        } else {
+            lines.push('✅ Lecture (SELECT) OK');
+        }
+    } catch(e) { lines.push('❌ Exception SELECT : ' + e.message); }
+
+    // 2. Test UPSERT
+    const testCode = '__TEST__';
+    try {
+        const { error } = await db.from('uc_games').upsert({ room_code: testCode, data: { test: true }, updated_at: new Date().toISOString() });
+        if (error) lines.push('❌ Écriture (UPSERT) bloquée : ' + error.code + ' — ' + error.message);
+        else {
+            lines.push('✅ Écriture (UPSERT) OK');
+            await db.from('uc_games').delete().eq('room_code', testCode);
+        }
+    } catch(e) { lines.push('❌ Exception UPSERT : ' + e.message); }
+
+    lines.push('\n📡 Realtime SDK : ' + (db.realtime ? 'présent ✅' : 'absent ❌'));
+
+    const msg = lines.join('\n');
+    console.log('[DIAGNOSTIC]\n' + msg);
+    await ucAlert(msg);
+
+    console.log('%c[SQL À EXÉCUTER dans Supabase > SQL Editor]', 'color:#ffffff;font-weight:bold;font-size:14px');
+    console.log(`CREATE TABLE IF NOT EXISTS uc_games (
+  room_code text PRIMARY KEY,
+  data jsonb,
+  updated_at timestamptz DEFAULT now()
+);
+ALTER TABLE uc_games DISABLE ROW LEVEL SECURITY;
+ALTER TABLE uc_games REPLICA IDENTITY FULL;`);
+};
+
+window._forceLoad = async function() {
+    if (gameState.roomCode) {
+        console.log('[FORCE LOAD] roomCode=', gameState.roomCode);
+        await loadGameAndCheck(gameState.roomCode);
+    } else {
+        alert('Pas de roomCode !');
+    }
+};
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+render();
+</script>
+</body>
+</html>
