@@ -426,6 +426,16 @@ async function fetchAniListImage(characterName) {
     return null;
 }
 
+// Pre-fetch images for a pair — returns URLs without mutating PAIRS array
+async function prefetchPairImagesClean(pairIdx) {
+    const pair = PAIRS[pairIdx];
+    if (!pair) return { citizen: '', undercover: '' };
+    const ci = await fetchAniListImage(pair.citizen.name);
+    await new Promise(r => setTimeout(r, 500));
+    const ui = await fetchAniListImage(pair.undercover.name);
+    return { citizen: ci || '', undercover: ui || '' };
+}
+
 // Pre-fetch images for a pair
 async function prefetchPairImages(pairIdx) {
     const pair = PAIRS[pairIdx];
@@ -1244,12 +1254,13 @@ window.startGame = async function() {
 };
 
 async function beginNewRound() {
+    _calculatingScores = false; // reset for new round
     gameState.currentRound += 1;
     gameState.hints = {};
     gameState.votes = {};
     gameState.currentHintPhase = 1;
     gameState.currentTurnIdx = 0;
-    gameState.roundId = Date.now(); // unique ID per round to detect stale hints
+    gameState.roundId = Date.now();
 
     // Filter pairs by difficulty
     const diff = gameState.settings?.difficulty || 'popular';
@@ -1281,12 +1292,11 @@ async function beginNewRound() {
 
     gameState.undercoverName = shuffle(gameState.players.map(p => p.name))[0];
 
-    // Pre-fetch images from Jikan/AniList and store URLs in gameState (synced via Supabase)
-    await prefetchPairImages(pairIdx);
-    // Store fetched URLs in gameState so non-host players get them via Supabase sync
+    // Pre-fetch images from Jikan/AniList and store in gameState (NOT in PAIRS array)
+    const fetchedImgs = await prefetchPairImagesClean(pairIdx);
     gameState.currentPairImgs = {
-        citizen: PAIRS[pairIdx].citizen.img || '',
-        undercover: PAIRS[pairIdx].undercover.img || ''
+        citizen: fetchedImgs.citizen || PAIRS[pairIdx].citizen.img || '',
+        undercover: fetchedImgs.undercover || PAIRS[pairIdx].undercover.img || ''
     };
 
     gameState.screen = 'game-reveal';
@@ -1487,11 +1497,11 @@ function render() {
     const app = document.getElementById('app');
     if (!app) return;
 
-    // ANTI-RESET : si on est sur game-hints et que l'input a le focus, ne pas re-render
-    // (le polling appelait render() toutes les 2s et effaçait la saisie)
+    // ANTI-RESET : si l'input d'indice a le focus, ne pas re-render
+    // (évite d'effacer la saisie en cours)
     if (gameState.screen === 'game-hints') {
         const inp = document.getElementById('hint-input');
-        if (inp && document.activeElement === inp) return;
+        if (inp && document.activeElement === inp && inp.value.length > 0) return;
     }
 
     // Clear running hint timer if leaving that screen
