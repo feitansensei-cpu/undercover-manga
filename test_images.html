@@ -38,21 +38,23 @@
 
 <script>
 var NM = {
-  'Son Goku':'Goku','Monkey D. Luffy':'Luffy','Roronoa Zoro':'Zoro',
-  'Portgas D. Ace':'Ace','L Lawliet':'L','DIO':'Dio Brando',
+  'Son Goku':'Goku','Monkey D. Luffy':'Monkey D. Luffy','Roronoa Zoro':'Roronoa Zoro',
+  'Portgas D. Ace':'Portgas D. Ace','L Lawliet':'L','DIO':'Dio Brando',
   'Pain (Nagato)':'Nagato','Lelouch vi Britannia':'Lelouch Lamperouge',
-  'Mob (Kageyama Shigeo)':'Shigeo Kageyama','Ryomen Sukuna':'Sukuna',
+  'Mob (Kageyama Shigeo)':'Shigeo Kageyama','Ryomen Sukuna':'Ryomen Sukuna',
   'Gojo Satoru':'Satoru Gojo','Bakugo Katsuki':'Katsuki Bakugo',
-  'Keiji Akaashi':'Akaashi Keiji','Shoyo Hinata':'Hinata Shoyo',
-  'Tobio Kageyama':'Kageyama Tobio','Subaru Natsuki':'Natsuki Subaru',
-  'Yuji Itadori':'Itadori Yuuji','Megumi Fushiguro':'Fushiguro Megumi',
-  'Toji Fushiguro':'Fushiguro Toji','Yu Kanda':'Yuu Kanda',
-  'Kishou Arima':'Arima Kishou','Reigen Arataka':'Arataka Reigen',
-  'Thorfinn':'Thorfinn Karlsefni','Whitebeard':'Edward Newgate',
-  'Doflamingo':'Donquixote Doflamingo','Sosuke Aizen':'Aizen',
-  'Rimuru Tempest':'Rimuru','Hinata Hyuga':'Hinata',
+  'Keiji Akaashi':'Keiji Akaashi','Shoyo Hinata':'Shouyou Hinata',
+  'Tobio Kageyama':'Tobio Kageyama','Subaru Natsuki':'Natsuki Subaru',
+  'Yuji Itadori':'Yuji Itadori','Megumi Fushiguro':'Megumi Fushiguro',
+  'Toji Fushiguro':'Toji Fushiguro','Yu Kanda':'Yuu Kanda',
+  'Kishou Arima':'Kishou Arima','Reigen Arataka':'Arataka Reigen',
+  'Thorfinn':'Thorfinn','Whitebeard':'Edward Newgate',
+  'Doflamingo':'Donquixote Doflamingo','Sosuke Aizen':'Sosuke Aizen',
+  'Rimuru Tempest':'Rimuru Tempest','Hinata Hyuga':'Hinata Hyuuga',
   'Rengoku Kyojuro':'Kyojuro Rengoku','Seiya de Pegase':'Seiya',
-  'Ikki de Phenix':'Ikki','Makunouchi Ippo':'Ippo Makunouchi',
+  'Ikki de Phenix':'Ikki','Makunouchi Ippo':'Makunouchi Ippo',
+  'Yor Forger':'Yor Briar','Netero':'Isaac Netero',
+  'Nanami Kento':'Kento Nanami','Kirito':'Kirigaya Kazuto',
 };
 
 var CHARS = ['Ainz Ooal Gown','Aki Hayakawa','Allen Walker','Alphonse Elric','Armin Arlert','Askeladd','Asta','Baki Hanma','Bakugo Katsuki','Ban','Bardock','Byakuya Kuchiki','Chrollo Lucilfer','DIO','Death the Kid','Denji','Doflamingo','Edward Elric','Eren Yeager','Erza Scarlet','Eustass Kid','Father','Frieren','Frieza','Garou','Genos','Ging Freecss','Giorno Giovanna','Giyu Tomioka','Gojo Satoru','Gon Freecss','Griffith','Grimmjow Jaegerjaquez','Guts','Hiei','Himiko Toga','Himmel','Hinata Hyuga','Hisoka Morow','Ichigo Kurosaki','Illumi Zoldyck','Itachi Uchiha','Izuku Midoriya','Jiraiya','Joseph Joestar','Jotaro Kujo','Kakashi Hatake','Keiji Akaashi','Ken Kaneki','Kenpachi Zaraki','Killua Zoldyck','Kirito','Kishou Arima','Kokushibo','Kurapika','L Lawliet','Lelouch vi Britannia','Levi Ackerman','Light Yagami','Loid Forger','Maka Albarn','Makima','Makunouchi Ippo','Megumi Fushiguro','Meliodas','Meruem','Might Guy','Mikasa Ackerman','Millennium Earl','Minato Namikaze','Mob (Kageyama Shigeo)','Monkey D. Luffy','Mugen','Muichiro Tokito','Nanami Kento','Naruto Uzumaki','Natsu Dragneel','Neji Hyuga','Netero','Nico Robin','Obito Uchiha','Orochimaru','Pain (Nagato)','Portgas D. Ace','Power','Reigen Arataka','Reiner Braun','Rem','Rengoku Kyojuro','Rimuru Tempest','Rock Lee','Roronoa Zoro','Roswaal','Roy Mustang','Rukia Kuchiki','Ryomen Sukuna','Sabo','Saitama','Sakura Haruno','Sasuke Uchiha','Shanks','Shikamaru Nara','Shinra Kusakabe','Shoyo Hinata','Son Goku','Sosuke Aizen','Spike Spiegel','Subaru Natsuki','Tanjiro Kamado','Tetsuo Shima','Thorfinn','Tobio Kageyama','Toji Fushiguro','Touka Kirishima','Trafalgar Law','Ulquiorra Cifer','Vegeta','Whitebeard','Yami Sukehiro','Yato','Yor Forger','Yoshikage Kira','Yu Kanda','Yuji Itadori','Yuno','Yusuke Urameshi','Zenitsu Agatsuma','Zuko'];
@@ -85,7 +87,7 @@ async function fetchImg(name) {
   var url = null;
   try { url = await fetchJikan(searched); } catch(e){}
   if (!url) {
-    await sleep(300);
+    await sleep(400);
     try { url = await fetchAniList(searched); } catch(e){}
   }
   return url;
@@ -132,7 +134,7 @@ async function startTest() {
       c.innerHTML='<div class="ph">&#x26A0;</div><div class="nm">'+name+'</div><div class="st" style="color:#ef4444">erreur</div>';
     }
     document.getElementById('stats').textContent=(ok+fail)+'/'+CHARS.length+' — OK: '+ok+'  Echecs: '+fail;
-    await sleep(500);
+    await sleep(1000);
   }
 
   document.getElementById('stats').textContent='Termine — OK: '+ok+'  Echecs: '+fail+' sur '+CHARS.length;
