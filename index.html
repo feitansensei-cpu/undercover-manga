@@ -1254,54 +1254,64 @@ window.startGame = async function() {
 };
 
 async function beginNewRound() {
-    _calculatingScores = false; // reset for new round
+    _calculatingScores = false;
     gameState.currentRound += 1;
     gameState.hints = {};
     gameState.votes = {};
     gameState.currentHintPhase = 1;
     gameState.currentTurnIdx = 0;
     gameState.roundId = Date.now();
+    gameState.currentPairImgs = { citizen: '', undercover: '' };
 
     // Filter pairs by difficulty
     const diff = gameState.settings?.difficulty || 'popular';
     const customSeries = gameState.settings?.customSeries || [];
-
-    let eligible = PAIRS.map((p, i) => i);
-    if (diff === 'popular') {
-        eligible = PAIRS.map((p, i) => p.difficulty === 'popular' ? i : -1).filter(i => i >= 0);
-    } else if (diff === 'intermediate') {
-        eligible = PAIRS.map((p, i) => (p.difficulty === 'popular' || p.difficulty === 'intermediate') ? i : -1).filter(i => i >= 0);
-    } else if (diff === 'hardcore') {
-        eligible = PAIRS.map((_, i) => i); // all pairs
-    } else if (diff === 'custom') {
+    let eligible = PAIRS.map((_, i) => i);
+    if (diff === 'popular') eligible = PAIRS.map((p, i) => p.difficulty === 'popular' ? i : -1).filter(i => i >= 0);
+    else if (diff === 'intermediate') eligible = PAIRS.map((p, i) => (p.difficulty === 'popular' || p.difficulty === 'intermediate') ? i : -1).filter(i => i >= 0);
+    else if (diff === 'custom') {
         eligible = PAIRS.map((p, i) => {
             const names = [p.citizen.name, p.undercover.name];
-            const series = getSeriesForNames(names);
-            return customSeries.some(s => series.includes(s)) ? i : -1;
+            return customSeries.some(s => getSeriesForNames(names).includes(s)) ? i : -1;
         }).filter(i => i >= 0);
-        if (eligible.length === 0) eligible = PAIRS.map((_, i) => i); // fallback
+        if (eligible.length === 0) eligible = PAIRS.map((_, i) => i);
     }
 
     const available = eligible.filter(i => !(gameState.usedPairIndices || []).includes(i));
-    const pool = available.length > 0 ? available : eligible; // reset if exhausted
+    const pool = available.length > 0 ? available : eligible;
     const pairIdx = shuffle(pool)[0];
 
     gameState.currentPairIdx = pairIdx;
     if (!gameState.usedPairIndices) gameState.usedPairIndices = [];
     gameState.usedPairIndices.push(pairIdx);
-
     gameState.undercoverName = shuffle(gameState.players.map(p => p.name))[0];
 
-    // Pre-fetch images from Jikan/AniList and store in gameState (NOT in PAIRS array)
-    const fetchedImgs = await prefetchPairImagesClean(pairIdx);
-    gameState.currentPairImgs = {
-        citizen: fetchedImgs.citizen || PAIRS[pairIdx].citizen.img || '',
-        undercover: fetchedImgs.undercover || PAIRS[pairIdx].undercover.img || ''
-    };
-
-    gameState.screen = 'game-reveal';
+    // Go directly to hints screen — no reveal screen anymore
+    gameState.screen = 'game-hints';
     await saveGame();
     render();
+
+    // Fetch images in background AFTER save — doesn't block the round
+    fetchImagesBackground(pairIdx, gameState.roundId);
+}
+
+async function fetchImagesBackground(pairIdx, roundId) {
+    const pair = PAIRS[pairIdx];
+    if (!pair) return;
+    try {
+        const ci = await fetchAniListImage(pair.citizen.name);
+        await new Promise(r => setTimeout(r, 500));
+        const ui = await fetchAniListImage(pair.undercover.name);
+        // Only save if we're still in the same round
+        if (gameState.roundId === roundId && ci || ui) {
+            gameState.currentPairImgs = {
+                citizen: ci || gameState.currentPairImgs?.citizen || '',
+                undercover: ui || gameState.currentPairImgs?.undercover || ''
+            };
+            await saveGame();
+            render();
+        }
+    } catch(e) { console.warn('[IMG BG]', e.message); }
 }
 
 // Helper: extract series name from character names (rough mapping)
@@ -1510,7 +1520,6 @@ function render() {
     // Render per screen
     if (gameState.screen === 'home') renderHome(app);
     else if (gameState.screen === 'lobby') renderLobby(app);
-    else if (gameState.screen === 'game-reveal') renderRevealGate(app);
     else if (gameState.screen === 'game-hints') renderHints(app);
     else if (gameState.screen === 'game-vote') renderVote(app);
     else if (gameState.screen === 'game-roundresult') renderRoundResult(app);
@@ -1818,8 +1827,13 @@ window.launchHints = async function() {
 function renderHints(app) {
     const me = gameState.playerName;
     const pair = PAIRS[gameState.currentPairIdx];
+    if (!pair) return;
     const isUndercover = me === gameState.undercoverName;
-    const myChar = isUndercover ? pair.undercover : pair.citizen;
+    const imgs = gameState.currentPairImgs || {};
+    const myChar = {
+        name: isUndercover ? pair.undercover.name : pair.citizen.name,
+        img: isUndercover ? (imgs.undercover || '') : (imgs.citizen || '')
+    };
     const phase = gameState.currentHintPhase;
     const totalPhases = gameState.settings.hintsPerRound;
     const currentPlayer = gameState.players[gameState.currentTurnIdx || 0];
@@ -1857,13 +1871,24 @@ function renderHints(app) {
                     </div>
                 </div>
 
-                <!-- Mon perso (petit rappel) -->
-                <div style="display:flex;align-items:center;gap:8px;background:rgba(20,8,8,0.75);border:1px solid var(--warm-border);border-radius:10px;padding:8px 12px;margin-bottom:10px">
-                    <img src="${myChar.img}" style="width:36px;height:36px;border-radius:6px;object-fit:cover;object-position:top;flex-shrink:0"
-                        onerror="this.textContent='🥷';this.style.display='flex';this.style.alignItems='center';this.style.justifyContent='center'" alt="">
+                <!-- Mon perso — image agrandie -->
+                <div style="display:flex;align-items:center;gap:12px;background:rgba(20,8,8,0.85);border:1px solid var(--warm-border);border-radius:12px;padding:10px 14px;margin-bottom:10px">
+                    ${myChar.img
+                        ? `<img src="${myChar.img}" style="width:72px;height:90px;border-radius:8px;object-fit:cover;object-position:top;flex-shrink:0;border:1px solid rgba(160,30,30,0.4)" alt="${myChar.name}">`
+                        : `<div style="width:72px;height:90px;border-radius:8px;background:rgba(30,10,10,0.8);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">👤</div>`
+                    }
                     <div style="flex:1;min-width:0">
-                        <p style="font-size:9px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Ton personnage</p>
-                        <p style="font-size:13px;font-weight:800;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${myChar.name}</p>
+                        <p style="font-size:9px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Ton personnage</p>
+                        <p style="font-size:16px;font-weight:900;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${myChar.name}</p>
+                        <p style="font-size:10px;color:var(--text-muted);margin-top:2px">Ne montre pas ton écran</p>
+                    </div>
+                    <!-- Scores -->
+                    <div style="display:flex;gap:10px;flex-shrink:0">
+                        ${gameState.players.map(p => `
+                            <div style="text-align:center">
+                                <p style="font-size:9px;color:var(--text-muted);max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.name}</p>
+                                <p style="font-size:14px;font-weight:800;color:#ffffff">${gameState.scores?.[p.name] ?? 0}</p>
+                            </div>`).join('')}
                     </div>
                 </div>
 
@@ -1872,18 +1897,20 @@ function renderHints(app) {
                     ${gameState.players.map(p => {
                         const pHints = gameState.hints?.[p.name] || [];
                         const isActive = currentPlayer?.name === p.name;
-                        const pChar = p.name === gameState.undercoverName ? pair.undercover : pair.citizen;
+                        // Use synced images from gameState, not PAIRS directly
+                        const imgs = gameState.currentPairImgs || {};
+                        const pImg = p.name === gameState.undercoverName ? (imgs.undercover || '') : (imgs.citizen || '');
                         return `
                         <div style="background:rgba(20,8,8,${isActive ? '0.95' : '0.7'});border:1px solid ${isActive ? 'rgba(220,38,38,0.7)' : 'rgba(120,20,20,0.2)'};border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:5px;${isActive ? 'box-shadow:0 0 8px rgba(150,30,30,0.2)' : ''}">
                             <!-- Pseudo + image perso -->
                             <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
-                                <img src="${pChar.img}" style="width:28px;height:28px;border-radius:5px;object-fit:cover;object-position:top;flex-shrink:0;border:1px solid rgba(255,255,255,0.1)"
-                                    onerror="this.textContent='🥷';this.style.fontSize='16px'" alt="">
+                                ${pImg ? `<img src="${pImg}" style="width:28px;height:28px;border-radius:5px;object-fit:cover;object-position:top;flex-shrink:0;border:1px solid rgba(255,255,255,0.1)" alt="">` : '<div style="width:28px;height:28px;border-radius:5px;background:rgba(30,10,10,0.8);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px">👤</div>'}
                                 <div style="min-width:0">
                                     <p style="font-size:11px;font-weight:800;color:${isActive ? '#d47070' : '#f5f0eb'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</p>
                                     <p style="font-size:9px;color:var(--text-muted)">${gameState.scores?.[p.name] ?? 0} pts</p>
                                 </div>
                                 ${isActive ? '<span style="margin-left:auto;font-size:14px">✏️</span>' : ''}
+
                             </div>
                             <!-- Indices de ce joueur -->
                             ${pHints.map((h, i) => `
