@@ -1053,6 +1053,7 @@ async function loadGame(code) {
         const myIsHost = gameState.isHost;
         const myReady  = gameState.players?.find(p => p.name === myName)?.ready;
         const myHints  = gameState.hints?.[myName] ? [...gameState.hints[myName]] : null;
+        const myRoundId = gameState.roundId;
 
         Object.assign(gameState, remote);
         gameState.playerName = myName;
@@ -1063,8 +1064,8 @@ async function loadGame(code) {
         const meRemote = gameState.players?.find(p => p.name === myName);
         if (meRemote && myReady === true && meRemote.ready !== true) meRemote.ready = true;
 
-        // Preserve my hints if remote hasn't caught up
-        if (myHints && myHints.length > 0) {
+        // Preserve my hints ONLY if we're still in the same round
+        if (myHints && myHints.length > 0 && myRoundId && gameState.roundId === myRoundId) {
             if (!gameState.hints) gameState.hints = {};
             if (!gameState.hints[myName] || gameState.hints[myName].length < myHints.length) {
                 gameState.hints[myName] = myHints;
@@ -1236,6 +1237,7 @@ async function beginNewRound() {
     gameState.votes = {};
     gameState.currentHintPhase = 1;
     gameState.currentTurnIdx = 0;
+    gameState.roundId = Date.now(); // unique ID per round to detect stale hints
 
     // Filter pairs by difficulty
     const diff = gameState.settings?.difficulty || 'popular';
@@ -1267,8 +1269,13 @@ async function beginNewRound() {
 
     gameState.undercoverName = shuffle(gameState.players.map(p => p.name))[0];
 
-    // Pre-fetch images from AniList (overwrites any broken Wikia URLs)
+    // Pre-fetch images from Jikan/AniList and store URLs in gameState (synced via Supabase)
     await prefetchPairImages(pairIdx);
+    // Store fetched URLs in gameState so non-host players get them via Supabase sync
+    gameState.currentPairImgs = {
+        citizen: PAIRS[pairIdx].citizen.img || '',
+        undercover: PAIRS[pairIdx].undercover.img || ''
+    };
 
     gameState.screen = 'game-reveal';
     await saveGame();
@@ -1719,7 +1726,16 @@ function renderRevealGate(app) {
     const pair = PAIRS[gameState.currentPairIdx];
     const me = gameState.playerName;
     const isUndercover = me === gameState.undercoverName;
-    const myChar = isUndercover ? pair.undercover : pair.citizen;
+    // Use synced images from Supabase if available, fallback to local PAIRS
+    const imgs = gameState.currentPairImgs || {};
+    const citizenImg = imgs.citizen || pair.citizen.img || '';
+    const undercoverImg = imgs.undercover || pair.undercover.img || '';
+    // Update PAIRS cache so hints screen also benefits
+    if (imgs.citizen) pair.citizen.img = imgs.citizen;
+    if (imgs.undercover) pair.undercover.img = imgs.undercover;
+    const myChar = isUndercover
+        ? { name: pair.undercover.name, img: undercoverImg }
+        : { name: pair.citizen.name, img: citizenImg };
 
     app.innerHTML = `
         <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:transparent;position:relative">
@@ -1732,9 +1748,13 @@ function renderRevealGate(app) {
 
                 <!-- Character card -->
                 <div class="char-reveal-container" style="max-width:260px;margin:0 auto 20px">
-                    <img src="${myChar.img}" style="width:100%;height:280px;object-fit:cover;object-position:center top;display:block"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="${myChar.name}">
-                    <div style="height:280px;display:none;align-items:center;justify-content:center;background:linear-gradient(160deg,#2a1a08,#1a0e04);font-size:80px">🥷</div>
+                    ${myChar.img
+                        ? `<img src="${myChar.img}" style="width:100%;height:280px;object-fit:cover;object-position:center top;display:block" alt="${myChar.name}">`
+                        : `<div style="width:100%;height:280px;display:flex;align-items:center;justify-content:center;background:rgba(20,8,8,0.8);flex-direction:column;gap:8px">
+                            <span style="font-size:48px;opacity:0.4">👤</span>
+                            <span style="font-size:11px;color:var(--text-muted)">Image en cours...</span>
+                           </div>`
+                    }
                     <div class="char-img-gradient"></div>
                     <div class="char-name-overlay" style="padding:18px">
                         <p style="color:#ffffff;font-size:20px;font-weight:900;text-shadow:0 2px 12px rgba(0,0,0,0.9)">${myChar.name}</p>
@@ -1778,8 +1798,9 @@ function renderHints(app) {
     const currentPlayer = gameState.players[gameState.currentTurnIdx || 0];
     const isMyTurn = currentPlayer?.name === me;
 
-    // Build hints list — all hints so far ordered by player turn
+    // Build hints list — only hints for THIS round (keyed by roundId)
     const allHints = [];
+    const currentRoundId = gameState.roundId || 0;
     for (let ph = 1; ph <= totalPhases; ph++) {
         gameState.players.forEach(p => {
             const playerHints = gameState.hints?.[p.name] || [];
