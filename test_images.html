@@ -2,23 +2,23 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Test Images AniList</title>
+<title>Test Images Jikan</title>
 <style>
   body{background:#0a0a0a;color:#fff;font-family:sans-serif;padding:20px}
   h1{color:#e03535;margin-bottom:8px}
   #stats{margin-bottom:12px;font-size:14px;color:#aaa}
-  #filter{margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap}
-  button{background:#333;border:none;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px}
-  button.active{background:#e03535}
-  #start{background:#e03535;font-size:15px;font-weight:700;padding:12px 28px;border-radius:8px;margin-bottom:16px;display:block}
+  #filterdiv{margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;display:none}
+  .fbtn{background:#333;border:none;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px}
+  .fbtn.active{background:#e03535}
+  #startbtn{background:#e03535;font-size:15px;font-weight:700;padding:12px 28px;border-radius:8px;margin-bottom:16px;border:none;color:#fff;cursor:pointer;display:block}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
   .card{background:#1a1a1a;border-radius:8px;overflow:hidden;text-align:center}
   .card img{width:100%;height:130px;object-fit:cover;object-position:top;display:block}
-  .card .name{font-size:9px;padding:4px;line-height:1.3;font-weight:600}
-  .card .status{font-size:9px;padding:2px 4px 4px}
-  .card.ok{border:2px solid #22c55e}
-  .card.fail{border:2px solid #ef4444}
-  .card.pending{border:2px solid #444}
+  .card .nm{font-size:9px;padding:4px;line-height:1.3;font-weight:600}
+  .card .st{font-size:9px;padding:2px 4px 4px}
+  .ok{border:2px solid #22c55e}
+  .fail{border:2px solid #ef4444}
+  .pending{border:2px solid #444}
   .ph{width:100%;height:130px;display:flex;align-items:center;justify-content:center;font-size:28px;background:#111}
   #failbox{margin-top:24px;background:#1a0a0a;border:1px solid #e03535;border-radius:8px;padding:14px;display:none}
   #failbox h2{color:#e03535;font-size:13px;margin:0 0 8px}
@@ -26,113 +26,100 @@
 </style>
 </head>
 <body>
-<h1>Test Images — 130 personnages</h1>
-<button id="start" onclick="startTest()">▶ Lancer le test</button>
+<h1>Test Images Jikan API — 130 personnages</h1>
+<button id="startbtn" onclick="startTest()">▶ Lancer le test</button>
 <div id="stats">Clique sur le bouton pour démarrer.</div>
-<div id="filter" style="display:none">
-  <button class="active" onclick="fil('all',this)">Tous</button>
-  <button onclick="fil('ok',this)">OK</button>
-  <button onclick="fil('fail',this)">Echecs</button>
+<div id="filterdiv">
+  <button class="fbtn active" onclick="fil('all',this)">Tous</button>
+  <button class="fbtn" onclick="fil('ok',this)">OK</button>
+  <button class="fbtn" onclick="fil('fail',this)">Echecs</button>
 </div>
 <div class="grid" id="grid"></div>
 <div id="failbox"><h2>Personnages sans image</h2><div id="failnames"></div></div>
 
 <script>
 var NM = {
-  'Ryomen Sukuna':'Sukuna','Monkey D. Luffy':'Luffy','Roronoa Zoro':'Zoro',
-  'Portgas D. Ace':'Ace','Mob (Kageyama Shigeo)':'Shigeo Kageyama','Son Goku':'Goku',
-  'L Lawliet':'L','DIO':'Dio Brando','Pain (Nagato)':'Nagato',
-  'Lelouch vi Britannia':'Lelouch Lamperouge','Seiya de Pegase':'Pegasus Seiya',
-  'Ikki de Phenix':'Phoenix Ikki','Makunouchi Ippo':'Ippo Makunouchi',
+  'Son Goku':'Goku','Monkey D. Luffy':'Luffy','Roronoa Zoro':'Zoro',
+  'Portgas D. Ace':'Ace','L Lawliet':'L','DIO':'Dio Brando',
+  'Pain (Nagato)':'Nagato','Lelouch vi Britannia':'Lelouch Lamperouge',
+  'Seiya de Pegase':'Seiya','Ikki de Phenix':'Ikki',
+  'Makunouchi Ippo':'Ippo Makunouchi','Mob (Kageyama Shigeo)':'Shigeo Kageyama',
+  'Ryomen Sukuna':'Sukuna','Gojo Satoru':'Satoru Gojo',
+  'Bakugo Katsuki':'Katsuki Bakugo','Keiji Akaashi':'Akaashi Keiji',
   'Shoyo Hinata':'Hinata Shoyo','Tobio Kageyama':'Kageyama Tobio',
-  'Keiji Akaashi':'Akaashi Keiji','Bakugo Katsuki':'Katsuki Bakugo',
-  'Gojo Satoru':'Satoru Gojo','Rimuru Tempest':'Rimuru',
   'Subaru Natsuki':'Natsuki Subaru','Yuji Itadori':'Itadori Yuuji',
   'Megumi Fushiguro':'Fushiguro Megumi','Toji Fushiguro':'Fushiguro Toji',
-  'Yu Kanda':'Yuu Kanda','Ging Freecss':'Ging Freecs',
-  'Kishou Arima':'Arima Kishou','Reigen Arataka':'Arataka Reigen',
-  'Thorfinn':'Thorfinn Karlsefni','Whitebeard':'Edward Newgate',
-  'Doflamingo':'Donquixote Doflamingo','Ulquiorra Cifer':'Ulquiorra',
-  'Grimmjow Jaegerjaquez':'Grimmjow','Obito Uchiha':'Obito',
-  'Minato Namikaze':'Minato','Hinata Hyuga':'Hinata','Sakura Haruno':'Sakura',
-  'Nico Robin':'Robin','Chrollo Lucilfer':'Chrollo','Illumi Zoldyck':'Illumi',
-  'Hisoka Morow':'Hisoka','Byakuya Kuchiki':'Byakuya','Kenpachi Zaraki':'Kenpachi',
-  'Rukia Kuchiki':'Rukia','Erza Scarlet':'Erza','Natsu Dragneel':'Natsu',
-  'Yusuke Urameshi':'Yusuke','Giorno Giovanna':'Giorno','Jotaro Kujo':'Jotaro',
-  'Joseph Joestar':'Joseph','Death the Kid':'Death the Kid','Maka Albarn':'Maka',
-  'Rengoku Kyojuro':'Kyojuro Rengoku','Zenitsu Agatsuma':'Zenitsu',
-  'Muichiro Tokito':'Muichiro','Ken Kaneki':'Kaneki','Reiner Braun':'Reiner',
-  'Allen Walker':'Allen','Kirito':'Kazuto Kirigaya','Roswaal':'Roswaal L Mathers',
-  'Neji Hyuga':'Neji','Shikamaru Nara':'Shikamaru'
+  'Yu Kanda':'Yuu Kanda','Kishou Arima':'Arima Kishou',
+  'Reigen Arataka':'Arataka Reigen','Thorfinn':'Thorfinn Karlsefni',
+  'Whitebeard':'Edward Newgate','Doflamingo':'Donquixote Doflamingo',
+  'Sosuke Aizen':'Aizen','Rimuru Tempest':'Rimuru',
+  'Hinata Hyuga':'Hinata','Rengoku Kyojuro':'Kyojuro Rengoku',
 };
 
 var CHARS = ['Ainz Ooal Gown','Aki Hayakawa','Allen Walker','Alphonse Elric','Armin Arlert','Askeladd','Asta','Baki Hanma','Bakugo Katsuki','Ban','Bardock','Byakuya Kuchiki','Chrollo Lucilfer','DIO','Death the Kid','Denji','Doflamingo','Edward Elric','Eren Yeager','Erza Scarlet','Eustass Kid','Father','Frieren','Frieza','Garou','Genos','Ging Freecss','Giorno Giovanna','Giyu Tomioka','Gojo Satoru','Gon Freecss','Griffith','Grimmjow Jaegerjaquez','Guts','Hiei','Himiko Toga','Himmel','Hinata Hyuga','Hisoka Morow','Ichigo Kurosaki','Illumi Zoldyck','Itachi Uchiha','Izuku Midoriya','Jiraiya','Joseph Joestar','Jotaro Kujo','Kakashi Hatake','Keiji Akaashi','Ken Kaneki','Kenpachi Zaraki','Killua Zoldyck','Kirito','Kishou Arima','Kokushibo','Kurapika','L Lawliet','Lelouch vi Britannia','Levi Ackerman','Light Yagami','Loid Forger','Maka Albarn','Makima','Makunouchi Ippo','Megumi Fushiguro','Meliodas','Meruem','Might Guy','Mikasa Ackerman','Millennium Earl','Minato Namikaze','Mob (Kageyama Shigeo)','Monkey D. Luffy','Mugen','Muichiro Tokito','Nanami Kento','Naruto Uzumaki','Natsu Dragneel','Neji Hyuga','Netero','Nico Robin','Obito Uchiha','Orochimaru','Pain (Nagato)','Portgas D. Ace','Power','Reigen Arataka','Reiner Braun','Rem','Rengoku Kyojuro','Rimuru Tempest','Rock Lee','Roronoa Zoro','Roswaal','Roy Mustang','Rukia Kuchiki','Ryomen Sukuna','Sabo','Saitama','Sakura Haruno','Sasuke Uchiha','Shanks','Shikamaru Nara','Shinra Kusakabe','Shoyo Hinata','Son Goku','Sosuke Aizen','Spike Spiegel','Subaru Natsuki','Tanjiro Kamado','Tetsuo Shima','Thorfinn','Tobio Kageyama','Toji Fushiguro','Touka Kirishima','Trafalgar Law','Ulquiorra Cifer','Vegeta','Whitebeard','Yami Sukehiro','Yato','Yor Forger','Yoshikage Kira','Yu Kanda','Yuji Itadori','Yuno','Yusuke Urameshi','Zenitsu Agatsuma','Zuko'];
 
 async function fetchImg(name) {
   var n = NM[name] || name;
-  var q = 'query($n:String){Character(search:$n){image{large}}}';
-  var r = await fetch('https://graphql.anilist.co', {
-    method:'POST',
-    headers:{'Content-Type':'application/json','Accept':'application/json'},
-    body: JSON.stringify({query:q, variables:{n:n}})
-  });
+  var r = await fetch('https://api.jikan.moe/v4/characters?q=' + encodeURIComponent(n) + '&limit=1');
   var d = await r.json();
-  return (d && d.data && d.data.Character && d.data.Character.image && d.data.Character.image.large) || null;
+  if (d && d.data && d.data[0] && d.data[0].images && d.data[0].images.jpg) {
+    return d.data[0].images.jpg.image_url || null;
+  }
+  return null;
 }
 
 function fil(type, btn) {
-  document.querySelectorAll('#filter button').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.fbtn').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
   document.querySelectorAll('.card').forEach(function(c){
-    c.style.display = (type==='all' || c.dataset.status===type) ? '' : 'none';
+    c.style.display = (type === 'all' || c.dataset.status === type) ? '' : 'none';
   });
 }
 
 async function startTest() {
-  document.getElementById('start').style.display = 'none';
-  document.getElementById('filter').style.display = 'flex';
+  document.getElementById('startbtn').style.display = 'none';
+  document.getElementById('filterdiv').style.display = 'flex';
   var grid = document.getElementById('grid');
-  var ok=0, fail=0, fails=[];
+  var ok = 0, fail = 0, fails = [];
 
-  CHARS.forEach(function(name) {
+  for (var i = 0; i < CHARS.length; i++) {
+    var name = CHARS[i];
     var c = document.createElement('div');
     c.className = 'card pending';
-    c.id = 'c' + name.replace(/\W/g,'_');
+    c.id = 'c' + i;
     c.dataset.status = 'pending';
-    c.innerHTML = '<div class="ph">&#x23F3;</div><div class="name">'+name+'</div><div class="status">...</div>';
+    c.innerHTML = '<div class="ph">&#x23F3;</div><div class="nm">' + name + '</div><div class="st">...</div>';
     grid.appendChild(c);
-  });
+  }
 
-  for (var i=0; i<CHARS.length; i++) {
+  for (var i = 0; i < CHARS.length; i++) {
     var name = CHARS[i];
     var searched = NM[name] || name;
-    var c = document.getElementById('c' + name.replace(/\W/g,'_'));
+    var c = document.getElementById('c' + i);
     try {
       var url = await fetchImg(name);
       if (url) {
         ok++;
-        c.className='card ok'; c.dataset.status='ok';
-        c.innerHTML='<img src="'+url+'" alt="'+name+'"><div class="name">'+name+'</div><div class="status" style="color:#22c55e">OK: '+searched+'</div>';
+        c.className = 'card ok'; c.dataset.status = 'ok';
+        c.innerHTML = '<img src="' + url + '" alt="' + name + '"><div class="nm">' + name + '</div><div class="st" style="color:#22c55e">OK</div>';
       } else {
-        fail++; fails.push({name:name, searched:searched});
-        c.className='card fail'; c.dataset.status='fail';
-        c.innerHTML='<div class="ph">&#x274C;</div><div class="name">'+name+'</div><div class="status" style="color:#ef4444">introuvable</div>';
+        fail++; fails.push(name + ' (' + searched + ')');
+        c.className = 'card fail'; c.dataset.status = 'fail';
+        c.innerHTML = '<div class="ph">&#x274C;</div><div class="nm">' + name + '</div><div class="st" style="color:#ef4444">introuvable</div>';
       }
     } catch(e) {
-      fail++; fails.push({name:name, searched:searched});
-      c.className='card fail'; c.dataset.status='fail';
-      c.innerHTML='<div class="ph">&#x26A0;</div><div class="name">'+name+'</div><div class="status" style="color:#ef4444">erreur</div>';
+      fail++; fails.push(name + ' [erreur]');
+      c.className = 'card fail'; c.dataset.status = 'fail';
+      c.innerHTML = '<div class="ph">&#x26A0;</div><div class="nm">' + name + '</div><div class="st" style="color:#ef4444">erreur</div>';
     }
-    document.getElementById('stats').textContent = (ok+fail)+'/'+CHARS.length+' — OK: '+ok+'  Echecs: '+fail;
-    await new Promise(function(r){ setTimeout(r, 500); });
+    document.getElementById('stats').textContent = (ok+fail) + '/' + CHARS.length + ' — OK: ' + ok + '  Echecs: ' + fail;
+    await new Promise(function(r){ setTimeout(r, 400); });
   }
 
-  document.getElementById('stats').textContent = 'Termine — OK: '+ok+'  Echecs: '+fail+' sur '+CHARS.length;
+  document.getElementById('stats').textContent = 'Termine — OK: ' + ok + '  Echecs: ' + fail + ' sur ' + CHARS.length;
   if (fails.length) {
-    document.getElementById('failbox').style.display='block';
-    document.getElementById('failnames').innerHTML = fails.map(function(f){
-      return '<p>ECHEC: '+f.name+' (recherche: "'+f.searched+'")</p>';
-    }).join('');
+    document.getElementById('failbox').style.display = 'block';
+    document.getElementById('failnames').innerHTML = fails.map(function(f){ return '<p>ECHEC: ' + f + '</p>'; }).join('');
   }
 }
 </script>
