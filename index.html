@@ -356,14 +356,58 @@ const db = createClient(SUPA_URL, SUPA_KEY);
 // ══════════════════════════════════════════════════════
 const _imgCache = {};
 
+// Some characters are known under different names on AniList
+const ANILIST_NAME_MAP = {
+    'Ryomen Sukuna':        'Sukuna',
+    'Monkey D. Luffy':      'Luffy',
+    'Roronoa Zoro':         'Zoro',
+    'Portgas D. Ace':       'Ace',
+    'Mob (Kageyama Shigeo)':'Shigeo Kageyama',
+    'Son Goku':             'Goku',
+    'L Lawliet':            'L',
+    'DIO':                  'Dio Brando',
+    'Pain (Nagato)':        'Nagato',
+    'Lelouch vi Britannia': 'Lelouch Lamperouge',
+    'Seiya de Pégase':      'Pegasus Seiya',
+    'Ikki de Phénix':       'Phoenix Ikki',
+    'Makunouchi Ippo':      'Ippo Makunouchi',
+    'Shoyo Hinata':         'Hinata Shoyo',
+    'Tobio Kageyama':       'Kageyama Tobio',
+    'Keiji Akaashi':        'Akaashi Keiji',
+    'Bakugo Katsuki':       'Katsuki Bakugo',
+    'Izuku Midoriya':       'Izuku Midoriya',
+    'Gojo Satoru':          'Satoru Gojo',
+    'Tanjiro Kamado':       'Tanjiro Kamado',
+    'Ainz Ooal Gown':       'Ainz Ooal Gown',
+    'Rimuru Tempest':       'Rimuru',
+    'Subaru Natsuki':       'Natsuki Subaru',
+    'Loid Forger':          'Loid Forger',
+    'Yor Forger':           'Yor Forger',
+    'Yuji Itadori':         'Itadori Yuuji',
+    'Megumi Fushiguro':     'Fushiguro Megumi',
+    'Nanami Kento':         'Nanami Kento',
+    'Toji Fushiguro':       'Fushiguro Toji',
+    'Allen Walker':         'Allen Walker',
+    'Yu Kanda':             'Yuu Kanda',
+    'Yami Sukehiro':        'Yami Sukehiro',
+    'Meruem':               'Meruem',
+    'Ging Freecss':         'Ging Freecs',
+    'Kishou Arima':         'Arima Kishou',
+    'Touka Kirishima':      'Touka Kirishima',
+    'Reigen Arataka':       'Arataka Reigen',
+    'Askeladd':             'Askeladd',
+    'Thorfinn':             'Thorfinn Karlsefni',
+};
+
 async function fetchAniListImage(characterName) {
     if (_imgCache[characterName]) return _imgCache[characterName];
+    const searchName = ANILIST_NAME_MAP[characterName] || characterName;
     try {
         const query = `query($name:String){Character(search:$name){image{large}}}`;
         const r = await fetch('https://graphql.anilist.co', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ query, variables: { name: characterName } })
+            body: JSON.stringify({ query, variables: { name: searchName } })
         });
         const d = await r.json();
         const url = d?.data?.Character?.image?.large;
