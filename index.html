@@ -358,61 +358,71 @@ const _imgCache = {};
 
 // Some characters are known under different names on AniList
 const ANILIST_NAME_MAP = {
-    'Ryomen Sukuna':        'Sukuna',
-    'Monkey D. Luffy':      'Luffy',
-    'Roronoa Zoro':         'Zoro',
-    'Portgas D. Ace':       'Ace',
-    'Mob (Kageyama Shigeo)':'Shigeo Kageyama',
     'Son Goku':             'Goku',
+    'Monkey D. Luffy':      'Monkey D. Luffy',
+    'Roronoa Zoro':         'Roronoa Zoro',
+    'Portgas D. Ace':       'Portgas D. Ace',
     'L Lawliet':            'L',
     'DIO':                  'Dio Brando',
     'Pain (Nagato)':        'Nagato',
     'Lelouch vi Britannia': 'Lelouch Lamperouge',
-    'Seiya de Pégase':      'Pegasus Seiya',
-    'Ikki de Phénix':       'Phoenix Ikki',
-    'Makunouchi Ippo':      'Ippo Makunouchi',
-    'Shoyo Hinata':         'Hinata Shoyo',
-    'Tobio Kageyama':       'Kageyama Tobio',
-    'Keiji Akaashi':        'Akaashi Keiji',
+    'Sosuke Aizen':         'Sosuke Aizen',
+    'Seiya de Pégase':      'Seiya',
+    'Ikki de Phénix':       'Ikki',
+    'Makunouchi Ippo':      'Makunouchi Ippo',
+    'Shoyo Hinata':         'Shouyou Hinata',
+    'Tobio Kageyama':       'Tobio Kageyama',
+    'Keiji Akaashi':        'Keiji Akaashi',
     'Bakugo Katsuki':       'Katsuki Bakugo',
-    'Izuku Midoriya':       'Izuku Midoriya',
     'Gojo Satoru':          'Satoru Gojo',
-    'Tanjiro Kamado':       'Tanjiro Kamado',
-    'Ainz Ooal Gown':       'Ainz Ooal Gown',
-    'Rimuru Tempest':       'Rimuru',
+    'Ryomen Sukuna':        'Ryomen Sukuna',
+    'Mob (Kageyama Shigeo)':'Shigeo Kageyama',
+    'Rimuru Tempest':       'Rimuru Tempest',
     'Subaru Natsuki':       'Natsuki Subaru',
-    'Loid Forger':          'Loid Forger',
-    'Yor Forger':           'Yor Forger',
-    'Yuji Itadori':         'Itadori Yuuji',
-    'Megumi Fushiguro':     'Fushiguro Megumi',
-    'Nanami Kento':         'Nanami Kento',
-    'Toji Fushiguro':       'Fushiguro Toji',
-    'Allen Walker':         'Allen Walker',
+    'Yuji Itadori':         'Yuji Itadori',
+    'Megumi Fushiguro':     'Megumi Fushiguro',
+    'Nanami Kento':         'Kento Nanami',
+    'Toji Fushiguro':       'Toji Fushiguro',
     'Yu Kanda':             'Yuu Kanda',
-    'Yami Sukehiro':        'Yami Sukehiro',
-    'Meruem':               'Meruem',
-    'Ging Freecss':         'Ging Freecs',
-    'Kishou Arima':         'Arima Kishou',
-    'Touka Kirishima':      'Touka Kirishima',
+    'Kishou Arima':         'Kishou Arima',
     'Reigen Arataka':       'Arataka Reigen',
-    'Askeladd':             'Askeladd',
-    'Thorfinn':             'Thorfinn Karlsefni',
+    'Thorfinn':             'Thorfinn',
+    'Whitebeard':           'Edward Newgate',
+    'Doflamingo':           'Donquixote Doflamingo',
+    'Ging Freecss':         'Ging Freecss',
+    'Yor Forger':           'Yor Briar',
+    'Rengoku Kyojuro':      'Kyojuro Rengoku',
+    'Kirito':               'Kirigaya Kazuto',
+    'Hinata Hyuga':         'Hinata Hyuuga',
+    'Netero':               'Isaac Netero',
+    'Tetsuo Shima':         'Tetsuo Shima',
 };
 
 async function fetchAniListImage(characterName) {
     if (_imgCache[characterName]) return _imgCache[characterName];
     const searchName = ANILIST_NAME_MAP[characterName] || characterName;
+
+    // Try Jikan first
     try {
-        const query = `query($name:String){Character(search:$name){image{large}}}`;
+        const r = await fetch('https://api.jikan.moe/v4/characters?q=' + encodeURIComponent(searchName) + '&limit=1');
+        const d = await r.json();
+        const url = d?.data?.[0]?.images?.jpg?.image_url;
+        if (url) { _imgCache[characterName] = url; return url; }
+    } catch(e) { console.warn('[Jikan]', characterName, e.message); }
+
+    // Fallback: AniList
+    try {
+        const query = `query($n:String){Character(search:$n){image{large}}}`;
         const r = await fetch('https://graphql.anilist.co', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ query, variables: { name: searchName } })
+            body: JSON.stringify({ query, variables: { n: searchName } })
         });
         const d = await r.json();
         const url = d?.data?.Character?.image?.large;
         if (url) { _imgCache[characterName] = url; return url; }
     } catch(e) { console.warn('[AniList]', characterName, e.message); }
+
     return null;
 }
 
@@ -420,11 +430,10 @@ async function fetchAniListImage(characterName) {
 async function prefetchPairImages(pairIdx) {
     const pair = PAIRS[pairIdx];
     if (!pair) return;
-    const [ci, ui] = await Promise.all([
-        fetchAniListImage(pair.citizen.name),
-        fetchAniListImage(pair.undercover.name)
-    ]);
+    const ci = await fetchAniListImage(pair.citizen.name);
     if (ci) pair.citizen.img = ci;
+    await new Promise(r => setTimeout(r, 500));
+    const ui = await fetchAniListImage(pair.undercover.name);
     if (ui) pair.undercover.img = ui;
 }
 
@@ -642,6 +651,264 @@ const PAIRS = [
     { citizen: { name: 'Genos', img: 'https://static.wikia.nocookie.net/onepunchman/images/b/bb/Genos_anime.png' }, undercover: { name: 'Edward Elric', img: 'https://static.wikia.nocookie.net/fma/images/4/41/Edward_Elric_anime.png' }, tag: 'cyborgs/alchimistes qui cherchent vengeance pour leur famille', difficulty: 'intermediate' },
     { citizen: { name: 'Garou', img: 'https://static.wikia.nocookie.net/onepunchman/images/1/10/Garou_anime.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'antagonistes orgueilleusement solitaires qui rejoignent le bien', difficulty: 'intermediate' },
     { citizen: { name: 'Kirito', img: 'https://static.wikia.nocookie.net/swordartonline/images/2/21/Kirito_Aincrad_Arc.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'combattants solitaires aux cheveux noirs, les meilleurs de leur monde', difficulty: 'intermediate' },
+
+    // ══ POPULAR — JoJo extra ══
+    { citizen: { name: 'Josuke Higashikata', img: '' }, undercover: { name: 'Jotaro Kujo', img: '' }, tag: 'Higashikata père et fils, stand de guérison vs arrêt du temps', difficulty: 'popular' },
+    { citizen: { name: 'Yoshikage Kira', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'tueurs en série ordinaires en apparence, intelligence froide', difficulty: 'popular' },
+    { citizen: { name: 'Giorno Giovanna', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'adolescents qui prennent le contrôle d\'organisations criminelles', difficulty: 'popular' },
+
+    // ══ POPULAR — YuYu Hakusho extra ══
+    { citizen: { name: 'Kurama', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'renards légendaires liés à un humain, sagesse et pouvoir caché', difficulty: 'popular' },
+    { citizen: { name: 'Toguro', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'anciens héros devenus démons par choix de puissance', difficulty: 'popular' },
+    { citizen: { name: 'Shinobu Sensui', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'anciens héros traumatisés qui se retournent contre l\'humanité', difficulty: 'popular' },
+    { citizen: { name: 'Kurama', img: '' }, undercover: { name: 'Killua Zoldyck', img: '' }, tag: 'combattants à l\'aspect délicat cachant une violence létale', difficulty: 'popular' },
+
+    // ══ POPULAR — Dragon Ball extra ══
+    { citizen: { name: 'Piccolo', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'anciens antagonistes devenus mentors, froids et bienveillants', difficulty: 'popular' },
+    { citizen: { name: 'Gohan', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'fils qui héritent du pouvoir et du destin de leur père', difficulty: 'popular' },
+    { citizen: { name: 'Cell', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'antagonistes parfaits qui absorbent les autres pour évoluer', difficulty: 'popular' },
+    { citizen: { name: 'Trunks', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'guerriers du futur traumatisés, voyagent pour changer le passé', difficulty: 'popular' },
+    { citizen: { name: 'Android 18', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'androïdes/guerrières froides qui finissent par s\'humaniser', difficulty: 'popular' },
+
+    // ══ POPULAR — One Piece extra ══
+    { citizen: { name: 'Sanji', img: '' }, undercover: { name: 'Might Guy', img: '' }, tag: 'combattants aux jambes légendaires, coeurs de feu', difficulty: 'popular' },
+    { citizen: { name: 'Boa Hancock', img: '' }, undercover: { name: 'Makima', img: '' }, tag: 'femmes d\'une beauté terrifiante dont l\'amour est une arme', difficulty: 'popular' },
+    { citizen: { name: 'Crocodile', img: '' }, undercover: { name: 'Doflamingo', img: '' }, tag: 'anciens Shichibukai manipulateurs qui dirigeaient dans l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Kaido', img: '' }, undercover: { name: 'Whitebeard', img: '' }, tag: 'empereurs invincibles, les plus forts du monde', difficulty: 'popular' },
+    { citizen: { name: 'Usopp', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'menteurs/fanfarons qui deviennent de vrais héros', difficulty: 'popular' },
+
+    // ══ POPULAR — Naruto extra ══
+    { citizen: { name: 'Madara Uchiha', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'guerriers légendaires revenus pour dominer le monde', difficulty: 'popular' },
+    { citizen: { name: 'Gaara', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'personnages solitaires transformés en monstres, redemption par l\'amour', difficulty: 'popular' },
+    { citizen: { name: 'Kabuto Yakushi', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'serviteurs qui dépassent leurs maîtres, manipulateurs de corps', difficulty: 'popular' },
+
+    // ══ POPULAR — Pokémon ══
+    { citizen: { name: 'Ash Ketchum', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'héros déterminés qui rêvent d\'être les meilleurs du monde', difficulty: 'popular' },
+    { citizen: { name: 'Mewtwo', img: '' }, undercover: { name: 'Frieza', img: '' }, tag: 'créatures artificielles à la puissance absolue qui méprisent les humains', difficulty: 'popular' },
+    { citizen: { name: 'Gary Oak', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'rivaux froids et talentueux qui finissent par respecter le héros', difficulty: 'popular' },
+
+    // ══ POPULAR — Evangelion ══
+    { citizen: { name: 'Shinji Ikari', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros traumatisés qui portent le destin du monde malgré eux', difficulty: 'popular' },
+    { citizen: { name: 'Rei Ayanami', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'guerrières au passé mystérieux, dévotion absolue au protagoniste', difficulty: 'popular' },
+    { citizen: { name: 'Asuka Langley', img: '' }, undercover: { name: 'Bakugo Katsuki', img: '' }, tag: 'pilotes arrogants blessés par l\'orgueil', difficulty: 'popular' },
+
+    // ══ POPULAR — Détective Conan ══
+    { citizen: { name: 'Conan Edogawa', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'détectives géniaux qui traquent des criminels insaisissables', difficulty: 'popular' },
+    { citizen: { name: 'Gin', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'antagonistes élégants et froids qui restent dans l\'ombre', difficulty: 'popular' },
+
+    // ══ POPULAR — Blue Lock ══
+    { citizen: { name: 'Isagi Yoichi', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'joueurs sans talent particulier qui atteignent le sommet par l\'analyse', difficulty: 'popular' },
+    { citizen: { name: 'Rin Itoshi', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'prodiges froids obsédés par dépasser un aîné légendaire', difficulty: 'popular' },
+
+    // ══ POPULAR — Assassination Classroom ══
+    { citizen: { name: 'Koro-sensei', img: '' }, undercover: { name: 'Gojo Satoru', img: '' }, tag: 'professeurs invincibles et exubérants qui forment la prochaine génération', difficulty: 'popular' },
+    { citizen: { name: 'Karma Akabane', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'antagonistes sadiques qui trouvent la violence artistique', difficulty: 'popular' },
+
+    // ══ POPULAR — The Promised Neverland ══
+    { citizen: { name: 'Emma', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros au QI hors norme qui refusent de sacrifier quiconque', difficulty: 'popular' },
+    { citizen: { name: 'Ray', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'enfants génies qui planifient secrètement depuis des années', difficulty: 'popular' },
+    { citizen: { name: 'Norman', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'génies qui sacrifient leur humanité pour sauver les autres', difficulty: 'popular' },
+
+    // ══ POPULAR — Solo Leveling ══
+    { citizen: { name: 'Sung Jinwoo', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros les plus faibles qui deviennent les plus forts', difficulty: 'popular' },
+
+    // ══ POPULAR — Dungeon Meshi ══
+    { citizen: { name: 'Laios Touden', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'protagonistes naïfs passionnés par les monstres/combats', difficulty: 'popular' },
+    { citizen: { name: 'Marcille Donato', img: '' }, undercover: { name: 'Sakura Haruno', img: '' }, tag: 'mages aux longs cheveux dans une équipe de choc', difficulty: 'popular' },
+
+    // ══ POPULAR — Kakegurui ══
+    { citizen: { name: 'Yumeko Jabami', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'joueurs fous dont le plaisir vient du risque extrême', difficulty: 'popular' },
+    { citizen: { name: 'Kirari Momobami', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'présidents manipulateurs qui dirigent par le jeu et la peur', difficulty: 'popular' },
+
+    // ══ POPULAR — Mirai Nikki ══
+    { citizen: { name: 'Yuno Gasai', img: '' }, undercover: { name: 'Himiko Toga', img: '' }, tag: 'yandere absolues, amour indissociable de la violence', difficulty: 'popular' },
+
+    // ══ POPULAR — Tokyo Revengers ══
+    { citizen: { name: 'Takemichi Hanagaki', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'protagonistes qui voyagent dans le temps pour sauver ceux qu\'ils aiment', difficulty: 'popular' },
+    { citizen: { name: 'Mikey', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'leaders charismatiques qui basculent vers l\'obscurité', difficulty: 'popular' },
+
+    // ══ POPULAR — Psycho Pass ══
+    { citizen: { name: 'Akane Tsunemori', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'femmes policières/soldates qui questionnent leur système', difficulty: 'popular' },
+    { citizen: { name: 'Makishima Shougo', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'intellectuels qui brisent la société par conviction', difficulty: 'popular' },
+
+    // ══ POPULAR — Gintama ══
+    { citizen: { name: 'Sakata Gintoki', img: '' }, undercover: { name: 'Spike Spiegel', img: '' }, tag: 'héros décontractés au passé de guerrier légendaire caché', difficulty: 'popular' },
+    { citizen: { name: 'Takasugi Shinsuke', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'anciens camarades devenus ennemis, consumés par la haine', difficulty: 'popular' },
+
+    // ══ POPULAR — Dr Stone ══
+    { citizen: { name: 'Senku Ishigami', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies qui résolvent tout par la science et la logique', difficulty: 'popular' },
+    { citizen: { name: 'Tsukasa Shishio', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'guerriers les plus forts au monde, idéologie radicale', difficulty: 'popular' },
+
+    // ══ POPULAR — Akame ga Kill ══
+    { citizen: { name: 'Akame', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'guerrières à l\'épée formées pour tuer depuis l\'enfance', difficulty: 'popular' },
+    { citizen: { name: 'Esdeath', img: '' }, undercover: { name: 'Frieza', img: '' }, tag: 'généraux sadiques à la puissance de glace absolue', difficulty: 'popular' },
+
+    // ══ POPULAR — Hellsing ══
+    { citizen: { name: 'Alucard', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'vampires invincibles d\'une élégance terrifiante', difficulty: 'popular' },
+    { citizen: { name: 'Integra Hellsing', img: '' }, undercover: { name: 'Tsunade', img: '' }, tag: 'femmes cheffes implacables qui commandent des monstres', difficulty: 'popular' },
+
+    // ══ POPULAR — Food Wars ══
+    { citizen: { name: 'Yukihira Soma', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'héros vantards qui battent les élites par le talent brut', difficulty: 'popular' },
+    { citizen: { name: 'Erina Nakiri', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'prodiges froids et arrogants qui évoluent grâce au héros', difficulty: 'popular' },
+
+    // ══ POPULAR — Kuroko no Basket ══
+    { citizen: { name: 'Kuroko Tetsuya', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'personnages invisibles/discrets dont la force est de ne pas être vus', difficulty: 'popular' },
+    { citizen: { name: 'Aomine Daiki', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'joueurs/combattants qui s\'ennuient car personne ne les égale', difficulty: 'popular' },
+
+    // ══ POPULAR — Fairy Tail extra ══
+    { citizen: { name: 'Gray Fullbuster', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'rivaux aux pouvoirs opposés, passé sombre, fierté froide', difficulty: 'popular' },
+    { citizen: { name: 'Zeref', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'antagonistes qui ont vécu des siècles et cherchent la mort', difficulty: 'popular' },
+
+    // ══ POPULAR — Bleach extra ══
+    { citizen: { name: 'Kisuke Urahara', img: '' }, undercover: { name: 'Gojo Satoru', img: '' }, tag: 'génie excentrique caché sous un extérieur désinvolte', difficulty: 'popular' },
+    { citizen: { name: 'Toshiro Hitsugaya', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'prodiges à la glace, froids et sérieux', difficulty: 'popular' },
+
+    // ══ POPULAR — Bungou Stray Dogs ══
+    { citizen: { name: 'Osamu Dazai', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies mystérieux et suicidaires qui orchestrent tout depuis l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Atsushi Nakajima', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'orphelins sans confiance en eux qui portent une bête en eux', difficulty: 'popular' },
+    { citizen: { name: 'Ryunosuke Akutagawa', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'antagonistes sombres au passé douloureux, obsédés par un rival', difficulty: 'popular' },
+
+    // ══ POPULAR — Steins Gate ══
+    { citizen: { name: 'Okabe Rintarou', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies excentriques qui portent le poids de chaque timeline', difficulty: 'popular' },
+
+    // ══ POPULAR — Dandadan ══
+    { citizen: { name: 'Okarun', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'garçons ordinaires propulsés dans un monde surnaturel', difficulty: 'popular' },
+    { citizen: { name: 'Momo Ayase', img: '' }, undercover: { name: 'Sakura Haruno', img: '' }, tag: 'héroïnes au caractère explosif avec des pouvoirs dormants', difficulty: 'popular' },
+
+    // ══ POPULAR — Mashle ══
+    { citizen: { name: 'Mash Burnedead', img: '' }, undercover: { name: 'Saitama', img: '' }, tag: 'protagonistes sans magie/pouvoir qui battent tout le monde à la force brute', difficulty: 'popular' },
+
+    // ══ POPULAR — Hell\'s Paradise ══
+    { citizen: { name: 'Gabimaru', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'guerriers invincibles qui cherchent à retrouver leur femme', difficulty: 'popular' },
+    { citizen: { name: 'Sagiri', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'femmes guerrières qui questionnent leur humanité dans le combat', difficulty: 'popular' },
+
+    // ══ POPULAR — Erased ══
+    { citizen: { name: 'Satoru Fujinuma', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'protagonistes qui revivent le passé pour sauver des innocents', difficulty: 'popular' },
+
+    // ══ POPULAR — Parasyte ══
+    { citizen: { name: 'Shinichi Izumi', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'humains fusionnés avec des créatures, perdent leur humanité', difficulty: 'popular' },
+
+    // ══ POPULAR — Devilman Crybaby ══
+    { citizen: { name: 'Akira Fudo', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'héros qui se transforment en démons pour sauver l\'humanité', difficulty: 'popular' },
+
+    // ══ POPULAR — Durarara ══
+    { citizen: { name: 'Shizuo Heiwajima', img: '' }, undercover: { name: 'Kenpachi Zaraki', img: '' }, tag: 'colosses qui vivent pour le combat, force dévastatrice incontrôlable', difficulty: 'popular' },
+    { citizen: { name: 'Izaya Orihara', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'manipulateurs qui adorent observer les humains en chaos', difficulty: 'popular' },
+
+    // ══ POPULAR — Blue Exorcist ══
+    { citizen: { name: 'Rin Okumura', img: '' }, undercover: { name: 'Denji', img: '' }, tag: 'fils de Satan/démon qui combat pour les humains', difficulty: 'popular' },
+
+    // ══ POPULAR — Shaman King ══
+    { citizen: { name: 'Yoh Asakura', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'héros décontractés à la puissance spirituelle extraordinaire', difficulty: 'popular' },
+    { citizen: { name: 'Hao Asakura', img: '' }, undercover: { name: 'Madara Uchiha', img: '' }, tag: 'antagonistes légendaires revenus pour anéantir l\'humanité corrompue', difficulty: 'popular' },
+
+    // ══ POPULAR — Inuyasha ══
+    { citizen: { name: 'Inuyasha', img: '' }, undercover: { name: 'Denji', img: '' }, tag: 'demi-démons à l\'épée légendaire qui luttent contre leur nature', difficulty: 'popular' },
+    { citizen: { name: 'Sesshomaru', img: '' }, undercover: { name: 'Byakuya Kuchiki', img: '' }, tag: 'grands seigneurs démons froids et élégants', difficulty: 'popular' },
+
+    // ══ POPULAR — SAO extra ══
+    { citizen: { name: 'Asuna', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'combattantes redoutables qui se battent pour ceux qu\'elles aiment', difficulty: 'popular' },
+
+    // ══ POPULAR — Kagurabachi ══
+    { citizen: { name: 'Chihiro Rokuhira', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'fils de maître d\'armes qui vengent leur père, épée légendaire', difficulty: 'popular' },
+
+    // ══ POPULAR — Sakamoto Days ══
+    { citizen: { name: 'Taro Sakamoto', img: '' }, undercover: { name: 'Loid Forger', img: '' }, tag: 'tueurs professionnels reconvertis en pères de famille', difficulty: 'popular' },
+
+    // ══ POPULAR — To Your Eternity ══
+    { citizen: { name: 'Fushi', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'êtres immortels qui absorbent l\'humanité et portent ses douleurs', difficulty: 'popular' },
+
+    // ══ POPULAR — Kingdom ══
+    { citizen: { name: 'Xin', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'guerriers sans naissance qui veulent devenir les plus grands généraux', difficulty: 'popular' },
+    { citizen: { name: 'Ou Ki', img: '' }, undercover: { name: 'Whitebeard', img: '' }, tag: 'généraux légendaires invincibles dont la mort marque une époque', difficulty: 'popular' },
+
+    // ══ INTERMEDIATE — Toriko ══
+    { citizen: { name: 'Toriko', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'gourmands aux appétits surhumains qui cherchent les ingrédients ultimes', difficulty: 'intermediate' },
+    { citizen: { name: 'Coco', img: '' }, undercover: { name: 'Shikamaru Nara', img: '' }, tag: 'stratèges calmes et analytiques dans une équipe de choc', difficulty: 'intermediate' },
+    { citizen: { name: 'Zebra', img: '' }, undercover: { name: 'Kenpachi Zaraki', img: '' }, tag: 'monstres de combat au son et à la brutalité absolue', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Monster ══
+    { citizen: { name: 'Johan Liebert', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'antagonistes blonds qui manipulent tout le monde vers la mort', difficulty: 'intermediate' },
+    { citizen: { name: 'Kenzo Tenma', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies qui traquent obsessionnellement un monstre insaisissable', difficulty: 'intermediate' },
+    { citizen: { name: 'Heinrich Lunge', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'inspecteurs méthodiques incapables de lâcher une affaire', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Kaiji ══
+    { citizen: { name: 'Kaiji Itou', img: '' }, undercover: { name: 'Yumeko Jabami', img: '' }, tag: 'joueurs désespérés dans des games mortels aux règles tordues', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Rainbow ══
+    { citizen: { name: 'Sakuragi Masao', img: '' }, undercover: { name: 'Rock Lee', img: '' }, tag: 'prisonniers/guerriers au caractère solaire qui ne renoncent jamais', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Hitman Reborn ══
+    { citizen: { name: 'Tsunayoshi Sawada', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros sans talent qui héritent d\'un destin de boss', difficulty: 'intermediate' },
+    { citizen: { name: 'Xanxus', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'leaders violents et orgueilleux dont la brutalité est une forme de respect', difficulty: 'intermediate' },
+    { citizen: { name: 'Mukuro Rokudo', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'antagonistes au génie de l\'illusion qui veulent s\'emparer du monde', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Golden Kamuy ══
+    { citizen: { name: 'Saichi Sugimoto', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'soldats immortels traumatisés par la guerre qui cherchent rédemption', difficulty: 'intermediate' },
+    { citizen: { name: 'Asirpa', img: '' }, undercover: { name: 'Nausicaa', img: '' }, tag: 'guerrières autochtones à l\'unisson avec leur nature sauvage', difficulty: 'intermediate' },
+    { citizen: { name: 'Hijikata Toshizo', img: '' }, undercover: { name: 'Levi Ackerman', img: '' }, tag: 'soldats légendaires qui sacrifient tout pour leur idéal', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Kenshin ══
+    { citizen: { name: 'Kenshin Himura', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'guerriers légendaires qui ont renoncé au meurtre mais pas à l\'épée', difficulty: 'intermediate' },
+    { citizen: { name: 'Makoto Shishio', img: '' }, undercover: { name: 'Griffith', img: '' }, tag: 'révolutionnaires brûlés qui refont le monde selon leur loi', difficulty: 'intermediate' },
+    { citizen: { name: 'Sojiro Seta', img: '' }, undercover: { name: 'Killua Zoldyck', img: '' }, tag: 'enfants assassins souriants formés pour tuer', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Hokuto no Ken ══
+    { citizen: { name: 'Kenshiro', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'guerriers légendaires qui ne se battent que pour protéger les faibles', difficulty: 'intermediate' },
+    { citizen: { name: 'Raoh', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'antagonistes d\'un orgueil absolu qui veulent régner sur l\'ère violente', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Black Butler ══
+    { citizen: { name: 'Sebastian Michaelis', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'démons d\'une élégance absolue au service d\'un maître', difficulty: 'intermediate' },
+    { citizen: { name: 'Ciel Phantomhive', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'nobles enfants qui vendent leur âme pour la vengeance', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Beastars ══
+    { citizen: { name: 'Legoshi', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'prédateurs qui luttent contre leur nature pour protéger ceux qu\'ils aiment', difficulty: 'intermediate' },
+    { citizen: { name: 'Louis', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'aristocrates qui portent un poids impossible avec une façade parfaite', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Claymore ══
+    { citizen: { name: 'Clare', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'guerrières mi-humaines mi-monstres qui cherchent vengeance', difficulty: 'intermediate' },
+    { citizen: { name: 'Teresa', img: '' }, undercover: { name: 'Gojo Satoru', img: '' }, tag: 'guerrières invincibles qui brisent toutes les règles par amour', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Trigun ══
+    { citizen: { name: 'Vash the Stampede', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'guerriers légendaires en apparence idiots qui refusent de tuer', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — GTO ══
+    { citizen: { name: 'Onizuka Eikichi', img: '' }, undercover: { name: 'Jiraiya', img: '' }, tag: 'profs délinquants qui changent la vie de leurs élèves perdus', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Baccano ══
+    { citizen: { name: 'Ladd Russo', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'tueurs psychopathes euphoriques face à la mort', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Magi ══
+    { citizen: { name: 'Sinbad', img: '' }, undercover: { name: 'Shanks', img: '' }, tag: 'rois légendaires charismatiques dont la véritable ambition est cachée', difficulty: 'intermediate' },
+    { citizen: { name: 'Aladdin', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'porteurs de magie légendaire avec une candeur désarmante', difficulty: 'intermediate' },
+    { citizen: { name: 'Alibaba Saluja', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'roturiers qui héritent d\'un pouvoir royal et apprennent à le porter', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Nausicaä ══
+    { citizen: { name: 'Nausicaa', img: '' }, undercover: { name: 'Frieren', img: '' }, tag: 'héroïnes légendaires à la nature pacifique qui portent le destin du monde', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Inuyashiki ══
+    { citizen: { name: 'Inuyashiki', img: '' }, undercover: { name: 'Saitama', img: '' }, tag: 'personnes ordinaires à la puissance surhumaine avec un cœur d\'or', difficulty: 'intermediate' },
+    { citizen: { name: 'Hiro Shishigami', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'adolescents qui se croient dieux et tuent sans remords', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Pandora Hearts ══
+    { citizen: { name: 'Oz Vessalius', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'nobles au destin sombre liés à une entité monstrueuse', difficulty: 'intermediate' },
+    { citizen: { name: 'Jack Vessalius', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'manipulateurs à l\'apparence douce dont la trahison dévaste tout', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Afro Samurai ══
+    { citizen: { name: 'Afro Samurai', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'guerriers solitaires au katana légendaire qui marchent sur des cadavres', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Deadman Wonderland ══
+    { citizen: { name: 'Ganta Igarashi', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'innocents jetés dans un prison-jeu mortel pour un crime qu\'ils n\'ont pas commis', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Darwin's Game ══
+    { citizen: { name: 'Kaname Sudo', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'joueurs ordinaires propulsés dans un survival game mortel', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Mushishi ══
+    { citizen: { name: 'Ginko', img: '' }, undercover: { name: 'Spike Spiegel', img: '' }, tag: 'voyageurs solitaires qui errent pour réparer ce que les autres brisent', difficulty: 'intermediate' },
+
+    // ══ INTERMEDIATE — Elfen Lied ══
+    { citizen: { name: 'Lucy', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'êtres transformés en monstres par la souffrance humaine', difficulty: 'intermediate' },
+
 ];
 
 // ══════════════════════════════════════════════════════
