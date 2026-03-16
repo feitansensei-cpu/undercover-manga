@@ -1052,9 +1052,11 @@ async function loadGame(code) {
         const myCode   = gameState.roomCode;
         const myIsHost = gameState.isHost;
         const myReady  = gameState.players?.find(p => p.name === myName)?.ready;
-        // Save local hints BEFORE overwriting with remote
-        const myLocalRoundId = gameState.roundId;
-        const myLocalHints   = gameState.hints?.[myName] ? [...gameState.hints[myName]] : null;
+
+        // Save my hints before overwrite — only preserve if same round AND on hints screen
+        const myRoundId = gameState.roundId;
+        const myHints   = (gameState.screen === 'game-hints' && gameState.hints?.[myName])
+                          ? [...gameState.hints[myName]] : null;
 
         Object.assign(gameState, remote);
         gameState.playerName = myName;
@@ -1065,34 +1067,29 @@ async function loadGame(code) {
         const meRemote = gameState.players?.find(p => p.name === myName);
         if (meRemote && myReady === true && meRemote.ready !== true) meRemote.ready = true;
 
-        // Preserve local hints ONLY if:
-        // - same roundId (not a new round)
-        // - still on hints screen
-        // - local has more hints than remote (optimistic update)
-        if (myLocalHints && myLocalHints.length > 0
-            && gameState.roundId === myLocalRoundId
-            && gameState.screen === 'game-hints') {
+        // Restore my local hints only if same round + still hints screen + local has more
+        if (myHints && myHints.length > 0
+            && gameState.roundId === myRoundId
+            && gameState.screen === 'game-hints'
+            && (!gameState.hints?.[myName] || gameState.hints[myName].length < myHints.length)) {
             if (!gameState.hints) gameState.hints = {};
-            if (!gameState.hints[myName] || gameState.hints[myName].length < myLocalHints.length) {
-                gameState.hints[myName] = myLocalHints;
-            }
+            gameState.hints[myName] = myHints;
         }
 
         render();
+
+        // Host: check if all votes are in (in case non-host voted last)
+        if (gameState.isHost && gameState.screen === 'game-vote' && !_calculatingScores) {
+            const voted = Object.keys(gameState.votes || {}).length;
+            if (voted >= gameState.players.length && gameState.players.length > 0) {
+                calculateRoundScores();
+            }
+        }
     } catch(err) { console.error('[LOAD]', err); }
 }
 
 async function loadGameAndCheck(code) {
     await loadGame(code);
-    // Host triggers score calculation when all votes are in
-    // Only if screen is still game-vote (not already processed)
-    if (gameState.isHost && gameState.screen === 'game-vote') {
-        const voted = Object.keys(gameState.votes || {}).length;
-        const total = gameState.players.length;
-        if (voted >= total && total > 0) {
-            calculateRoundScores();
-        }
-    }
 }
 
 async function startPolling(code) {
