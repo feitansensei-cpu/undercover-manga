@@ -350,6 +350,41 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const db = createClient(SUPA_URL, SUPA_KEY);
 
 // ══════════════════════════════════════════════════════
+//  ANILIST IMAGE CACHE
+//  Fetches character images from AniList GraphQL API
+//  (public API, no key needed, CORS open, images on s4.anilist.co)
+// ══════════════════════════════════════════════════════
+const _imgCache = {};
+
+async function fetchAniListImage(characterName) {
+    if (_imgCache[characterName]) return _imgCache[characterName];
+    try {
+        const query = `query($name:String){Character(search:$name){image{large}}}`;
+        const r = await fetch('https://graphql.anilist.co', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ query, variables: { name: characterName } })
+        });
+        const d = await r.json();
+        const url = d?.data?.Character?.image?.large;
+        if (url) { _imgCache[characterName] = url; return url; }
+    } catch(e) { console.warn('[AniList]', characterName, e.message); }
+    return null;
+}
+
+// Pre-fetch images for a pair
+async function prefetchPairImages(pairIdx) {
+    const pair = PAIRS[pairIdx];
+    if (!pair) return;
+    const [ci, ui] = await Promise.all([
+        fetchAniListImage(pair.citizen.name),
+        fetchAniListImage(pair.undercover.name)
+    ]);
+    if (ci) pair.citizen.img = ci;
+    if (ui) pair.undercover.img = ui;
+}
+
+// ══════════════════════════════════════════════════════
 //  MANGA PAIRS DATABASE
 // ══════════════════════════════════════════════════════
 // Format: { citizen: { name, img }, undercover: { name, img }, tag: 'description connexion', difficulty: 'popular' }
@@ -920,6 +955,10 @@ async function beginNewRound() {
     gameState.usedPairIndices.push(pairIdx);
 
     gameState.undercoverName = shuffle(gameState.players.map(p => p.name))[0];
+
+    // Pre-fetch images from AniList (overwrites any broken Wikia URLs)
+    await prefetchPairImages(pairIdx);
+
     gameState.screen = 'game-reveal';
     await saveGame();
     render();
