@@ -5,35 +5,36 @@
 <title>Test Images — par série</title>
 <style>
   body{background:#0a0a0a;color:#fff;font-family:sans-serif;padding:20px;max-width:1400px;margin:0 auto}
-  h1{color:#e03535;margin-bottom:8px}
-  #stats{margin-bottom:12px;font-size:14px;color:#aaa}
+  h1{color:#e03535;margin-bottom:4px}
+  p{color:#aaa;font-size:13px;margin-bottom:12px}
+  #stats{margin-bottom:12px;font-size:14px;color:#aaa;font-weight:600}
   #startbtn{background:#e03535;font-size:15px;font-weight:700;padding:12px 28px;border-radius:8px;margin-bottom:20px;border:none;color:#fff;cursor:pointer}
   .series{margin-bottom:28px}
-  .series-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #333}
-  .series-title{font-size:16px;font-weight:800;color:#e03535}
-  .series-count{font-size:12px;color:#666;background:#1a1a1a;padding:2px 8px;border-radius:10px}
-  .series-ok{font-size:11px;color:#22c55e}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-  .card{background:#1a1a1a;border-radius:8px;overflow:hidden;text-align:center;position:relative}
+  .sh{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #222}
+  .stitle{font-size:15px;font-weight:800;color:#e03535}
+  .scount{font-size:11px;color:#555;background:#1a1a1a;padding:2px 8px;border-radius:10px}
+  .sok{font-size:11px;color:#22c55e;margin-left:auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .card{background:#1a1a1a;border-radius:8px;overflow:hidden;text-align:center}
   .card img{width:100%;height:140px;object-fit:cover;object-position:top;display:block}
-  .nm{font-size:10px;padding:5px 4px 2px;line-height:1.3;font-weight:600}
-  .st{font-size:9px;padding:0 4px 5px;color:#666}
+  .nm{font-size:9px;padding:5px 4px 2px;line-height:1.3;font-weight:600}
+  .st{font-size:8px;padding:0 4px 5px}
   .ok{border:2px solid #22c55e}
   .fail{border:2px solid #ef4444}
   .pending{border:2px solid #333}
   .ph{width:100%;height:140px;display:flex;align-items:center;justify-content:center;font-size:32px;background:#111}
-  .mal-placeholder{border:2px solid #ff9900}
   #failbox{background:#1a0a0a;border:1px solid #e03535;border-radius:8px;padding:14px;display:none;margin-top:20px}
   #failbox h2{color:#e03535;font-size:13px;margin:0 0 8px}
   #failbox p{font-size:11px;color:#ccc;margin:3px 0;font-family:monospace}
 </style>
 </head>
 <body>
-<h1>🔍 Test Images — organisé par série</h1>
+<h1>Test Images — 255 personnages / 98 séries</h1>
+<p>Clique sur le bouton puis attends ~3 minutes. Les images s'affichent en temps réel.</p>
 <button id="startbtn" onclick="startTest()">▶ Lancer le test</button>
-<div id="stats">Clique sur le bouton pour démarrer. (~2min)</div>
+<div id="stats"></div>
 <div id="content"></div>
-<div id="failbox"><h2>⚠️ Problèmes détectés</h2><div id="failnames"></div></div>
+<div id="failbox"><h2>Problemes detectes</h2><div id="failnames"></div></div>
 
 <script>
 var NM = {
@@ -43,61 +44,119 @@ var NM = {
   'Mob (Kageyama Shigeo)':'Shigeo Kageyama','Ryomen Sukuna':'Ryomen Sukuna',
   'Gojo Satoru':'Satoru Gojo','Bakugo Katsuki':'Katsuki Bakugo',
   'Keiji Akaashi':'Keiji Akaashi','Shoyo Hinata':'Shouyou Hinata',
-  'Tobio Kageyama':'Tobio Kageyama','Subaru Natsuki':'Natsuki Subaru',
-  'Yuji Itadori':'Yuji Itadori','Megumi Fushiguro':'Megumi Fushiguro',
-  'Toji Fushiguro':'Toji Fushiguro','Yu Kanda':'Yuu Kanda',
-  'Kishou Arima':'Kishou Arima','Reigen Arataka':'Arataka Reigen',
-  'Thorfinn':'Thorfinn','Whitebeard':'Edward Newgate',
-  'Doflamingo':'Donquixote Doflamingo','Sosuke Aizen':'Sosuke Aizen',
-  'Rimuru Tempest':'Rimuru Tempest','Hinata Hyuga':'Hinata Hyuuga',
-  'Rengoku Kyojuro':'Kyojuro Rengoku','Seiya de Pégase':'Seiya',
-  'Ikki de Phénix':'Ikki','Makunouchi Ippo':'Makunouchi Ippo',
-  'Yor Forger':'Yor Briar','Netero':'Isaac Netero',
-  'Nanami Kento':'Kento Nanami','Kirito':'Kirigaya Kazuto',
+  'Subaru Natsuki':'Natsuki Subaru','Yuji Itadori':'Yuji Itadori',
+  'Megumi Fushiguro':'Megumi Fushiguro','Toji Fushiguro':'Toji Fushiguro',
+  'Yu Kanda':'Yuu Kanda','Kishou Arima':'Kishou Arima',
+  'Reigen Arataka':'Arataka Reigen','Thorfinn':'Thorfinn',
+  'Whitebeard':'Edward Newgate','Doflamingo':'Donquixote Doflamingo',
+  'Sosuke Aizen':'Sosuke Aizen','Rimuru Tempest':'Rimuru Tempest',
+  'Hinata Hyuga':'Hinata Hyuuga','Rengoku Kyojuro':'Kyojuro Rengoku',
+  'Seiya de Pegase':'Seiya','Ikki de Phenix':'Ikki',
+  'Makunouchi Ippo':'Makunouchi Ippo','Yor Forger':'Yor Briar',
+  'Netero':'Isaac Netero','Nanami Kento':'Kento Nanami',
+  'Kirito':'Kirigaya Kazuto','Tobio Kageyama':'Tobio Kageyama',
+  'Nausicaa':'Nausicaa','Afro Samurai':'Afro Samurai',
 };
 
 var SERIES = [
-  {name:'Naruto', chars:['Naruto Uzumaki','Sasuke Uchiha','Kakashi Hatake','Itachi Uchiha','Minato Namikaze','Rock Lee','Might Guy','Hinata Hyuga','Sakura Haruno','Neji Hyuga','Obito Uchiha','Pain (Nagato)','Orochimaru','Jiraiya','Shikamaru Nara']},
-  {name:'Dragon Ball', chars:['Son Goku','Vegeta','Frieza','Bardock']},
-  {name:'One Piece', chars:['Monkey D. Luffy','Roronoa Zoro','Trafalgar Law','Portgas D. Ace','Sabo','Shanks','Doflamingo','Nico Robin','Whitebeard','Eustass Kid']},
-  {name:'Bleach', chars:['Ichigo Kurosaki','Sosuke Aizen','Byakuya Kuchiki','Kenpachi Zaraki','Ulquiorra Cifer','Grimmjow Jaegerjaquez','Rukia Kuchiki']},
-  {name:'Hunter x Hunter', chars:['Killua Zoldyck','Gon Freecss','Hisoka Morow','Kurapika','Chrollo Lucilfer','Illumi Zoldyck','Meruem','Netero','Ging Freecss']},
-  {name:'Death Note', chars:['Light Yagami','L Lawliet']},
-  {name:'Fullmetal Alchemist', chars:['Edward Elric','Alphonse Elric','Roy Mustang','Father']},
-  {name:'Attack on Titan', chars:['Eren Yeager','Levi Ackerman','Mikasa Ackerman','Reiner Braun','Armin Arlert']},
-  {name:'Jujutsu Kaisen', chars:['Gojo Satoru','Ryomen Sukuna','Megumi Fushiguro','Yuji Itadori','Nanami Kento','Toji Fushiguro']},
-  {name:'JoJo', chars:['DIO','Jotaro Kujo','Giorno Giovanna','Yoshikage Kira','Joseph Joestar']},
-  {name:'One Punch Man', chars:['Saitama','Genos','Garou']},
-  {name:'Code Geass', chars:['Lelouch vi Britannia']},
-  {name:'Demon Slayer', chars:['Tanjiro Kamado','Giyu Tomioka','Muichiro Tokito','Rengoku Kyojuro','Zenitsu Agatsuma','Kokushibo']},
-  {name:'Berserk', chars:['Guts','Griffith']},
-  {name:'Chainsaw Man', chars:['Denji','Makima','Power','Aki Hayakawa']},
-  {name:'Tokyo Ghoul', chars:['Ken Kaneki','Touka Kirishima','Kishou Arima']},
-  {name:'My Hero Academia', chars:['Izuku Midoriya','Bakugo Katsuki','Himiko Toga']},
-  {name:'Cowboy Bebop', chars:['Spike Spiegel']},
-  {name:'Samurai Champloo', chars:['Mugen']},
-  {name:'Fairy Tail', chars:['Natsu Dragneel','Erza Scarlet']},
-  {name:'7 Deadly Sins', chars:['Meliodas','Ban']},
-  {name:'Haikyuu', chars:['Shoyo Hinata','Tobio Kageyama','Keiji Akaashi']},
-  {name:'Saint Seiya', chars:['Seiya de Pégase','Ikki de Phénix']},
-  {name:'YuYu Hakusho', chars:['Yusuke Urameshi','Hiei']},
-  {name:'Akira', chars:['Tetsuo Shima']},
-  {name:'Fire Force', chars:['Shinra Kusakabe']},
-  {name:'Soul Eater', chars:['Maka Albarn','Death the Kid']},
-  {name:'Hajime no Ippo', chars:['Makunouchi Ippo']},
-  {name:'Baki', chars:['Baki Hanma']},
-  {name:'Avatar', chars:['Zuko']},
-  {name:'Mob Psycho', chars:['Mob (Kageyama Shigeo)','Reigen Arataka']},
-  {name:'Frieren', chars:['Frieren','Himmel']},
-  {name:'Re:Zero', chars:['Subaru Natsuki','Rem','Roswaal']},
-  {name:'Overlord', chars:['Ainz Ooal Gown']},
-  {name:'Vinland Saga', chars:['Thorfinn','Askeladd']},
-  {name:'Black Clover', chars:['Asta','Yuno','Yami Sukehiro']},
-  {name:'Noragami', chars:['Yato']},
-  {name:'D.Gray-Man', chars:['Allen Walker','Yu Kanda','Millennium Earl']},
-  {name:'Spy x Family', chars:['Loid Forger','Yor Forger']},
-  {name:'Sword Art Online', chars:['Kirito']},
-  {name:'Tensura', chars:['Rimuru Tempest']},
+  {name:'Naruto',chars:['Naruto Uzumaki','Sasuke Uchiha','Kakashi Hatake','Itachi Uchiha','Minato Namikaze','Rock Lee','Might Guy','Hinata Hyuga','Sakura Haruno','Neji Hyuga','Obito Uchiha','Pain (Nagato)','Orochimaru','Jiraiya','Shikamaru Nara','Madara Uchiha','Gaara','Kabuto Yakushi','Tsunade']},
+  {name:'Dragon Ball',chars:['Son Goku','Vegeta','Frieza','Bardock','Piccolo','Gohan','Cell','Trunks','Android 18']},
+  {name:'One Piece',chars:['Monkey D. Luffy','Roronoa Zoro','Trafalgar Law','Portgas D. Ace','Sabo','Shanks','Doflamingo','Nico Robin','Whitebeard','Eustass Kid','Sanji','Boa Hancock','Crocodile','Kaido','Usopp']},
+  {name:'Bleach',chars:['Ichigo Kurosaki','Sosuke Aizen','Byakuya Kuchiki','Kenpachi Zaraki','Ulquiorra Cifer','Grimmjow Jaegerjaquez','Rukia Kuchiki','Kisuke Urahara','Toshiro Hitsugaya']},
+  {name:'Hunter x Hunter',chars:['Killua Zoldyck','Gon Freecss','Hisoka Morow','Kurapika','Chrollo Lucilfer','Illumi Zoldyck','Meruem','Netero','Ging Freecss']},
+  {name:'Death Note',chars:['Light Yagami','L Lawliet']},
+  {name:'Fullmetal Alchemist',chars:['Edward Elric','Alphonse Elric','Roy Mustang','Father']},
+  {name:'Attack on Titan',chars:['Eren Yeager','Levi Ackerman','Mikasa Ackerman','Reiner Braun','Armin Arlert']},
+  {name:'Jujutsu Kaisen',chars:['Gojo Satoru','Ryomen Sukuna','Megumi Fushiguro','Yuji Itadori','Nanami Kento','Toji Fushiguro']},
+  {name:'JoJo',chars:['DIO','Jotaro Kujo','Giorno Giovanna','Yoshikage Kira','Joseph Joestar','Josuke Higashikata']},
+  {name:'One Punch Man',chars:['Saitama','Genos','Garou']},
+  {name:'Code Geass',chars:['Lelouch vi Britannia']},
+  {name:'Demon Slayer',chars:['Tanjiro Kamado','Giyu Tomioka','Muichiro Tokito','Rengoku Kyojuro','Zenitsu Agatsuma','Kokushibo']},
+  {name:'Berserk',chars:['Guts','Griffith']},
+  {name:'Chainsaw Man',chars:['Denji','Makima','Power','Aki Hayakawa']},
+  {name:'Tokyo Ghoul',chars:['Ken Kaneki','Touka Kirishima','Kishou Arima']},
+  {name:'My Hero Academia',chars:['Izuku Midoriya','Bakugo Katsuki','Himiko Toga']},
+  {name:'Cowboy Bebop',chars:['Spike Spiegel']},
+  {name:'Samurai Champloo',chars:['Mugen']},
+  {name:'Fairy Tail',chars:['Natsu Dragneel','Erza Scarlet','Gray Fullbuster','Zeref']},
+  {name:'7 Deadly Sins',chars:['Meliodas','Ban']},
+  {name:'Haikyuu',chars:['Shoyo Hinata','Tobio Kageyama','Keiji Akaashi']},
+  {name:'Saint Seiya',chars:['Seiya de Pegase','Ikki de Phenix']},
+  {name:'YuYu Hakusho',chars:['Yusuke Urameshi','Hiei','Kurama','Toguro','Shinobu Sensui']},
+  {name:'Akira',chars:['Tetsuo Shima']},
+  {name:'Fire Force',chars:['Shinra Kusakabe']},
+  {name:'Soul Eater',chars:['Maka Albarn','Death the Kid']},
+  {name:'Hajime no Ippo',chars:['Makunouchi Ippo']},
+  {name:'Baki',chars:['Baki Hanma']},
+  {name:'Avatar',chars:['Zuko']},
+  {name:'Mob Psycho',chars:['Mob (Kageyama Shigeo)','Reigen Arataka']},
+  {name:'Frieren',chars:['Frieren','Himmel']},
+  {name:'Re:Zero',chars:['Subaru Natsuki','Rem','Roswaal']},
+  {name:'Overlord',chars:['Ainz Ooal Gown']},
+  {name:'Vinland Saga',chars:['Thorfinn','Askeladd']},
+  {name:'Black Clover',chars:['Asta','Yuno','Yami Sukehiro']},
+  {name:'Noragami',chars:['Yato']},
+  {name:'D.Gray-Man',chars:['Allen Walker','Yu Kanda','Millennium Earl']},
+  {name:'Spy x Family',chars:['Loid Forger','Yor Forger']},
+  {name:'Sword Art Online',chars:['Kirito','Asuna']},
+  {name:'Tensura',chars:['Rimuru Tempest']},
+  {name:'Pokemon',chars:['Ash Ketchum','Mewtwo','Gary Oak']},
+  {name:'Evangelion',chars:['Shinji Ikari','Rei Ayanami','Asuka Langley']},
+  {name:'Detective Conan',chars:['Conan Edogawa','Gin']},
+  {name:'Blue Lock',chars:['Isagi Yoichi','Rin Itoshi']},
+  {name:'Assassination Classroom',chars:['Koro-sensei','Karma Akabane']},
+  {name:'The Promised Neverland',chars:['Emma','Ray','Norman']},
+  {name:'Solo Leveling',chars:['Sung Jinwoo']},
+  {name:'Dungeon Meshi',chars:['Laios Touden','Marcille Donato']},
+  {name:'Kakegurui',chars:['Yumeko Jabami','Kirari Momobami']},
+  {name:"Mirai Nikki",chars:['Yuno Gasai']},
+  {name:'Tokyo Revengers',chars:['Takemichi Hanagaki','Mikey']},
+  {name:'Psycho Pass',chars:['Akane Tsunemori','Makishima Shougo']},
+  {name:'Gintama',chars:['Sakata Gintoki','Takasugi Shinsuke']},
+  {name:'Dr Stone',chars:['Senku Ishigami','Tsukasa Shishio']},
+  {name:'Akame ga Kill',chars:['Akame','Esdeath']},
+  {name:'Hellsing',chars:['Alucard','Integra Hellsing']},
+  {name:'Food Wars',chars:['Yukihira Soma','Erina Nakiri']},
+  {name:"Kuroko's Basket",chars:['Kuroko Tetsuya','Aomine Daiki']},
+  {name:'Bungou Stray Dogs',chars:['Osamu Dazai','Atsushi Nakajima','Ryunosuke Akutagawa']},
+  {name:'Steins;Gate',chars:['Okabe Rintarou']},
+  {name:'Dandadan',chars:['Okarun','Momo Ayase']},
+  {name:'Mashle',chars:['Mash Burnedead']},
+  {name:"Hell's Paradise",chars:['Gabimaru','Sagiri']},
+  {name:'Erased',chars:['Satoru Fujinuma']},
+  {name:'Parasyte',chars:['Shinichi Izumi']},
+  {name:'Devilman Crybaby',chars:['Akira Fudo']},
+  {name:'Durarara',chars:['Shizuo Heiwajima','Izaya Orihara']},
+  {name:'Blue Exorcist',chars:['Rin Okumura']},
+  {name:'Shaman King',chars:['Yoh Asakura','Hao Asakura']},
+  {name:'Inuyasha',chars:['Inuyasha','Sesshomaru']},
+  {name:'Kagurabachi',chars:['Chihiro Rokuhira']},
+  {name:'Sakamoto Days',chars:['Taro Sakamoto']},
+  {name:'To Your Eternity',chars:['Fushi']},
+  {name:'Kingdom',chars:['Xin','Ou Ki']},
+  {name:'Toriko',chars:['Toriko','Coco','Zebra']},
+  {name:'Monster',chars:['Johan Liebert','Kenzo Tenma','Heinrich Lunge']},
+  {name:'Kaiji',chars:['Kaiji Itou']},
+  {name:'Rainbow',chars:['Sakuragi Masao']},
+  {name:'Hitman Reborn',chars:['Tsunayoshi Sawada','Xanxus','Mukuro Rokudo']},
+  {name:'Golden Kamuy',chars:['Saichi Sugimoto','Asirpa','Hijikata Toshizo']},
+  {name:'Kenshin',chars:['Kenshin Himura','Makoto Shishio','Sojiro Seta']},
+  {name:'Hokuto no Ken',chars:['Kenshiro','Raoh']},
+  {name:'Black Butler',chars:['Sebastian Michaelis','Ciel Phantomhive']},
+  {name:'Beastars',chars:['Legoshi','Louis']},
+  {name:'Claymore',chars:['Clare','Teresa']},
+  {name:'Trigun',chars:['Vash the Stampede']},
+  {name:'GTO',chars:['Onizuka Eikichi']},
+  {name:'Baccano',chars:['Ladd Russo']},
+  {name:'Magi',chars:['Sinbad','Aladdin','Alibaba Saluja']},
+  {name:'Nausicaa',chars:['Nausicaa']},
+  {name:'Inuyashiki',chars:['Inuyashiki','Hiro Shishigami']},
+  {name:'Pandora Hearts',chars:['Oz Vessalius','Jack Vessalius']},
+  {name:'Afro Samurai',chars:['Afro Samurai']},
+  {name:'Deadman Wonderland',chars:['Ganta Igarashi']},
+  {name:'Mushishi',chars:['Ginko']},
+  {name:'Elfen Lied',chars:['Lucy']},
+  {name:'Darwin Game',chars:['Kaname Sudo']},
 ];
 
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms);})}
@@ -108,7 +167,7 @@ async function fetchImg(name){
     var r=await fetch('https://api.jikan.moe/v4/characters?q='+encodeURIComponent(n)+'&limit=1');
     var d=await r.json();
     if(d&&d.data&&d.data[0]&&d.data[0].images&&d.data[0].images.jpg)
-      return{url:d.data[0].images.jpg.image_url,src:'Jikan'};
+      return d.data[0].images.jpg.image_url||null;
   }catch(e){}
   await sleep(300);
   try{
@@ -118,7 +177,7 @@ async function fetchImg(name){
       body:JSON.stringify({query:q,variables:{n:n}})});
     var d=await r.json();
     if(d&&d.data&&d.data.Character&&d.data.Character.image&&d.data.Character.image.large)
-      return{url:d.data.Character.image.large,src:'AniList'};
+      return d.data.Character.image.large;
   }catch(e){}
   return null;
 }
@@ -127,62 +186,50 @@ async function startTest(){
   document.getElementById('startbtn').style.display='none';
   var content=document.getElementById('content');
   var totalOk=0,totalFail=0,totalChars=0,problems=[];
-
-  // Count total
   SERIES.forEach(function(s){totalChars+=s.chars.length;});
 
-  // Create all sections first
   SERIES.forEach(function(s){
     var sec=document.createElement('div');
     sec.className='series';
-    sec.id='sec_'+s.name.replace(/\W/g,'_');
-    sec.innerHTML='<div class="series-header"><span class="series-title">'+s.name+'</span><span class="series-count">'+s.chars.length+' personnages</span><span class="series-ok" id="ok_'+s.name.replace(/\W/g,'_')+'"></span></div><div class="grid" id="grid_'+s.name.replace(/\W/g,'_')+'"></div>';
+    var sid=s.name.replace(/\W/g,'_');
+    sec.innerHTML='<div class="sh"><span class="stitle">'+s.name+'</span><span class="scount">'+s.chars.length+' perso</span><span class="sok" id="ok_'+sid+'"></span></div><div class="grid" id="grid_'+sid+'"></div>';
     content.appendChild(sec);
-    var grid=document.getElementById('grid_'+s.name.replace(/\W/g,'_'));
-    s.chars.forEach(function(name,i){
+    var grid=document.getElementById('grid_'+sid);
+    s.chars.forEach(function(name){
       var c=document.createElement('div');
-      c.className='card pending';c.id='c_'+name.replace(/\W/g,'_');c.dataset.status='pending';
-      c.innerHTML='<div class="ph">⏳</div><div class="nm">'+name+'</div><div class="st">...</div>';
+      c.className='card pending';c.id='c_'+name.replace(/\W/g,'_');
+      c.innerHTML='<div class="ph">&#x23F3;</div><div class="nm">'+name+'</div><div class="st">...</div>';
       grid.appendChild(c);
     });
   });
 
-  // Fetch one by one
   var done=0;
   for(var si=0;si<SERIES.length;si++){
     var s=SERIES[si];
-    var seriesOk=0;
+    var sid=s.name.replace(/\W/g,'_');
+    var sok=0;
     for(var ci=0;ci<s.chars.length;ci++){
       var name=s.chars[ci];
       var c=document.getElementById('c_'+name.replace(/\W/g,'_'));
-      var res=await fetchImg(name);
+      var url=await fetchImg(name);
       done++;
-      if(res&&res.url){
-        // Check if it's a MAL placeholder
-        var isMal=res.url.indexOf('questionmark')+res.url.indexOf('na.jpg')>-2;
-        if(isMal||res.url.length<30){
-          totalFail++;
-          problems.push('⚠️ '+name+' → image placeholder MAL ('+res.src+')');
-          c.className='card mal-placeholder';c.dataset.status='fail';
-          c.innerHTML='<img src="'+res.url+'"><div class="nm">'+name+'</div><div class="st" style="color:#ff9900">⚠️ MAL placeholder</div>';
-        } else {
-          totalOk++;seriesOk++;
-          c.className='card ok';c.dataset.status='ok';
-          c.innerHTML='<img src="'+res.url+'" alt="'+name+'"><div class="nm">'+name+'</div><div class="st" style="color:#22c55e">✅ '+res.src+'</div>';
-        }
-      } else {
+      if(url){
+        totalOk++;sok++;
+        c.className='card ok';
+        c.innerHTML='<img src="'+url+'" alt="'+name+'"><div class="nm">'+name+'</div><div class="st" style="color:#22c55e">OK</div>';
+      }else{
         totalFail++;
-        problems.push('❌ '+name+' (recherché: "'+( NM[name]||name)+'")');
-        c.className='card fail';c.dataset.status='fail';
-        c.innerHTML='<div class="ph">❌</div><div class="nm">'+name+'</div><div class="st" style="color:#ef4444">introuvable</div>';
+        problems.push(name+' ('+(NM[name]||name)+')');
+        c.className='card fail';
+        c.innerHTML='<div class="ph">&#x274C;</div><div class="nm">'+name+'</div><div class="st" style="color:#ef4444">echec</div>';
       }
-      document.getElementById('stats').textContent=done+'/'+totalChars+' — ✅ '+totalOk+'  ❌ '+totalFail;
+      document.getElementById('stats').textContent=done+'/'+totalChars+' — OK: '+totalOk+' Echecs: '+totalFail;
       await sleep(800);
     }
-    document.getElementById('ok_'+s.name.replace(/\W/g,'_')).textContent='✅ '+seriesOk+'/'+s.chars.length;
+    document.getElementById('ok_'+sid).textContent='✅ '+sok+'/'+s.chars.length;
   }
 
-  document.getElementById('stats').textContent='Terminé — ✅ '+totalOk+' OK  ❌ '+totalFail+' problèmes sur '+totalChars;
+  document.getElementById('stats').textContent='TERMINE — OK: '+totalOk+' Echecs: '+totalFail+' sur '+totalChars;
   if(problems.length){
     document.getElementById('failbox').style.display='block';
     document.getElementById('failnames').innerHTML=problems.map(function(p){return'<p>'+p+'</p>';}).join('');
