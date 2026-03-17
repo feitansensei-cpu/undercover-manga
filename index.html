@@ -1503,15 +1503,31 @@ window.goHome = function() {
 // ══════════════════════════════════════════════════════
 let _lastScreen = null;
 
+let _lastRenderHash = '';
+
 function render() {
     const app = document.getElementById('app');
     if (!app) return;
 
     // ANTI-RESET : si l'input d'indice a le focus, ne pas re-render
-    // (évite d'effacer la saisie en cours)
     if (gameState.screen === 'game-hints') {
         const inp = document.getElementById('hint-input');
         if (inp && document.activeElement === inp && inp.value.length > 0) return;
+
+        // Skip re-render si rien d'important n'a changé
+        const hash = JSON.stringify({
+            screen: gameState.screen,
+            round: gameState.currentRound,
+            roundId: gameState.roundId,
+            turnIdx: gameState.currentTurnIdx,
+            phase: gameState.currentHintPhase,
+            hints: gameState.hints,
+            imgs: gameState.currentPairImgs
+        });
+        if (hash === _lastRenderHash) return;
+        _lastRenderHash = hash;
+    } else {
+        _lastRenderHash = '';
     }
 
     // Clear running hint timer if leaving that screen
@@ -1957,28 +1973,37 @@ function renderHints(app) {
         </div>
     `;
 
-    // Timer only when it's my turn
-    clearHintTimer();
+    // Timer only when it's my turn — don't restart if already running
     if (isMyTurn) {
-        _hintTimerSeconds = 30;
-        const updateTimer = () => {
+        if (!_hintTimer) {
+            // Fresh start for this turn
+            _hintTimerSeconds = 30;
+            const updateTimer = () => {
+                const lbl = document.getElementById('hint-timer');
+                const fill = document.getElementById('hint-timer-fill');
+                if (lbl) { lbl.textContent = Math.max(0, _hintTimerSeconds) + 's'; }
+                if (fill) fill.style.width = Math.max(0, (_hintTimerSeconds / 30) * 100) + '%';
+            };
+            updateTimer();
+            _hintTimer = setInterval(() => {
+                _hintTimerSeconds--;
+                updateTimer();
+                if (_hintTimerSeconds <= 0) {
+                    clearHintTimer();
+                    const inp = document.getElementById('hint-input');
+                    if (inp) { if (!inp.value.trim()) inp.value = '...'; window.submitHint(); }
+                }
+            }, 1000);
+            setTimeout(() => document.getElementById('hint-input')?.focus(), 100);
+        } else {
+            // Timer already running — just update the display with current value
             const lbl = document.getElementById('hint-timer');
             const fill = document.getElementById('hint-timer-fill');
-            if (lbl) { lbl.textContent = Math.max(0, _hintTimerSeconds) + 's'; lbl.style.color = _hintTimerSeconds <= 10 ? '#d47070' : '#d47070'; }
+            if (lbl) lbl.textContent = Math.max(0, _hintTimerSeconds) + 's';
             if (fill) fill.style.width = Math.max(0, (_hintTimerSeconds / 30) * 100) + '%';
-        };
-        updateTimer();
-        _hintTimer = setInterval(() => {
-            _hintTimerSeconds--;
-            updateTimer();
-            if (_hintTimerSeconds <= 0) {
-                clearHintTimer();
-                const inp = document.getElementById('hint-input');
-                if (inp) { if (!inp.value.trim()) inp.value = '...'; window.submitHint(); }
-            }
-        }, 1000);
-        // Focus input
-        setTimeout(() => document.getElementById('hint-input')?.focus(), 100);
+        }
+    } else {
+        clearHintTimer();
     }
 }
 
@@ -2002,7 +2027,7 @@ function renderVote(app) {
         <div style="min-height:100vh;display:flex;flex-direction:column;padding:16px 16px 140px;background:transparent;position:relative;overflow-y:auto">
             <div style="position:fixed;inset:0;background:rgba(6,3,3,0.82);pointer-events:none;z-index:0"></div>
 
-            <div style="position:relative;z-index:1;max-width:480px;width:100%;margin:0 auto">
+            <div style="position:relative;z-index:1;max-width:700px;width:100%;margin:0 auto">
                 <div style="text-align:center;margin-bottom:16px;padding-top:10px">
                     <div class="round-badge" style="margin:0 auto 10px;display:table;background:rgba(120,20,20,0.25);border-color:rgba(120,20,20,0.5);color:#c08080">⚡ Vote</div>
                     <h2 class="font-cinzel" style="font-size:20px;font-weight:700;color:#ffffff;margin-bottom:6px">Qui est l'Undercover ?</h2>
@@ -2014,14 +2039,23 @@ function renderVote(app) {
                     </div>
                 </div>
 
-                <!-- Hints recap -->
-                <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px">
-                    <p style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Rappel des indices</p>
-                    ${allHints.map(h => `
-                        <div class="hint-chip">
-                            <div class="author">${h.player} — Indice ${h.phase}</div>
-                            <div class="text">"${h.hint}"</div>
-                        </div>`).join('')}
+                <!-- Colonnes d'indices par joueur -->
+                <div style="display:grid;grid-template-columns:repeat(${gameState.players.length},1fr);gap:8px;margin-bottom:14px">
+                    ${gameState.players.map(p => {
+                        const pHints = gameState.hints?.[p.name] || [];
+                        return `
+                        <div style="background:rgba(20,8,8,0.75);border:1px solid rgba(120,20,20,0.25);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
+                            <p style="font-size:10px;font-weight:800;color:#c08080;letter-spacing:1px;text-transform:uppercase;text-align:center;margin-bottom:2px;border-bottom:1px solid rgba(120,20,20,0.2);padding-bottom:5px">${p.name}</p>
+                            ${pHints.length === 0
+                                ? `<p style="font-size:10px;color:var(--text-muted);text-align:center;font-style:italic">—</p>`
+                                : pHints.map((h, i) => `
+                                    <div style="background:rgba(10,4,4,0.5);border-radius:6px;padding:6px 8px">
+                                        <p style="font-size:9px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">Indice ${i+1}</p>
+                                        <p style="font-size:12px;color:#f5f0eb;font-weight:600">"${h}"</p>
+                                    </div>`).join('')
+                            }
+                        </div>`;
+                    }).join('')}
                 </div>
             </div>
         </div>
@@ -2058,6 +2092,9 @@ function renderRoundResult(app) {
     const pair = PAIRS[gameState.currentPairIdx];
     const undercover = gameState.undercoverName;
     const votes = gameState.votes || {};
+    const imgs = gameState.currentPairImgs || {};
+    const citizenImg = imgs.citizen || pair.citizen.img || '';
+    const undercoverImg = imgs.undercover || pair.undercover.img || '';
 
     // Recompute deltas for display (same logic as calculateRoundScores, read-only)
     const n = gameState.players.length;
@@ -2098,14 +2135,14 @@ function renderRoundResult(app) {
                 <!-- Pair reveal -->
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
                     <div class="reveal-card citizen-card">
-                        <img src="${pair.citizen.img}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" onerror="this.style.display='none'" alt="${pair.citizen.name}">
+                        ${citizenImg ? `<img src="${citizenImg}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" alt="${pair.citizen.name}">` : `<div style="width:100%;height:130px;background:rgba(20,8,8,0.8);display:flex;align-items:center;justify-content:center;font-size:36px">👤</div>`}
                         <div style="padding:10px;text-align:center">
                             <div class="citizen-badge" style="font-size:9px;padding:3px 8px;margin-bottom:5px">Citoyen</div>
                             <p style="font-size:12px;font-weight:800;color:#f5f0eb;line-height:1.2">${pair.citizen.name}</p>
                         </div>
                     </div>
                     <div class="reveal-card undercover-card">
-                        <img src="${pair.undercover.img}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" onerror="this.style.display='none'" alt="${pair.undercover.name}">
+                        ${undercoverImg ? `<img src="${undercoverImg}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" alt="${pair.undercover.name}">` : `<div style="width:100%;height:130px;background:rgba(20,8,8,0.8);display:flex;align-items:center;justify-content:center;font-size:36px">🥷</div>`}
                         <div style="padding:10px;text-align:center">
                             <div class="uc-badge" style="font-size:9px;padding:3px 8px;margin-bottom:5px">Undercover</div>
                             <p style="font-size:12px;font-weight:800;color:#f5f0eb;line-height:1.2">${pair.undercover.name}</p>
