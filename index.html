@@ -1240,7 +1240,7 @@ window.toggleReady = async function() {
 
 window.startGame = async function() {
     if (!gameState.isHost) return ucAlert('Seul l\'hôte peut lancer la partie');
-    if (gameState.players.length < 2) return ucAlert('2 joueurs minimum requis');
+    if (gameState.players.length < 3) return ucAlert('3 joueurs minimum requis !');
     const allReady = gameState.players.every(p => p.ready);
     if (!allReady) return ucAlert('Tous les joueurs doivent être prêts !');
 
@@ -1444,29 +1444,33 @@ function calculateRoundScores() {
     // Ensure all players have a score entry (don't reset existing)
     players.forEach(p => { if (gameState.scores[p.name] === undefined) gameState.scores[p.name] = 0; });
 
-    // Count votes on undercover (from citizens only, not from undercover themselves)
+    // Count votes on undercover (from citizens only)
     let votesOnUndercover = 0;
     players.forEach(p => {
         if (p.name !== undercover && votes[p.name] === undercover) votesOnUndercover++;
     });
-    // Citizens who voted WRONG (did not pick the undercover)
     const citizenCount = n - 1;
     const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
+    const undercoverPerfect = votesOnUndercover === 0; // no citizen found UC
 
     players.forEach(p => {
         if (p.name === undercover) {
-            // Undercover gains 10 pts per citizen who didn't vote them, loses 10 per citizen who did
+            // Base: +10 per citizen who didn't vote UC, -10 per citizen who did
             const gain = citizensWhoVotedWrong * 10;
             const loss = votesOnUndercover * 10;
-            gameState.scores[p.name] += (gain - loss);
+            // Bonus +5 if no citizen found UC (perfect bluff)
+            const bonus = undercoverPerfect ? 5 : 0;
+            gameState.scores[p.name] += (gain - loss + bonus);
         } else {
-            // Citizen: +10 if they voted correctly, -10 per ally who voted wrong
-            const votedCorrectly = (votes[p.name] === undercover) ? 1 : 0;
-            // Allies who voted wrong = all citizens who didn't vote undercover, except self
+            const votedCorrectly = votes[p.name] === undercover;
             const alliesWhoVotedWrong = players.filter(x =>
                 x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
             ).length;
-            gameState.scores[p.name] += (votedCorrectly * 10) - (alliesWhoVotedWrong * 10);
+            // Base: +10 if voted correctly, -10 per ally who voted wrong
+            // Bonus +5 if voted correctly (individual bonus)
+            const base = (votedCorrectly ? 10 : 0) - (alliesWhoVotedWrong * 10);
+            const bonus = votedCorrectly ? 5 : 0;
+            gameState.scores[p.name] += base + bonus;
         }
     });
 
@@ -2092,7 +2096,7 @@ function renderRoundResult(app) {
     const citizenImg = imgs.citizen || pair.citizen.img || '';
     const undercoverImg = imgs.undercover || pair.undercover.img || '';
 
-    // Recompute deltas for display (same logic as calculateRoundScores, read-only)
+    // Recompute deltas for display
     const n = gameState.players.length;
     let votesOnUndercover = 0;
     gameState.players.forEach(p => {
@@ -2100,17 +2104,23 @@ function renderRoundResult(app) {
     });
     const citizenCount = n - 1;
     const citizensWhoVotedWrong = citizenCount - votesOnUndercover;
+    const undercoverPerfect = votesOnUndercover === 0;
 
     const deltas = {};
     gameState.players.forEach(p => {
         if (p.name === undercover) {
-            deltas[p.name] = (citizensWhoVotedWrong * 10) - (votesOnUndercover * 10);
+            const gain = citizensWhoVotedWrong * 10;
+            const loss = votesOnUndercover * 10;
+            const bonus = undercoverPerfect ? 5 : 0;
+            deltas[p.name] = gain - loss + bonus;
         } else {
-            const votedCorrectly = (votes[p.name] === undercover) ? 1 : 0;
+            const votedCorrectly = votes[p.name] === undercover;
             const alliesWrong = gameState.players.filter(x =>
                 x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
             ).length;
-            deltas[p.name] = (votedCorrectly * 10) - (alliesWrong * 10);
+            const base = (votedCorrectly ? 10 : 0) - (alliesWrong * 10);
+            const bonus = votedCorrectly ? 5 : 0;
+            deltas[p.name] = base + bonus;
         }
     });
 
@@ -2130,17 +2140,21 @@ function renderRoundResult(app) {
 
                 <!-- Pair reveal -->
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-                    <div class="reveal-card citizen-card">
-                        ${citizenImg ? `<img src="${citizenImg}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" alt="${pair.citizen.name}">` : `<div style="width:100%;height:130px;background:rgba(20,8,8,0.8);display:flex;align-items:center;justify-content:center;font-size:36px">👤</div>`}
-                        <div style="padding:10px;text-align:center">
-                            <div class="citizen-badge" style="font-size:9px;padding:3px 8px;margin-bottom:5px">Citoyen</div>
+                    <div class="reveal-card citizen-card" style="position:relative">
+                        ${citizenImg
+                            ? `<img src="${citizenImg}" style="width:100%;height:200px;object-fit:cover;object-position:center top;display:block" alt="${pair.citizen.name}">`
+                            : `<div style="width:100%;height:200px;background:rgba(20,8,8,0.8);display:flex;align-items:center;justify-content:center;font-size:48px">👤</div>`}
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(4,2,2,0.95));padding:20px 10px 10px;text-align:center">
+                            <div class="citizen-badge" style="font-size:9px;padding:3px 8px;margin-bottom:4px;display:inline-block">Citoyen</div>
                             <p style="font-size:12px;font-weight:800;color:#f5f0eb;line-height:1.2">${pair.citizen.name}</p>
                         </div>
                     </div>
-                    <div class="reveal-card undercover-card">
-                        ${undercoverImg ? `<img src="${undercoverImg}" style="width:100%;height:130px;object-fit:cover;object-position:center top;display:block" alt="${pair.undercover.name}">` : `<div style="width:100%;height:130px;background:rgba(20,8,8,0.8);display:flex;align-items:center;justify-content:center;font-size:36px">🥷</div>`}
-                        <div style="padding:10px;text-align:center">
-                            <div class="uc-badge" style="font-size:9px;padding:3px 8px;margin-bottom:5px">Undercover</div>
+                    <div class="reveal-card undercover-card" style="position:relative">
+                        ${undercoverImg
+                            ? `<img src="${undercoverImg}" style="width:100%;height:200px;object-fit:cover;object-position:center top;display:block" alt="${pair.undercover.name}">`
+                            : `<div style="width:100%;height:200px;background:rgba(20,8,8,0.8);display:flex;align-items:center;justify-content:center;font-size:48px">🥷</div>`}
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(4,2,2,0.95));padding:20px 10px 10px;text-align:center">
+                            <div class="uc-badge" style="font-size:9px;padding:3px 8px;margin-bottom:4px;display:inline-block">Undercover</div>
                             <p style="font-size:12px;font-weight:800;color:#f5f0eb;line-height:1.2">${pair.undercover.name}</p>
                         </div>
                     </div>
