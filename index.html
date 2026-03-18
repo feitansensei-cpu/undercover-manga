@@ -843,281 +843,30 @@ const FIXED_IDS = {
 
 // Imgur URLs for characters not found on Jikan
 const IMGUR_URLS = {
-    // ── Imgur originals ──
-    'Yoh Asakura':          'https://i.imgur.com/lfPxazV.jpeg',
-    'Emma':                 'https://i.imgur.com/sLSDqCw.jpeg',
-    'Louis':                'https://i.imgur.com/ORX1ng1.jpeg',
-    'Zuko':                 'https://i.imgur.com/hmVCS84.jpeg',
-    'Choso':                'https://i.imgur.com/OcKy2jg.jpeg',
-    'King (OPM)':           'https://i.imgur.com/JKdQKl3.jpeg',
-    'Jin':                  'https://i.imgur.com/yRcf0hC.jpeg',
-    'Fuu':                  'https://i.imgur.com/WLuQyAr.jpeg',
-    'King (NnT)':           'https://i.imgur.com/wLYadvS.jpeg',
-    'Joker':                'https://i.imgur.com/MMlgdXm.jpeg',
-    'Mashiba Ryo':          'https://i.imgur.com/mBoJxlm.jpeg',
-    'Tatsumi':              'https://i.imgur.com/wEnCUHG.jpeg',
-    'Kanki':                'https://i.imgur.com/kqLTF2O.jpeg',
-    'Ousen':                'https://i.imgur.com/UdVZdzz.jpeg',
-    'Ouhon':                'https://i.imgur.com/vMYbJaL.jpeg',
-    'Mouten':               'https://i.imgur.com/wvbIqEc.jpeg',
-    'Riboku':               'https://i.imgur.com/9z9yVnv.jpeg',
-    'Kyou Kai':             'https://i.imgur.com/zqisRht.jpeg',
-    'Sakuragi Rokurouta':   'https://i.imgur.com/lgOkYrF.jpeg',
-    'Hijikata Toshizo':     'https://i.imgur.com/EByKtBO.jpeg',
-    // ── Naruto ──
-    'Naruto Uzumaki':       'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png',
-    'Sasuke Uchiha':        'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png',
-    'Kakashi Hatake':       'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png',
-    'Itachi Uchiha':        'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png',
-    'Minato Namikaze':      'https://static.wikia.nocookie.net/naruto/images/b/b3/Minato_Namikaze.png',
-    'Rock Lee':             'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png',
-    'Might Guy':            'https://static.wikia.nocookie.net/naruto/images/9/93/Guy_Migth.png',
-    'Hinata Hyuga':         'https://static.wikia.nocookie.net/naruto/images/b/b2/Hinata_Hyuga.png',
-    'Sakura Haruno':        'https://static.wikia.nocookie.net/naruto/images/d/d5/Sakura_Haruno.png',
-    'Neji Hyuga':           'https://static.wikia.nocookie.net/naruto/images/c/ce/Neji_Hyuga.png',
-    'Obito Uchiha':         'https://static.wikia.nocookie.net/naruto/images/1/1d/Tobi.png',
-    'Pain (Nagato)':        'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png',
-    'Orochimaru':           'https://static.wikia.nocookie.net/naruto/images/8/87/Orochimaru_anime.png',
-    'Jiraiya':              'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png',
-    'Shikamaru Nara':       'https://static.wikia.nocookie.net/naruto/images/d/d9/Shikamaru.png',
-    'Madara Uchiha':        'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png',
-    'Gaara':                'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png',
-    'Kabuto Yakushi':       'https://static.wikia.nocookie.net/naruto/images/9/96/Kabuto_Yakushi.png',
-    'Tsunade':              'https://static.wikia.nocookie.net/naruto/images/b/be/Tsunade.png',
-    // ── Dragon Ball ──
-    'Son Goku':             'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png',
-    'Vegeta':               'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png',
-    'Frieza':               'https://static.wikia.nocookie.net/dragonball/images/9/9e/Frieza_First_Form.png',
-    'Bardock':              'https://static.wikia.nocookie.net/dragonball/images/1/12/Bardock_anime.png',
-    'Piccolo':              'https://static.wikia.nocookie.net/dragonball/images/5/52/Piccolo_Artwork.png',
-    'Gohan':                'https://static.wikia.nocookie.net/dragonball/images/b/b2/Gohan-Dragon-Ball-Super.png',
-    'Cell':                 'https://static.wikia.nocookie.net/dragonball/images/4/47/Cell_Perfect_Form.png',
-    'Trunks':               'https://static.wikia.nocookie.net/dragonball/images/e/e8/Trunks_Super.png',
-    'Android 18':           'https://static.wikia.nocookie.net/dragonball/images/a/a5/Android18DBSuper.png',
-    // ── One Piece ──
-    'Monkey D. Luffy':      'https://static.wikia.nocookie.net/onepiece/images/7/7b/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png',
-    'Roronoa Zoro':         'https://static.wikia.nocookie.net/onepiece/images/5/5d/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png',
-    'Trafalgar Law':        'https://static.wikia.nocookie.net/onepiece/images/f/f8/Trafalgar_D._Water_Law_Anime_Post_Timeskip_Infobox.png',
-    'Portgas D. Ace':       'https://static.wikia.nocookie.net/onepiece/images/4/4b/Portgas_D._Ace_Anime_Post_Timeskip_Infobox.png',
-    'Sabo':                 'https://static.wikia.nocookie.net/onepiece/images/3/34/Sabo_Anime_Post_Timeskip_Infobox.png',
-    'Shanks':               'https://static.wikia.nocookie.net/onepiece/images/6/6b/Shanks_Anime_Infobox.png',
-    'Doflamingo':           'https://static.wikia.nocookie.net/onepiece/images/0/09/Donquixote_Doflamingo_Anime_Post_Timeskip_Infobox.png',
-    'Nico Robin':           'https://static.wikia.nocookie.net/onepiece/images/e/e1/Nico_Robin_Anime_Post_Timeskip_Infobox.png',
-    'Whitebeard':           'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png',
-    'Eustass Kid':          'https://static.wikia.nocookie.net/onepiece/images/d/d3/Eustass_Kid_Anime_Post_Timeskip_Infobox.png',
-    'Sanji':                'https://static.wikia.nocookie.net/onepiece/images/9/9d/Sanji_Anime_Post_Timeskip_Infobox.png',
-    'Boa Hancock':          'https://static.wikia.nocookie.net/onepiece/images/b/b3/Boa_Hancock_Anime_Infobox.png',
-    'Crocodile':            'https://static.wikia.nocookie.net/onepiece/images/7/74/Crocodile_Anime_Post_Timeskip_Infobox.png',
-    'Kaido':                'https://static.wikia.nocookie.net/onepiece/images/5/5c/Kaido_Anime_Infobox.png',
-    'Usopp':                'https://static.wikia.nocookie.net/onepiece/images/3/33/Usopp_Anime_Post_Timeskip_Infobox.png',
-    'Brook':                'https://static.wikia.nocookie.net/onepiece/images/2/2b/Brook_Anime_Post_Timeskip_Infobox.png',
-    'Franky':               'https://static.wikia.nocookie.net/onepiece/images/e/e1/Franky_Anime_Post_Timeskip_Infobox.png',
-    // ── Bleach ──
-    'Ichigo Kurosaki':      'https://static.wikia.nocookie.net/bleach/images/7/7f/Ichigo_Kurosaki.png',
-    'Sosuke Aizen':         'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png',
-    'Byakuya Kuchiki':      'https://static.wikia.nocookie.net/bleach/images/1/18/Byakuya_Kuchiki.png',
-    'Kenpachi Zaraki':      'https://static.wikia.nocookie.net/bleach/images/a/a5/Kenpachi_Zaraki.png',
-    'Ulquiorra Cifer':      'https://static.wikia.nocookie.net/bleach/images/5/52/Ulquiorra_arrancar.png',
-    'Grimmjow Jaegerjaquez':'https://static.wikia.nocookie.net/bleach/images/d/df/Grimmjow_Jaegerjaquez.png',
-    'Rukia Kuchiki':        'https://static.wikia.nocookie.net/bleach/images/1/1e/Rukia_Kuchiki_anime.png',
-    'Kisuke Urahara':       'https://static.wikia.nocookie.net/bleach/images/2/23/Kisuke_Urahara.png',
-    'Toshiro Hitsugaya':    'https://static.wikia.nocookie.net/bleach/images/a/a4/Toushiro_Hitsugaya.png',
-    'Yoruichi Shihoin':     'https://static.wikia.nocookie.net/bleach/images/d/d5/Yoruichi_Shihoin.png',
-    // ── Hunter x Hunter ──
-    'Killua Zoldyck':       'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png',
-    'Gon Freecss':          'https://static.wikia.nocookie.net/hunterxhunter/images/8/8a/Gon_Freecss_2011.png',
-    'Hisoka Morow':         'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png',
-    'Kurapika':             'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png',
-    'Chrollo Lucilfer':     'https://static.wikia.nocookie.net/hunterxhunter/images/4/47/Chrollo_2011.png',
-    'Illumi Zoldyck':       'https://static.wikia.nocookie.net/hunterxhunter/images/b/b0/Illumi_2011.png',
-    'Meruem':               'https://static.wikia.nocookie.net/hunterxhunter/images/5/5e/Meruem_2011.png',
-    'Netero':               'https://static.wikia.nocookie.net/hunterxhunter/images/6/62/Netero_2011.png',
-    'Ging Freecss':         'https://static.wikia.nocookie.net/hunterxhunter/images/9/9f/Ging_Freecss_2011.png',
-    // ── Death Note ──
-    'Light Yagami':         'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg',
-    'L Lawliet':            'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg',
-    // ── FMA ──
-    'Edward Elric':         'https://static.wikia.nocookie.net/fma/images/4/41/Edward_Elric_anime.png',
-    'Alphonse Elric':       'https://static.wikia.nocookie.net/fma/images/1/16/Alphonse_Elric_anime.png',
-    'Roy Mustang':          'https://static.wikia.nocookie.net/fma/images/6/6a/Roy_Mustang.png',
-    'Father':               'https://static.wikia.nocookie.net/fma/images/8/82/Father_FMA.png',
-    // ── Attack on Titan ──
-    'Eren Yeager':          'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png',
-    'Levi Ackerman':        'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png',
-    'Mikasa Ackerman':      'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png',
-    'Reiner Braun':         'https://static.wikia.nocookie.net/shingekinokyojin/images/d/d0/Reiner_Braun_character_image.png',
-    'Armin Arlert':         'https://static.wikia.nocookie.net/shingekinokyojin/images/5/52/Armin_Arlert_character_image.png',
-    // ── Jujutsu Kaisen ──
-    'Gojo Satoru':          'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png',
-    'Ryomen Sukuna':        'https://static.wikia.nocookie.net/jujutsu-kaisen/images/e/e6/Ryomen_Sukuna_Anime.png',
-    'Megumi Fushiguro':     'https://static.wikia.nocookie.net/jujutsu-kaisen/images/6/6c/Megumi_Fushiguro.png',
-    'Yuji Itadori':         'https://static.wikia.nocookie.net/jujutsu-kaisen/images/d/d3/Yuji_Itadori_anime.png',
-    'Nanami Kento':         'https://static.wikia.nocookie.net/jujutsu-kaisen/images/8/8e/Nanami_Kento_anime.png',
-    'Toji Fushiguro':       'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/10/Toji_Fushiguro_anime.png',
-    // ── JoJo ──
-    'DIO':                  'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png',
-    'Jotaro Kujo':          'https://static.wikia.nocookie.net/jojo/images/3/3f/Jotaro_Kujo_%28Anime%29.png',
-    'Giorno Giovanna':      'https://static.wikia.nocookie.net/jojo/images/a/a2/Giorno_Giovanna.png',
-    'Yoshikage Kira':       'https://static.wikia.nocookie.net/jojo/images/f/f7/Kira_Yoshikage_Anime.png',
-    'Joseph Joestar':       'https://static.wikia.nocookie.net/jojo/images/6/6c/Joseph_Joestar_Anime.png',
-    'Josuke Higashikata':   'https://static.wikia.nocookie.net/jojo/images/4/4b/Josuke_Higashikata.png',
-    // ── One Punch Man ──
-    'Saitama':              'https://static.wikia.nocookie.net/onepunchman/images/0/05/Saitama_Artwork.png',
-    'Genos':                'https://static.wikia.nocookie.net/onepunchman/images/b/bb/Genos_anime.png',
-    'Garou':                'https://static.wikia.nocookie.net/onepunchman/images/1/10/Garou_anime.png',
-    // ── Code Geass ──
-    'Lelouch vi Britannia': 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg',
-    // ── Demon Slayer ──
-    'Tanjiro Kamado':       'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/0d/Tanjiro_Kamado.png',
-    'Giyu Tomioka':         'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/3/36/Giyu_Tomioka.png',
-    'Muichiro Tokito':      'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/a/a9/Muichiro_Tokito.png',
-    'Rengoku Kyojuro':      'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/06/Kyojuro_Rengoku.png',
-    'Zenitsu Agatsuma':     'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/4/40/Zenitsu_Agatsuma.png',
-    'Kokushibo':            'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/e/ec/Kokushibo_anime.png',
-    // ── Berserk ──
-    'Guts':                 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png',
-    'Griffith':             'https://static.wikia.nocookie.net/berserk/images/e/e8/Griffith_berserk.png',
-    // ── Chainsaw Man ──
-    'Denji':                'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png',
-    'Makima':               'https://static.wikia.nocookie.net/chainsaw-man/images/7/77/Makima_Anime.png',
-    'Power':                'https://static.wikia.nocookie.net/chainsaw-man/images/c/c2/Power_anime.png',
-    'Aki Hayakawa':         'https://static.wikia.nocookie.net/chainsaw-man/images/a/a4/Aki_Hayakawa_anime.png',
-    // ── Tokyo Ghoul ──
-    'Ken Kaneki':           'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg',
-    'Touka Kirishima':      'https://static.wikia.nocookie.net/tokyoghoul/images/d/d9/Touka_Kirishima_anime.png',
-    'Kishou Arima':         'https://static.wikia.nocookie.net/tokyoghoul/images/8/88/Kishou_Arima_anime.png',
-    // ── MHA ──
-    'Izuku Midoriya':       'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png',
-    'Bakugo Katsuki':       'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png',
-    'Himiko Toga':          'https://static.wikia.nocookie.net/bokunoheroacademia/images/3/3e/Himiko_Toga_Anime.png',
-    'Tomura Shigaraki':     'https://static.wikia.nocookie.net/bokunoheroacademia/images/5/5e/Tomura_Shigaraki_Anime.png',
-    // ── Cowboy Bebop ──
-    'Spike Spiegel':        'https://static.wikia.nocookie.net/cowboybebop/images/7/77/Spike_spiegel.png',
-    // ── Samurai Champloo ──
-    'Mugen':                'https://static.wikia.nocookie.net/samuraichamploo/images/3/37/Mugen-sama.png',
-    // ── Fairy Tail ──
-    'Natsu Dragneel':       'https://static.wikia.nocookie.net/fairytail/images/9/9c/Natsu_Dragneel_2.png',
-    'Erza Scarlet':         'https://static.wikia.nocookie.net/fairytail/images/3/31/Erza_anime.png',
-    'Gray Fullbuster':      'https://static.wikia.nocookie.net/fairytail/images/6/6f/Gray_Fullbuster_GMG.png',
-    'Zeref':                'https://static.wikia.nocookie.net/fairytail/images/0/07/Zeref_Dragneel.png',
-    // ── 7 Deadly Sins ──
-    'Meliodas':             'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/3/3c/Meliodas_Sds.png',
-    'Ban':                  'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/5/52/Ban_new_design.png',
-    // ── Haikyuu ──
-    'Shoyo Hinata':         'https://static.wikia.nocookie.net/haikyuu/images/b/b7/Shoyo_Hinata_anime.png',
-    'Tobio Kageyama':       'https://static.wikia.nocookie.net/haikyuu/images/2/22/Tobio_Kageyama_anime.png',
-    'Keiji Akaashi':        'https://static.wikia.nocookie.net/haikyuu/images/0/0f/Akaashi_Keiji_anime.png',
-    // ── Saint Seiya ──
-    'Seiya de Pégase':      'https://static.wikia.nocookie.net/saintseiya/images/3/3a/Seiya_01.jpg',
-    'Ikki de Phénix':       'https://static.wikia.nocookie.net/saintseiya/images/e/e9/Ikki_SS.jpg',
-    // ── YuYu Hakusho ──
-    'Yusuke Urameshi':      'https://static.wikia.nocookie.net/yuyuhakusho/images/0/09/Yusuke_Urameshi.png',
-    'Hiei':                 'https://static.wikia.nocookie.net/yuyuhakusho/images/2/24/Hiei_%28anime%29.png',
-    'Kurama':               'https://static.wikia.nocookie.net/yuyuhakusho/images/a/a5/Kurama_2011.png',
-    'Toguro':               'https://static.wikia.nocookie.net/yuyuhakusho/images/5/5e/Younger_Toguro.png',
-    'Shinobu Sensui':       'https://static.wikia.nocookie.net/yuyuhakusho/images/4/44/Sensui.png',
-    // ── Akira ──
-    'Tetsuo Shima':         'https://static.wikia.nocookie.net/akira-comic/images/9/9d/Tetsuo_Shima_Akira.jpeg',
-    // ── Fire Force ──
-    'Shinra Kusakabe':      'https://static.wikia.nocookie.net/fire-force/images/a/aa/Shinra_Kusakabe_Anime.png',
-    // ── Soul Eater ──
-    'Maka Albarn':          'https://static.wikia.nocookie.net/souleater/images/1/14/Maka_Albarn_Anime.png',
-    'Death the Kid':        'https://static.wikia.nocookie.net/souleater/images/b/b2/Soul_Eater_Death_The_Kid_Render.png',
-    // ── Hajime no Ippo ──
-    'Makunouchi Ippo':      'https://static.wikia.nocookie.net/ippo/images/f/fa/IppoMakunouchi.png',
-    // ── Baki ──
-    'Baki Hanma':           'https://static.wikia.nocookie.net/bakihanma/images/7/75/Baki_render.png',
-    // ── Mob Psycho ──
-    'Mob (Kageyama Shigeo)':'https://static.wikia.nocookie.net/mob-psycho-100/images/1/12/Mob_in_Mob_Psycho_100.png',
-    'Reigen Arataka':       'https://static.wikia.nocookie.net/mob-psycho-100/images/5/5b/Reigen_anime.png',
-    // ── Frieren ──
-    'Frieren':              'https://static.wikia.nocookie.net/frieren/images/d/d0/Frieren_anime.png',
-    'Himmel':               'https://static.wikia.nocookie.net/frieren/images/6/6f/Himmel_anime.png',
-    // ── Re:Zero ──
-    'Subaru Natsuki':       'https://static.wikia.nocookie.net/rezero/images/4/4f/Subaru_anime.png',
-    'Rem':                  'https://static.wikia.nocookie.net/rezero/images/0/04/Rem_anime.png',
-    'Roswaal':              'https://static.wikia.nocookie.net/rezero/images/e/e8/Roswaal_anime.png',
-    // ── Overlord ──
-    'Ainz Ooal Gown':       'https://static.wikia.nocookie.net/overlordmaruyama/images/3/30/Ainz_Ooal_Gown.png',
-    // ── Vinland Saga ──
-    'Thorfinn':             'https://static.wikia.nocookie.net/vinlandsaga/images/2/23/Thorfinn_anime.png',
-    'Askeladd':             'https://static.wikia.nocookie.net/vinlandsaga/images/d/dc/Askeladd_anime.png',
-    // ── Black Clover ──
-    'Asta':                 'https://static.wikia.nocookie.net/blackclover/images/a/ab/Asta_Anime.png',
-    'Yuno':                 'https://static.wikia.nocookie.net/blackclover/images/8/8c/Yuno_Anime.png',
-    'Yami Sukehiro':        'https://static.wikia.nocookie.net/blackclover/images/d/dd/Yami_Sukehiro_anime.png',
-    // ── Noragami ──
-    'Yato':                 'https://static.wikia.nocookie.net/noragami/images/b/b4/Yato_anime.png',
-    // ── D.Gray-Man ──
-    'Allen Walker':         'https://static.wikia.nocookie.net/dgrayman/images/7/74/Allen_Walker_anime.png',
-    'Yu Kanda':             'https://static.wikia.nocookie.net/dgrayman/images/b/b2/Kanda_anime.png',
-    'Millennium Earl':      'https://static.wikia.nocookie.net/dgrayman/images/d/d3/Millennium_Earl_anime.png',
-    // ── Spy x Family ──
-    'Loid Forger':          'https://static.wikia.nocookie.net/spy-x-family/images/5/52/Loid_Forger_anime.png',
-    'Yor Forger':           'https://static.wikia.nocookie.net/spy-x-family/images/1/19/Yor_Forger_anime.png',
-    // ── SAO ──
-    'Kirito':               'https://static.wikia.nocookie.net/swordartonline/images/2/21/Kirito_Aincrad_Arc.png',
-    'Asuna':                'https://static.wikia.nocookie.net/swordartonline/images/9/92/Asuna_anime.png',
-    // ── Tensei Slime ──
-    'Rimuru Tempest':       'https://static.wikia.nocookie.net/tensura/images/a/ae/Rimuru_Slime.png',
-    // ── Pokemon ──
-    'Ash Ketchum':          'https://static.wikia.nocookie.net/pokemon/images/8/87/Ash_Ketchum.png',
-    'Mewtwo':               'https://static.wikia.nocookie.net/pokemon/images/1/1d/Mewtwo_%28anime%29.png',
-    'Gary Oak':             'https://static.wikia.nocookie.net/pokemon/images/5/5f/Gary_Oak.png',
-    // ── Evangelion ──
-    'Shinji Ikari':         'https://static.wikia.nocookie.net/evangelion/images/8/81/Shinji_Ikari.png',
-    'Rei Ayanami':          'https://static.wikia.nocookie.net/evangelion/images/0/0c/Rei_Ayanami.png',
-    'Asuka Langley':        'https://static.wikia.nocookie.net/evangelion/images/d/d5/Asuka_Langley_Soryu.png',
-    // ── Detective Conan ──
-    'Conan Edogawa':        'https://static.wikia.nocookie.net/detectiveconan/images/b/b2/Conan_Edogawa.png',
-    'Gin':                  'https://static.wikia.nocookie.net/detectiveconan/images/8/8a/Gin.png',
-    // ── Blue Lock ──
-    'Isagi Yoichi':         'https://static.wikia.nocookie.net/bluelock/images/1/1d/Yoichi_Isagi.png',
-    'Rin Itoshi':           'https://static.wikia.nocookie.net/bluelock/images/d/d3/Rin_Itoshi.png',
-    // ── Assassination Classroom ──
-    'Koro-sensei':          'https://static.wikia.nocookie.net/ansatsukyoshitsu/images/b/b7/Korosensei_Anime.png',
-    'Karma Akabane':        'https://static.wikia.nocookie.net/ansatsukyoshitsu/images/4/42/Karma_Akabane_Anime.png',
-    // ── Promised Neverland ──
-    'Ray':                  'https://static.wikia.nocookie.net/thepromisedneverland/images/a/a2/Ray_Anime.png',
-    'Norman':               'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png',
-    // ── Solo Leveling ──
-    'Sung Jinwoo':          'https://static.wikia.nocookie.net/solo-leveling/images/c/c4/Sung_Jinwoo.png',
-    // ── Kakegurui ──
-    'Yumeko Jabami':        'https://static.wikia.nocookie.net/kakegurui/images/5/56/Yumeko_Jabami_Anime.png',
-    'Kirari Momobami':      'https://static.wikia.nocookie.net/kakegurui/images/5/57/Kirari_Momobami_Anime.png',
-    // ── Mirai Nikki ──
-    'Yuno Gasai':           'https://static.wikia.nocookie.net/futurediary/images/7/7c/Yuno_Gasai_Anime.png',
-    // ── Tokyo Revengers ──
-    'Takemichi Hanagaki':   'https://static.wikia.nocookie.net/tokyorevengers/images/b/bc/Takemichi_Hanagaki_Anime.png',
-    'Mikey':                'https://static.wikia.nocookie.net/tokyorevengers/images/5/5e/Mikey_Anime.png',
-    // ── Psycho-Pass ──
-    'Akane Tsunemori':      'https://static.wikia.nocookie.net/psychopass/images/b/b4/Akane_Tsunemori.png',
-    'Makishima Shougo':     'https://static.wikia.nocookie.net/psychopass/images/3/3a/Shougo_Makishima.png',
-    // ── Gintama ──
-    'Sakata Gintoki':       'https://static.wikia.nocookie.net/gintama/images/6/69/Gintoki_Sakata.png',
-    'Takasugi Shinsuke':    'https://static.wikia.nocookie.net/gintama/images/e/ea/Shinsuke_Takasugi.png',
-    // ── Dr. Stone ──
-    'Senku Ishigami':       'https://static.wikia.nocookie.net/dr-stone/images/6/67/Senku_Ishigami_Anime.png',
-    'Tsukasa Shishio':      'https://static.wikia.nocookie.net/dr-stone/images/b/b7/Tsukasa_Shishio_Anime.png',
-    // ── Akame ga Kill ──
-    'Akame':                'https://static.wikia.nocookie.net/akamegakill/images/f/f1/Akame_anime.png',
-    'Esdeath':              'https://static.wikia.nocookie.net/akamegakill/images/3/3c/Esdeath_anime.png',
-    // ── Hellsing ──
-    'Alucard':              'https://static.wikia.nocookie.net/hellsing/images/9/95/Alucard.png',
-    'Integra Hellsing':     'https://static.wikia.nocookie.net/hellsing/images/7/7a/Integra.png',
-    // ── Food Wars ──
-    'Yukihira Soma':        'https://static.wikia.nocookie.net/shokugekinosouma/images/1/17/Souma_Yukihira_anime.png',
-    'Erina Nakiri':         'https://static.wikia.nocookie.net/shokugekinosouma/images/a/a9/Erina_Nakiri_anime.png',
-    // ── Kuroko no Basket ──
-    'Kuroko Tetsuya':       'https://static.wikia.nocookie.net/kurokonobasuke/images/8/83/Tetsuya_Kuroko.png',
-    'Aomine Daiki':         'https://static.wikia.nocookie.net/kurokonobasuke/images/9/94/Daiki_Aomine.png',
-    // ── Bungou Stray Dogs ──
-    'Osamu Dazai':          'https://static.wikia.nocookie.net/bungoustraydogs/images/8/85/Osamu_Dazai_Anime.png',
-    'Atsushi Nakajima':     'https://static.wikia.nocookie.net/bungoustraydogs/images/4/41/Atsushi_Nakajima_Anime.png',
-    'Ryunosuke Akutagawa':  'https://static.wikia.nocookie.net/bungoustraydogs/images/d/d2/Ryuunosuke_Akutagawa_Anime.png',
-    // ── Kingdom ──
-    'Xin':                  'https://static.wikia.nocookie.net/kingdom/images/6/68/Xin_anime.png',
-    'Ou Ki':                'https://static.wikia.nocookie.net/kingdom/images/2/25/Ouki_anime.png',
+    'Yoh Asakura':       'https://i.imgur.com/lfPxazV.jpeg',
+    'Emma':              'https://i.imgur.com/sLSDqCw.jpeg',
+    'Louis':             'https://i.imgur.com/ORX1ng1.jpeg',
+    'Zuko':              'https://i.imgur.com/hmVCS84.jpeg',
+    'Choso':             'https://i.imgur.com/OcKy2jg.jpeg',
+    'King (OPM)':        'https://i.imgur.com/JKdQKl3.jpeg',
+    'Jin':               'https://i.imgur.com/yRcf0hC.jpeg',
+    'Fuu':               'https://i.imgur.com/WLuQyAr.jpeg',
+    'King (NnT)':        'https://i.imgur.com/wLYadvS.jpeg',
+    'Joker':             'https://i.imgur.com/MMlgdXm.jpeg',
+    'Mashiba Ryo':       'https://i.imgur.com/mBoJxlm.jpeg',
+    'Tatsumi':           'https://i.imgur.com/wEnCUHG.jpeg',
+    'Kanki':             'https://i.imgur.com/kqLTF2O.jpeg',
+    'Ousen':             'https://i.imgur.com/UdVZdzz.jpeg',
+    'Ouhon':             'https://i.imgur.com/vMYbJaL.jpeg',
+    'Mouten':            'https://i.imgur.com/wvbIqEc.jpeg',
+    'Riboku':            'https://i.imgur.com/9z9yVnv.jpeg',
+    'Kyou Kai':          'https://i.imgur.com/zqisRht.jpeg',
+    'Sakuragi Rokurouta':'https://i.imgur.com/lgOkYrF.jpeg',
+    'Hijikata Toshizo':  'https://i.imgur.com/EByKtBO.jpeg',
+    // Personnages retournant la mauvaise image via Jikan — fixés ici
+    'Kaido':             'https://static.wikia.nocookie.net/onepiece/images/5/5c/Kaido_Anime_Infobox.png',
+    'Askeladd':          'https://static.wikia.nocookie.net/vinlandsaga/images/d/dc/Askeladd_anime.png',
+    'Gaara':             'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png',
 };
 
 async function fetchAniListImage(characterName) {
@@ -1193,7 +942,7 @@ const PAIRS = [
     { citizen: { name: 'Hinata Hyuga', img: 'https://static.wikia.nocookie.net/naruto/images/b/b2/Hinata_Hyuga.png' }, undercover: { name: 'Sakura Haruno', img: 'https://static.wikia.nocookie.net/naruto/images/d/d5/Sakura_Haruno.png' }, tag: 'kunoichi, sentiments envers un Uchiha, evolue énormément', difficulty: 'popular' },
     { citizen: { name: 'Hinata Hyuga', img: 'https://static.wikia.nocookie.net/naruto/images/b/b2/Hinata_Hyuga.png' }, undercover: { name: 'Neji Hyuga', img: 'https://static.wikia.nocookie.net/naruto/images/c/ce/Neji_Hyuga.png' }, tag: 'clan Hyuga, byakugan, même sang', difficulty: 'popular' },
     { citizen: { name: 'Obito Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/1/1d/Tobi.png' }, undercover: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, tag: 'ninjas masqués liés par un drame du passé, même équipe', difficulty: 'popular' },
-    { citizen: { name: 'Pain (Nagato)', img: 'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png' }, undercover: { name: 'Madara Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png' }, tag: 'antagonistes traumatisés qui veulent reconstruire le monde par la force', difficulty: 'popular' },
+    { citizen: { name: 'Pain (Nagato)', img: 'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png' }, undercover: { name: 'Madara Uchiha', img: '' }, tag: 'antagonistes traumatisés qui veulent reconstruire le monde par la force', difficulty: 'popular' },
     { citizen: { name: 'Orochimaru', img: 'https://static.wikia.nocookie.net/naruto/images/8/87/Orochimaru_anime.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'prédateurs ambigus, obsédés par trouver de fortes proies', difficulty: 'popular' },
     { citizen: { name: 'Jiraiya', img: 'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png' }, undercover: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, tag: 'vieux géant protecteur, mourra pour ses enfants', difficulty: 'popular' },
 
@@ -1287,7 +1036,7 @@ const PAIRS = [
     { citizen: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'survivants traumatisés, épée légendaire, avancent malgré tout', difficulty: 'popular' },
 
     // ── FIRE FORCE ──
-    { citizen: { name: 'Shinra Kusakabe', img: 'https://static.wikia.nocookie.net/fire-force/images/a/aa/Shinra_Kusakabe_Anime.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'héros rejetés par leur entourage qui portent le poids de leur famille', difficulty: 'popular' },
+    { citizen: { name: 'Shinra Kusakabe', img: 'https://static.wikia.nocookie.net/fire-force/images/a/aa/Shinra_Kusakabe_Anime.png' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros rejetés qui portent le poids de leur famille sur leurs épaules', difficulty: 'popular' },
 
     // ── SOUL EATER ──
     { citizen: { name: 'Maka Albarn', img: 'https://static.wikia.nocookie.net/souleater/images/1/14/Maka_Albarn_Anime.png' }, undercover: { name: 'Rukia Kuchiki', img: 'https://static.wikia.nocookie.net/bleach/images/1/1e/Rukia_Kuchiki_anime.png' }, tag: 'filles fonceuses chasseuses d\'âmes/esprits', difficulty: 'popular' },
@@ -1349,177 +1098,6 @@ const PAIRS = [
     { citizen: { name: 'Bakugo Katsuki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'rivaux orgueilleux qui finissent par rejoindre les héros', difficulty: 'popular' },
     { citizen: { name: 'Himiko Toga', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/3/3e/Himiko_Toga_Anime.png' }, undercover: { name: 'Makima', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/7/77/Makima_Anime.png' }, tag: 'femmes dangereuses dont la douceur cache une violence froide', difficulty: 'popular' },
 
-    // ══ NOUVELLES PAIRES POPULAIRE — BATCH 2 ══
-
-    // Naruto
-    { citizen: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'princes de clan détruit, orgueil indestructible, rival du héros', difficulty: 'popular' },
-    { citizen: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, undercover: { name: 'Madara Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png' }, tag: 'masterminds qui ont manipulé tous le monde pendant des années, au-dessus de l\'humanité', difficulty: 'popular' },
-    { citizen: { name: 'Illumi Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/b/b0/Illumi_2011.png' }, undercover: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, tag: 'grands frères assassins issus d\'une famille d\'élite, traumatisent leur petit frère pour le former', difficulty: 'popular' },
-    { citizen: { name: 'Roronoa Zoro', img: 'https://static.wikia.nocookie.net/onepiece/images/5/5d/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Trafalgar Law', img: 'https://static.wikia.nocookie.net/onepiece/images/f/f8/Trafalgar_D._Water_Law_Anime_Post_Timeskip_Infobox.png' }, tag: 'épéistes froids, loyaux envers leur capitaine, code d\'honneur rigide', difficulty: 'popular' },
-    { citizen: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, undercover: { name: 'Tomura Shigaraki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/5/5e/Tomura_Shigaraki_Anime.png' }, tag: 'enfants blessés qui évoluent en menace absolue pour détruire un système corrompu', difficulty: 'popular' },
-    { citizen: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'humains transformés en monstres qui luttent pour rester eux-mêmes', difficulty: 'popular' },
-
-    // Naruto supplémentaire
-    { citizen: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, undercover: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, tag: 'ninjas qui portent seuls le poids de leurs sacrifices passés', difficulty: 'popular' },
-    { citizen: { name: 'Jiraiya', img: 'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png' }, undercover: { name: 'Netero', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/6/62/Netero_2011.png' }, tag: 'vieux maîtres décontractés d\'une puissance absolue, meurent face au vrai ennemi', difficulty: 'popular' },
-    { citizen: { name: 'Madara Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png' }, undercover: { name: 'Alucard', img: 'https://static.wikia.nocookie.net/hellsing/images/9/95/Alucard.png' }, tag: 'légendes immortelles revenues d\'entre les morts pour dominer le monde', difficulty: 'popular' },
-    { citizen: { name: 'Gaara', img: 'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'jinchuriki rejetés par leur village, seuls contre tous, rédemption par l\'amitié', difficulty: 'popular' },
-    { citizen: { name: 'Gaara', img: 'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png' }, undercover: { name: 'Zuko', img: 'https://i.imgur.com/hmVCS84.jpeg' }, tag: 'princes rejetés par leur père, transformés en armes, rédemption complète', difficulty: 'popular' },
-    { citizen: { name: 'Minato Namikaze', img: 'https://static.wikia.nocookie.net/naruto/images/b/b3/Minato_Namikaze.png' }, undercover: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, tag: 'ninjas légendaires aux cheveux blonds/blancs, meurent pour protéger leurs élèves', difficulty: 'popular' },
-    { citizen: { name: 'Shikamaru Nara', img: 'https://static.wikia.nocookie.net/naruto/images/d/d9/Shikamaru.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'génies stratèges qui calculent dix coups d\'avance, fainéants en apparence', difficulty: 'popular' },
-    { citizen: { name: 'Obito Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/1/1d/Tobi.png' }, undercover: { name: 'Reiner Braun', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/d/d0/Reiner_Braun_character_image.png' }, tag: 'soldats qui trahissent leur camp après un traumatisme, vivent avec leur masque', difficulty: 'popular' },
-
-    // Dragon Ball
-    { citizen: { name: 'Frieza', img: 'https://static.wikia.nocookie.net/dragonball/images/9/9e/Frieza_First_Form.png' }, undercover: { name: 'Meruem', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/5/5e/Meruem_2011.png' }, tag: 'rois-nés de la destruction, élégance et cruauté absolues, mépris de l\'humanité', difficulty: 'popular' },
-    { citizen: { name: 'Gohan', img: 'https://static.wikia.nocookie.net/dragonball/images/b/b2/Gohan-Dragon-Ball-Super.png' }, undercover: { name: 'Tanjiro Kamado', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/0d/Tanjiro_Kamado.png' }, tag: 'fils qui portent un héritage impossible, douceur qui cache une puissance devastatrice', difficulty: 'popular' },
-    { citizen: { name: 'Piccolo', img: 'https://static.wikia.nocookie.net/dragonball/images/5/52/Piccolo_Artwork.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'mentors froids et exigeants qui protègent en silence leurs protégés', difficulty: 'popular' },
-    { citizen: { name: 'Cell', img: 'https://static.wikia.nocookie.net/dragonball/images/4/47/Cell_Perfect_Form.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'antagonistes parfaits et élégants qui manipulent pour atteindre leur forme ultime', difficulty: 'popular' },
-    { citizen: { name: 'Bardock', img: 'https://static.wikia.nocookie.net/dragonball/images/1/12/Bardock_anime.png' }, undercover: { name: 'Thorfinn', img: 'https://static.wikia.nocookie.net/vinlandsaga/images/2/23/Thorfinn_anime.png' }, tag: 'guerriers qui découvrent trop tard la vérité sur leur monde, laissent un héritage à leur fils', difficulty: 'popular' },
-
-    // One Piece
-    { citizen: { name: 'Monkey D. Luffy', img: 'https://static.wikia.nocookie.net/onepiece/images/7/7b/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'héros naïfs, voraces, invincibles, dont le sourire inspire tout le monde', difficulty: 'popular' },
-    { citizen: { name: 'Roronoa Zoro', img: 'https://static.wikia.nocookie.net/onepiece/images/5/5d/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'épéistes solitaires portant un serment sacré, résistance à la douleur surhumaine', difficulty: 'popular' },
-    { citizen: { name: 'Sanji', img: 'https://static.wikia.nocookie.net/onepiece/images/9/9d/Sanji_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, tag: 'combattants aux jambes légendaires, cœurs de feu, protègent les femmes', difficulty: 'popular' },
-    { citizen: { name: 'Brook', img: 'https://static.wikia.nocookie.net/onepiece/images/2/2b/Brook_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Alucard', img: 'https://static.wikia.nocookie.net/hellsing/images/9/95/Alucard.png' }, tag: 'morts-vivants élégants qui traversent les siècles seuls', difficulty: 'popular' },
-    { citizen: { name: 'Franky', img: 'https://static.wikia.nocookie.net/onepiece/images/e/e1/Franky_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Genos', img: 'https://static.wikia.nocookie.net/onepunchman/images/b/bb/Genos_anime.png' }, tag: 'cyborgs qui ont sacrifié leur corps humain pour la puissance', difficulty: 'popular' },
-    { citizen: { name: 'Usopp', img: 'https://static.wikia.nocookie.net/onepiece/images/3/33/Usopp_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Zenitsu Agatsuma', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/4/40/Zenitsu_Agatsuma.png' }, tag: 'couards qui trouvent leur courage au moment crucial', difficulty: 'popular' },
-    { citizen: { name: 'Boa Hancock', img: 'https://static.wikia.nocookie.net/onepiece/images/b/b3/Boa_Hancock_Anime_Infobox.png' }, undercover: { name: 'Esdeath', img: 'https://static.wikia.nocookie.net/akamegakill/images/3/3c/Esdeath_anime.png' }, tag: 'femmes d\'une beauté terrifiante dont la puissance est absolue', difficulty: 'popular' },
-    { citizen: { name: 'Eustass Kid', img: 'https://static.wikia.nocookie.net/onepiece/images/d/d3/Eustass_Kid_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'rivaux explosifs et orgueilleux qui refusent de suivre le héros', difficulty: 'popular' },
-    { citizen: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Netero', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/6/62/Netero_2011.png' }, tag: 'patriarches légendaires au sommet de leur monde, meurent debout', difficulty: 'popular' },
-
-    // Bleach
-    { citizen: { name: 'Ichigo Kurosaki', img: 'https://static.wikia.nocookie.net/bleach/images/7/7f/Ichigo_Kurosaki.png' }, undercover: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, tag: 'humains habités par une entité monstrueuse, dualité entre humanité et pouvoir', difficulty: 'popular' },
-    { citizen: { name: 'Ulquiorra Cifer', img: 'https://static.wikia.nocookie.net/bleach/images/5/52/Ulquiorra_arrancar.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'combattants au regard vide, les plus puissants de leur rang, peu de mots', difficulty: 'popular' },
-    { citizen: { name: 'Kisuke Urahara', img: 'https://static.wikia.nocookie.net/bleach/images/2/23/Kisuke_Urahara.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'génies excentriques qui dirigent tout dans l\'ombre, apparence trompeuse', difficulty: 'popular' },
-    { citizen: { name: 'Yoruichi Shihoin', img: 'https://static.wikia.nocookie.net/bleach/images/d/d5/Yoruichi_Shihoin.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'combattants à la vitesse absolue, décontractés, anciens nobles rebelles', difficulty: 'popular' },
-    { citizen: { name: 'Grimmjow Jaegerjaquez', img: 'https://static.wikia.nocookie.net/bleach/images/d/df/Grimmjow_Jaegerjaquez.png' }, undercover: { name: 'Bakugo Katsuki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png' }, tag: 'bêtes de combat agressives en bleu, veulent écraser le héros de leurs propres mains', difficulty: 'popular' },
-    { citizen: { name: 'Rukia Kuchiki', img: 'https://static.wikia.nocookie.net/bleach/images/1/1e/Rukia_Kuchiki_anime.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'guerrières compactes d\'une loyauté absolue envers le protagoniste', difficulty: 'popular' },
-    { citizen: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'génies froids qui manipulent tout le monde pour atteindre leur vision du monde parfait', difficulty: 'popular' },
-
-    // HxH
-    { citizen: { name: 'Meruem', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/5/5e/Meruem_2011.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'êtres supérieurs qui découvrent l\'humanité et finissent par s\'y attacher', difficulty: 'popular' },
-    { citizen: { name: 'Ging Freecss', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/9/9f/Ging_Freecss_2011.png' }, undercover: { name: 'Jiraiya', img: 'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png' }, tag: 'pères légendaires absents dont l\'aventure passe avant leur enfant', difficulty: 'popular' },
-    { citizen: { name: 'Kurapika', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'survivants de clan, vengeance totale, yeux activés par la colère', difficulty: 'popular' },
-    { citizen: { name: 'Chrollo Lucilfer', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/47/Chrollo_2011.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'leaders charismatiques de sociétés criminelles, calme absolu face à la mort', difficulty: 'popular' },
-    { citizen: { name: 'Gon Freecss', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/8/8a/Gon_Freecss_2011.png' }, undercover: { name: 'Monkey D. Luffy', img: 'https://static.wikia.nocookie.net/onepiece/images/7/7b/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png' }, tag: 'enfants solaires à la naïveté terrifiante, amitié au-dessus de tout', difficulty: 'popular' },
-
-    // Death Note
-    { citizen: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'génies qui se croient dieux, manipulent tout le monde, chute tragique', difficulty: 'popular' },
-    { citizen: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, undercover: { name: 'Norman', img: 'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png' }, tag: 'enfants génies qui sacrifient leur corps pour résoudre l\'impossible', difficulty: 'popular' },
-
-    // JJK
-    { citizen: { name: 'Yuji Itadori', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/d/d3/Yuji_Itadori_anime.png' }, undercover: { name: 'Denji', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png' }, tag: 'garçons ordinaires fusionnés avec un démon, condamnés à une mort certaine', difficulty: 'popular' },
-    { citizen: { name: 'Megumi Fushiguro', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/6/6c/Megumi_Fushiguro.png' }, undercover: { name: 'Kurapika', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png' }, tag: 'combattants sombres au plan à long terme, sacrifieraient tout pour leur objectif', difficulty: 'popular' },
-    { citizen: { name: 'Ryomen Sukuna', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/e/e6/Ryomen_Sukuna_Anime.png' }, undercover: { name: 'Madara Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png' }, tag: 'entités légendaires d\'une puissance absolue qui considèrent les humains comme des insectes', difficulty: 'popular' },
-    { citizen: { name: 'Nanami Kento', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/8/8e/Nanami_Kento_anime.png' }, undercover: { name: 'Roy Mustang', img: 'https://static.wikia.nocookie.net/fma/images/6/6a/Roy_Mustang.png' }, tag: 'militaires pragmatiques et froids, sens du devoir absolu, cachent leurs émotions', difficulty: 'popular' },
-    { citizen: { name: 'Toji Fushiguro', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/10/Toji_Fushiguro_anime.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'humains sans pouvoir magique qui dominent tous les sorciers par la seule technique', difficulty: 'popular' },
-
-    // AoT
-    { citizen: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'assassins nés d\'une famille difficile, loyaux envers les rares personnes qui comptent', difficulty: 'popular' },
-    { citizen: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'soldats Ackerman, les meilleurs combattants de leur monde', difficulty: 'popular' },
-    { citizen: { name: 'Armin Arlert', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/5/52/Armin_Arlert_character_image.png' }, undercover: { name: 'Norman', img: 'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png' }, tag: 'cerveaux fragiles physiquement dont le génie stratégique sauve tout le monde', difficulty: 'popular' },
-    { citizen: { name: 'Reiner Braun', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/d/d0/Reiner_Braun_character_image.png' }, undercover: { name: 'Obito Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/1/1d/Tobi.png' }, tag: 'guerriers doubles qui trahissent leur camp et vivent avec leur culpabilité', difficulty: 'popular' },
-
-    // MHA
-    { citizen: { name: 'Bakugo Katsuki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png' }, undercover: { name: 'Eustass Kid', img: 'https://static.wikia.nocookie.net/onepiece/images/d/d3/Eustass_Kid_Anime_Post_Timeskip_Infobox.png' }, tag: 'rivaux explosifs et orgueilleux aux pouvoirs destructeurs', difficulty: 'popular' },
-    { citizen: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, undercover: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, tag: 'héros sans talent naturel qui compensent par l\'effort acharné', difficulty: 'popular' },
-
-    // Demon Slayer
-    { citizen: { name: 'Kokushibo', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/e/ec/Kokushibo_anime.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'aînés maudits consumés par la jalousie envers leur frère plus doué', difficulty: 'popular' },
-    { citizen: { name: 'Muichiro Tokito', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/a/a9/Muichiro_Tokito.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'enfants prodiges aux cheveux clairs, mémoire effacée, potentiel hors norme', difficulty: 'popular' },
-    { citizen: { name: 'Zenitsu Agatsuma', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/4/40/Zenitsu_Agatsuma.png' }, undercover: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, tag: 'technique unique maîtrisée dans l\'inconscience, potentiel caché sous la peur', difficulty: 'popular' },
-
-    // Chainsaw Man
-    { citizen: { name: 'Makima', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/7/77/Makima_Anime.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'manipulateurs absolus dont le vrai visage n\'est révélé qu\'à la fin', difficulty: 'popular' },
-    { citizen: { name: 'Power', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/c/c2/Power_anime.png' }, undercover: { name: 'Bakugo Katsuki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png' }, tag: 'personnages égoïstes et bruyants qui cachent une vulnérabilité profonde', difficulty: 'popular' },
-    { citizen: { name: 'Aki Hayakawa', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/a/a4/Aki_Hayakawa_anime.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'jeunes hommes calmes consumés par la vengeance, finissent par y perdre leur vie', difficulty: 'popular' },
-
-    // Tokyo Ghoul
-    { citizen: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, undercover: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, tag: 'protagonistes qui perdent leur humanité progressivement, cheveux blancs après trauma', difficulty: 'popular' },
-
-    // Jojo
-    { citizen: { name: 'DIO', img: 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png' }, undercover: { name: 'Madara Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png' }, tag: 'antagonistes absolus d\'une puissance et élégance terrifiantes', difficulty: 'popular' },
-    { citizen: { name: 'Jotaro Kujo', img: 'https://static.wikia.nocookie.net/jojo/images/3/3f/Jotaro_Kujo_%28Anime%29.png' }, undercover: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, tag: 'combattants froids aux cheveux sombres, peu de mots, respectés de tous', difficulty: 'popular' },
-    { citizen: { name: 'Giorno Giovanna', img: 'https://static.wikia.nocookie.net/jojo/images/a/a2/Giorno_Giovanna.png' }, undercover: { name: 'Kurapika', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png' }, tag: 'jeunes gens au plan long terme implacable, calme absolu sous pression', difficulty: 'popular' },
-
-    // OPM
-    { citizen: { name: 'Garou', img: 'https://static.wikia.nocookie.net/onepunchman/images/1/10/Garou_anime.png' }, undercover: { name: 'Thorfinn', img: 'https://static.wikia.nocookie.net/vinlandsaga/images/2/23/Thorfinn_anime.png' }, tag: 'antagonistes qui cherchent leur place dans un monde qui les a rejetés, rédemption finale', difficulty: 'popular' },
-    { citizen: { name: 'Genos', img: 'https://static.wikia.nocookie.net/onepunchman/images/b/bb/Genos_anime.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'guerriers acharnés à la vengeance dont le maître éclipse tous leurs efforts', difficulty: 'popular' },
-
-    // Fairy Tail
-    { citizen: { name: 'Natsu Dragneel', img: 'https://static.wikia.nocookie.net/fairytail/images/9/9c/Natsu_Dragneel_2.png' }, undercover: { name: 'Monkey D. Luffy', img: 'https://static.wikia.nocookie.net/onepiece/images/7/7b/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png' }, tag: 'héros impulsifs qui protègent leur famille/nakama par-dessus tout', difficulty: 'popular' },
-    { citizen: { name: 'Gray Fullbuster', img: 'https://static.wikia.nocookie.net/fairytail/images/6/6f/Gray_Fullbuster_GMG.png' }, undercover: { name: 'Toshiro Hitsugaya', img: 'https://static.wikia.nocookie.net/bleach/images/a/a4/Toushiro_Hitsugaya.png' }, tag: 'utilisateurs de glace calmes et froids, portent un traumatisme lié à leur maître', difficulty: 'popular' },
-    { citizen: { name: 'Erza Scarlet', img: 'https://static.wikia.nocookie.net/fairytail/images/3/31/Erza_anime.png' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'guerriers d\'élite au passé douloureux, discipline de fer, protègent leur équipe', difficulty: 'popular' },
-    { citizen: { name: 'Zeref', img: 'https://static.wikia.nocookie.net/fairytail/images/0/07/Zeref_Dragneel.png' }, undercover: { name: 'Pain (Nagato)', img: 'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png' }, tag: 'antagonistes aux pouvoirs de mort qui veulent en finir avec leur propre existence', difficulty: 'popular' },
-
-    // 7DS
-    { citizen: { name: 'Ban', img: 'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/5/52/Ban_new_design.png' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'guerriers immortels au passé douloureux, marqués par une perte tragique', difficulty: 'popular' },
-    { citizen: { name: 'Meliodas', img: 'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/3/3c/Meliodas_Sds.png' }, undercover: { name: 'Denji', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png' }, tag: 'héros jeunes en apparence avec un démon à l\'intérieur, amour comme moteur', difficulty: 'popular' },
-
-    // Code Geass
-    { citizen: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, undercover: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, tag: 'génies qui sacrifient tout, jusqu\'à eux-mêmes, pour protéger ceux qu\'ils aiment', difficulty: 'popular' },
-
-    // Black Clover
-    { citizen: { name: 'Asta', img: 'https://static.wikia.nocookie.net/blackclover/images/a/ab/Asta_Anime.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'seuls sans magie/quirk, compensent par la ténacité absolue', difficulty: 'popular' },
-    { citizen: { name: 'Yuno', img: 'https://static.wikia.nocookie.net/blackclover/images/8/8c/Yuno_Anime.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'prodiges calmes aux capacités hors norme, rivaux du héros bruyant', difficulty: 'popular' },
-
-    // Blue Lock
-    { citizen: { name: 'Rin Itoshi', img: 'https://static.wikia.nocookie.net/bluelock/images/d/d3/Rin_Itoshi.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'prodiges orgueilleux qui veulent dépasser un aîné légendaire, froid et distant', difficulty: 'popular' },
-    { citizen: { name: 'Isagi Yoichi', img: 'https://static.wikia.nocookie.net/bluelock/images/1/1d/Yoichi_Isagi.png' }, undercover: { name: 'Armin Arlert', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/5/52/Armin_Arlert_character_image.png' }, tag: 'cerveaux analytiques qui atteignent le sommet par l\'intelligence plutôt que par la force brute', difficulty: 'popular' },
-
-    // Evangelion
-    { citizen: { name: 'Shinji Ikari', img: 'https://static.wikia.nocookie.net/evangelion/images/8/81/Shinji_Ikari.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'jeunes hommes brisés qui s\'effondrent sous le poids des attentes, cheveux noirs', difficulty: 'popular' },
-    { citizen: { name: 'Asuka Langley', img: 'https://static.wikia.nocookie.net/evangelion/images/d/d5/Asuka_Langley_Soryu.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'pilotes/guerriers arrogants dont l\'orgueil cache une profonde fragilité', difficulty: 'popular' },
-
-    // Psycho-Pass
-    { citizen: { name: 'Makishima Shougo', img: 'https://static.wikia.nocookie.net/psychopass/images/3/3a/Shougo_Makishima.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'intellectuels élégants qui manipulent la société selon leur propre vision du monde', difficulty: 'popular' },
-
-    // Bungou Stray Dogs
-    { citizen: { name: 'Osamu Dazai', img: 'https://static.wikia.nocookie.net/bungoustraydogs/images/8/85/Osamu_Dazai_Anime.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'génies mystérieux aux plans incompréhensibles qui orchestrent tout depuis l\'ombre', difficulty: 'popular' },
-    { citizen: { name: 'Ryunosuke Akutagawa', img: 'https://static.wikia.nocookie.net/bungoustraydogs/images/d/d2/Ryuunosuke_Akutagawa_Anime.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'antagonistes sombres au passé douloureux, loyauté absolue envers leur mentor', difficulty: 'popular' },
-
-    // Kingdom
-    { citizen: { name: 'Xin', img: 'https://static.wikia.nocookie.net/kingdom/images/6/68/Xin_anime.png' }, undercover: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, tag: 'guerriers sans noblesse qui atteignent le sommet par l\'effort acharné', difficulty: 'popular' },
-    { citizen: { name: 'Ou Ki', img: 'https://static.wikia.nocookie.net/kingdom/images/2/25/Ouki_anime.png' }, undercover: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, tag: 'généraux légendaires invincibles dont la mort marque une ère', difficulty: 'popular' },
-
-    // Promised Neverland
-    { citizen: { name: 'Emma', img: 'https://i.imgur.com/sLSDqCw.jpeg' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros à l\'optimisme indestructible qui refusent de sacrifier quiconque', difficulty: 'popular' },
-    { citizen: { name: 'Norman', img: 'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'génies froids qui sacrifient leur humanité et s\'imposent une mort certaine pour sauver les autres', difficulty: 'popular' },
-
-    // Solo Leveling
-    { citizen: { name: 'Sung Jinwoo', img: 'https://static.wikia.nocookie.net/solo-leveling/images/c/c4/Sung_Jinwoo.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'combattants solitaires qui progressent seuls dans l\'ombre jusqu\'à dépasser tous les autres', difficulty: 'popular' },
-
-    // SAO
-    { citizen: { name: 'Kirito', img: 'https://static.wikia.nocookie.net/swordartonline/images/2/21/Kirito_Aincrad_Arc.png' }, undercover: { name: 'Roronoa Zoro', img: 'https://static.wikia.nocookie.net/onepiece/images/5/5d/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png' }, tag: 'épéistes solitaires noirs, les meilleurs de leur monde, avancent seuls', difficulty: 'popular' },
-    { citizen: { name: 'Asuna', img: 'https://static.wikia.nocookie.net/swordartonline/images/9/92/Asuna_anime.png' }, undercover: { name: 'Erza Scarlet', img: 'https://static.wikia.nocookie.net/fairytail/images/3/31/Erza_anime.png' }, tag: 'combattantes redoutables à l\'épée qui luttent pour leurs proches', difficulty: 'popular' },
-
-    // Gintama
-    { citizen: { name: 'Sakata Gintoki', img: 'https://static.wikia.nocookie.net/gintama/images/6/69/Gintoki_Sakata.png' }, undercover: { name: 'Shanks', img: 'https://static.wikia.nocookie.net/onepiece/images/6/6b/Shanks_Anime_Infobox.png' }, tag: 'guerriers légendaires décontractés au passé de héros, cachent leur vraie puissance', difficulty: 'popular' },
-    { citizen: { name: 'Takasugi Shinsuke', img: 'https://static.wikia.nocookie.net/gintama/images/e/ea/Shinsuke_Takasugi.png' }, undercover: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, tag: 'anciens camarades consumés par la haine qui avancent vers leur mort choisie', difficulty: 'popular' },
-
-    // Shaman King
-    { citizen: { name: 'Hao Asakura', img: 'https://static.wikia.nocookie.net/shamanking/images/8/8c/Hao_Asakura_anime.png' }, undercover: { name: 'Pain (Nagato)', img: 'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png' }, tag: 'antagonistes qui veulent purger l\'humanité de ses faiblesses pour créer un monde meilleur', difficulty: 'popular' },
-
-    // Pokemon
-    { citizen: { name: 'Mewtwo', img: 'https://static.wikia.nocookie.net/pokemon/images/1/1d/Mewtwo_%28anime%29.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'créatures créées/transformées contre leur gré qui luttent pour leur identité', difficulty: 'popular' },
-    { citizen: { name: 'Gary Oak', img: 'https://static.wikia.nocookie.net/pokemon/images/5/5f/Gary_Oak.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'rivaux froids et talentueux qui finissent par respecter le héros', difficulty: 'popular' },
-
-    // Tokyo Revengers
-    { citizen: { name: 'Mikey', img: 'https://static.wikia.nocookie.net/tokyorevengers/images/5/5e/Mikey_Anime.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'leaders charismatiques consumés par l\'obscurité, sauvés par leur ami d\'enfance', difficulty: 'popular' },
-
-    // Kakegurui
-    { citizen: { name: 'Yumeko Jabami', img: 'https://static.wikia.nocookie.net/kakegurui/images/5/56/Yumeko_Jabami_Anime.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'joueurs fous qui trouvent leur extase dans le risque extrême', difficulty: 'popular' },
-
-    // Dr Stone
-    { citizen: { name: 'Senku Ishigami', img: 'https://static.wikia.nocookie.net/dr-stone/images/6/67/Senku_Ishigami_Anime.png' }, undercover: { name: 'Norman', img: 'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png' }, tag: 'génies qui planifient tout des années à l\'avance, cerveau comme seule arme', difficulty: 'popular' },
-
-    // Mirai Nikki
-    { citizen: { name: 'Yuno Gasai', img: 'https://static.wikia.nocookie.net/futurediary/images/7/7c/Yuno_Gasai_Anime.png' }, undercover: { name: 'Makima', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/7/77/Makima_Anime.png' }, tag: 'femmes obsessionnelles dont l\'amour est une arme de destruction', difficulty: 'popular' },
-
-    // Kimetsu / Demon Slayer
-    { citizen: { name: 'Giyu Tomioka', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/3/36/Giyu_Tomioka.png' }, undercover: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, tag: 'combattants solitaires au regard vide, cachent une profonde culpabilité', difficulty: 'popular' },
-    { citizen: { name: 'Rengoku Kyojuro', img: 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/06/Kyojuro_Rengoku.png' }, undercover: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, tag: 'figures paternelles flamboyantes qui meurent en protégeant les plus jeunes', difficulty: 'popular' },
-
     // ══ NOUVELLES PAIRES INTERMÉDIAIRE ══
     { citizen: { name: 'Frieren', img: 'https://static.wikia.nocookie.net/frieren/images/d/d0/Frieren_anime.png' }, undercover: { name: 'Kakashi Hatake', img: 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png' }, tag: 'combattants solitaires qui cachent leur vraie puissance', difficulty: 'intermediate' },
     { citizen: { name: 'Frieren', img: 'https://static.wikia.nocookie.net/frieren/images/d/d0/Frieren_anime.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'personnages atypiques, apparence trompeuse, intelligence hors norme', difficulty: 'intermediate' },
@@ -1560,261 +1138,326 @@ const PAIRS = [
     { citizen: { name: 'Kirito', img: 'https://static.wikia.nocookie.net/swordartonline/images/2/21/Kirito_Aincrad_Arc.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'combattants solitaires aux cheveux noirs, les meilleurs de leur monde', difficulty: 'intermediate' },
 
     // ══ POPULAR — JoJo extra ══
-    { citizen: { name: 'Josuke Higashikata', img: 'https://static.wikia.nocookie.net/jojo/images/4/4b/Josuke_Higashikata.png' }, undercover: { name: 'Jotaro Kujo', img: 'https://static.wikia.nocookie.net/jojo/images/3/3f/Jotaro_Kujo_%28Anime%29.png' }, tag: 'Higashikata père et fils, stand de guérison vs arrêt du temps', difficulty: 'popular' },
-    { citizen: { name: 'Yoshikage Kira', img: 'https://static.wikia.nocookie.net/jojo/images/f/f7/Kira_Yoshikage_Anime.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'tueurs en série ordinaires en apparence, intelligence froide', difficulty: 'popular' },
-    { citizen: { name: 'Giorno Giovanna', img: 'https://static.wikia.nocookie.net/jojo/images/a/a2/Giorno_Giovanna.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'adolescents qui prennent le contrôle d\'organisations criminelles', difficulty: 'popular' },
+    { citizen: { name: 'Josuke Higashikata', img: '' }, undercover: { name: 'Jotaro Kujo', img: '' }, tag: 'Higashikata père et fils, stand de guérison vs arrêt du temps', difficulty: 'popular' },
+    { citizen: { name: 'Yoshikage Kira', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'tueurs en série ordinaires en apparence, intelligence froide', difficulty: 'popular' },
+    { citizen: { name: 'Giorno Giovanna', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'adolescents qui prennent le contrôle d\'organisations criminelles', difficulty: 'popular' },
 
     // ══ POPULAR — YuYu Hakusho extra ══
-    { citizen: { name: 'Kurama', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/a/a5/Kurama_2011.png' }, undercover: { name: 'Itachi Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png' }, tag: 'renards légendaires liés à un humain, sagesse et pouvoir caché', difficulty: 'popular' },
-    { citizen: { name: 'Toguro', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/5/5e/Younger_Toguro.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'anciens héros devenus démons par choix de puissance', difficulty: 'popular' },
-    { citizen: { name: 'Shinobu Sensui', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/4/44/Sensui.png' }, undercover: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, tag: 'anciens héros traumatisés qui se retournent contre l\'humanité', difficulty: 'popular' },
-    { citizen: { name: 'Kurama', img: 'https://static.wikia.nocookie.net/yuyuhakusho/images/a/a5/Kurama_2011.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'combattants à l\'aspect délicat cachant une violence létale', difficulty: 'popular' },
+    { citizen: { name: 'Kurama', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'renards légendaires liés à un humain, sagesse et pouvoir caché', difficulty: 'popular' },
+    { citizen: { name: 'Toguro', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'anciens héros devenus démons par choix de puissance', difficulty: 'popular' },
+    { citizen: { name: 'Shinobu Sensui', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'anciens héros traumatisés qui se retournent contre l\'humanité', difficulty: 'popular' },
+    { citizen: { name: 'Kurama', img: '' }, undercover: { name: 'Killua Zoldyck', img: '' }, tag: 'combattants à l\'aspect délicat cachant une violence létale', difficulty: 'popular' },
 
     // ══ POPULAR — Dragon Ball extra ══
-    { citizen: { name: 'Piccolo', img: 'https://static.wikia.nocookie.net/dragonball/images/5/52/Piccolo_Artwork.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'anciens antagonistes devenus mentors, froids et bienveillants', difficulty: 'popular' },
-    { citizen: { name: 'Gohan', img: 'https://static.wikia.nocookie.net/dragonball/images/b/b2/Gohan-Dragon-Ball-Super.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'fils qui héritent du pouvoir et du destin de leur père', difficulty: 'popular' },
-    { citizen: { name: 'Cell', img: 'https://static.wikia.nocookie.net/dragonball/images/4/47/Cell_Perfect_Form.png' }, undercover: { name: 'DIO', img: 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png' }, tag: 'antagonistes parfaits qui absorbent les autres pour évoluer', difficulty: 'popular' },
-    { citizen: { name: 'Trunks', img: 'https://static.wikia.nocookie.net/dragonball/images/e/e8/Trunks_Super.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'guerriers du futur traumatisés, voyagent pour changer le passé', difficulty: 'popular' },
-    { citizen: { name: 'Android 18', img: 'https://static.wikia.nocookie.net/dragonball/images/a/a5/Android18DBSuper.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'androïdes/guerrières froides qui finissent par s\'humaniser', difficulty: 'popular' },
+    { citizen: { name: 'Piccolo', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'anciens antagonistes devenus mentors, froids et bienveillants', difficulty: 'popular' },
+    { citizen: { name: 'Gohan', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'fils qui héritent du pouvoir et du destin de leur père', difficulty: 'popular' },
+    { citizen: { name: 'Cell', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'antagonistes parfaits qui absorbent les autres pour évoluer', difficulty: 'popular' },
+    { citizen: { name: 'Trunks', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'guerriers du futur traumatisés, voyagent pour changer le passé', difficulty: 'popular' },
+    { citizen: { name: 'Android 18', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'androïdes/guerrières froides qui finissent par s\'humaniser', difficulty: 'popular' },
 
     // ══ POPULAR — One Piece extra ══
-    { citizen: { name: 'Sanji', img: 'https://static.wikia.nocookie.net/onepiece/images/9/9d/Sanji_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Might Guy', img: 'https://static.wikia.nocookie.net/naruto/images/9/93/Guy_Migth.png' }, tag: 'combattants aux jambes légendaires, coeurs de feu', difficulty: 'popular' },
-    { citizen: { name: 'Boa Hancock', img: 'https://static.wikia.nocookie.net/onepiece/images/b/b3/Boa_Hancock_Anime_Infobox.png' }, undercover: { name: 'Makima', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/7/77/Makima_Anime.png' }, tag: 'femmes d\'une beauté terrifiante dont l\'amour est une arme', difficulty: 'popular' },
-    { citizen: { name: 'Crocodile', img: 'https://static.wikia.nocookie.net/onepiece/images/7/74/Crocodile_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Doflamingo', img: 'https://static.wikia.nocookie.net/onepiece/images/0/09/Donquixote_Doflamingo_Anime_Post_Timeskip_Infobox.png' }, tag: 'anciens Shichibukai manipulateurs qui dirigeaient dans l\'ombre', difficulty: 'popular' },
-    { citizen: { name: 'Kaido', img: 'https://static.wikia.nocookie.net/onepiece/images/5/5c/Kaido_Anime_Infobox.png' }, undercover: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, tag: 'empereurs invincibles, les plus forts du monde', difficulty: 'popular' },
-    { citizen: { name: 'Usopp', img: 'https://static.wikia.nocookie.net/onepiece/images/3/33/Usopp_Anime_Post_Timeskip_Infobox.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'menteurs/fanfarons qui deviennent de vrais héros', difficulty: 'popular' },
+    { citizen: { name: 'Sanji', img: '' }, undercover: { name: 'Might Guy', img: '' }, tag: 'combattants aux jambes légendaires, coeurs de feu', difficulty: 'popular' },
+    { citizen: { name: 'Boa Hancock', img: '' }, undercover: { name: 'Makima', img: '' }, tag: 'femmes d\'une beauté terrifiante dont l\'amour est une arme', difficulty: 'popular' },
+    { citizen: { name: 'Crocodile', img: '' }, undercover: { name: 'Doflamingo', img: '' }, tag: 'anciens Shichibukai manipulateurs qui dirigeaient dans l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Kaido', img: '' }, undercover: { name: 'Whitebeard', img: '' }, tag: 'empereurs invincibles, les plus forts du monde', difficulty: 'popular' },
+    { citizen: { name: 'Usopp', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'menteurs/fanfarons qui deviennent de vrais héros', difficulty: 'popular' },
 
     // ══ POPULAR — Naruto extra ══
-    { citizen: { name: 'Madara Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'guerriers légendaires revenus pour dominer le monde', difficulty: 'popular' },
-    { citizen: { name: 'Gaara', img: 'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'personnages solitaires transformés en monstres, redemption par l\'amour', difficulty: 'popular' },
-    { citizen: { name: 'Kabuto Yakushi', img: 'https://static.wikia.nocookie.net/naruto/images/9/96/Kabuto_Yakushi.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'serviteurs qui dépassent leurs maîtres, manipulateurs de corps', difficulty: 'popular' },
+    { citizen: { name: 'Madara Uchiha', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'guerriers légendaires revenus pour dominer le monde', difficulty: 'popular' },
+    { citizen: { name: 'Gaara', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'personnages solitaires transformés en monstres, redemption par l\'amour', difficulty: 'popular' },
+    { citizen: { name: 'Gaara', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'jinchuriki rejetés par leur village, seuls contre tous, rédemption par l\'amitié', difficulty: 'popular' },
+    { citizen: { name: 'Gaara', img: '' }, undercover: { name: 'Zuko', img: '' }, tag: 'princes rejetés par leur père, transformés en armes, rédemption complète', difficulty: 'popular' },
+    { citizen: { name: 'Kabuto Yakushi', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'serviteurs qui dépassent leurs maîtres, manipulateurs de corps', difficulty: 'popular' },
 
     // ══ POPULAR — Pokémon ══
-    { citizen: { name: 'Ash Ketchum', img: 'https://static.wikia.nocookie.net/pokemon/images/8/87/Ash_Ketchum.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros déterminés qui rêvent d\'être les meilleurs du monde', difficulty: 'popular' },
-    { citizen: { name: 'Mewtwo', img: 'https://static.wikia.nocookie.net/pokemon/images/1/1d/Mewtwo_%28anime%29.png' }, undercover: { name: 'Frieza', img: 'https://static.wikia.nocookie.net/dragonball/images/9/9e/Frieza_First_Form.png' }, tag: 'créatures artificielles à la puissance absolue qui méprisent les humains', difficulty: 'popular' },
-    { citizen: { name: 'Gary Oak', img: 'https://static.wikia.nocookie.net/pokemon/images/5/5f/Gary_Oak.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'rivaux froids et talentueux qui finissent par respecter le héros', difficulty: 'popular' },
+    { citizen: { name: 'Ash Ketchum', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'héros déterminés qui rêvent d\'être les meilleurs du monde', difficulty: 'popular' },
+    { citizen: { name: 'Mewtwo', img: '' }, undercover: { name: 'Frieza', img: '' }, tag: 'créatures artificielles à la puissance absolue qui méprisent les humains', difficulty: 'popular' },
+    { citizen: { name: 'Gary Oak', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'rivaux froids et talentueux qui finissent par respecter le héros', difficulty: 'popular' },
 
     // ══ POPULAR — Evangelion ══
-    { citizen: { name: 'Shinji Ikari', img: 'https://static.wikia.nocookie.net/evangelion/images/8/81/Shinji_Ikari.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'héros traumatisés qui portent le destin du monde malgré eux', difficulty: 'intermediate' },
-    { citizen: { name: 'Rei Ayanami', img: 'https://static.wikia.nocookie.net/evangelion/images/0/0c/Rei_Ayanami.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'guerrières au passé mystérieux, dévotion absolue au protagoniste', difficulty: 'intermediate' },
-    { citizen: { name: 'Asuka Langley', img: 'https://static.wikia.nocookie.net/evangelion/images/d/d5/Asuka_Langley_Soryu.png' }, undercover: { name: 'Bakugo Katsuki', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png' }, tag: 'pilotes arrogants blessés par l\'orgueil', difficulty: 'intermediate' },
+    { citizen: { name: 'Shinji Ikari', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros traumatisés qui portent le destin du monde malgré eux', difficulty: 'intermediate' },
+    { citizen: { name: 'Rei Ayanami', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'guerrières au passé mystérieux, dévotion absolue au protagoniste', difficulty: 'intermediate' },
+    { citizen: { name: 'Asuka Langley', img: '' }, undercover: { name: 'Bakugo Katsuki', img: '' }, tag: 'pilotes arrogants blessés par l\'orgueil', difficulty: 'intermediate' },
 
     // ══ POPULAR — Détective Conan ══
-    { citizen: { name: 'Conan Edogawa', img: 'https://static.wikia.nocookie.net/detectiveconan/images/b/b2/Conan_Edogawa.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'détectives géniaux qui traquent des criminels insaisissables', difficulty: 'intermediate' },
-    { citizen: { name: 'Gin', img: 'https://static.wikia.nocookie.net/detectiveconan/images/8/8a/Gin.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'antagonistes élégants et froids qui restent dans l\'ombre', difficulty: 'intermediate' },
+    { citizen: { name: 'Conan Edogawa', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'détectives géniaux qui traquent des criminels insaisissables', difficulty: 'intermediate' },
+    { citizen: { name: 'Gin', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'antagonistes élégants et froids qui restent dans l\'ombre', difficulty: 'intermediate' },
 
     // ══ POPULAR — Blue Lock ══
-    { citizen: { name: 'Isagi Yoichi', img: 'https://static.wikia.nocookie.net/bluelock/images/1/1d/Yoichi_Isagi.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'joueurs sans talent particulier qui atteignent le sommet par l\'analyse', difficulty: 'popular' },
-    { citizen: { name: 'Rin Itoshi', img: 'https://static.wikia.nocookie.net/bluelock/images/d/d3/Rin_Itoshi.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'prodiges froids obsédés par dépasser un aîné légendaire', difficulty: 'popular' },
+    { citizen: { name: 'Isagi Yoichi', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'joueurs sans talent particulier qui atteignent le sommet par l\'analyse', difficulty: 'popular' },
+    { citizen: { name: 'Rin Itoshi', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'prodiges froids obsédés par dépasser un aîné légendaire', difficulty: 'popular' },
 
     // ══ POPULAR — Assassination Classroom ══
-    { citizen: { name: 'Koro-sensei', img: 'https://static.wikia.nocookie.net/ansatsukyoshitsu/images/b/b7/Korosensei_Anime.png' }, undercover: { name: 'Gojo Satoru', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png' }, tag: 'professeurs invincibles et exubérants qui forment la prochaine génération', difficulty: 'popular' },
-    { citizen: { name: 'Karma Akabane', img: 'https://static.wikia.nocookie.net/ansatsukyoshitsu/images/4/42/Karma_Akabane_Anime.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'antagonistes sadiques qui trouvent la violence artistique', difficulty: 'popular' },
+    { citizen: { name: 'Koro-sensei', img: '' }, undercover: { name: 'Gojo Satoru', img: '' }, tag: 'professeurs invincibles et exubérants qui forment la prochaine génération', difficulty: 'popular' },
+    { citizen: { name: 'Karma Akabane', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'antagonistes sadiques qui trouvent la violence artistique', difficulty: 'popular' },
 
     // ══ POPULAR — The Promised Neverland ══
-    { citizen: { name: 'Emma', img: 'https://i.imgur.com/sLSDqCw.jpeg' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'héros au QI hors norme qui refusent de sacrifier quiconque', difficulty: 'popular' },
-    { citizen: { name: 'Ray', img: 'https://static.wikia.nocookie.net/thepromisedneverland/images/a/a2/Ray_Anime.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'enfants génies qui planifient secrètement depuis des années', difficulty: 'popular' },
-    { citizen: { name: 'Norman', img: 'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'génies qui sacrifient leur humanité pour sauver les autres', difficulty: 'popular' },
+    { citizen: { name: 'Emma', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros au QI hors norme qui refusent de sacrifier quiconque', difficulty: 'popular' },
+    { citizen: { name: 'Ray', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'enfants génies qui planifient secrètement depuis des années', difficulty: 'popular' },
+    { citizen: { name: 'Norman', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'génies qui sacrifient leur humanité pour sauver les autres', difficulty: 'popular' },
 
     // ══ POPULAR — Solo Leveling ══
-    { citizen: { name: 'Sung Jinwoo', img: 'https://static.wikia.nocookie.net/solo-leveling/images/c/c4/Sung_Jinwoo.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'héros les plus faibles qui deviennent les plus forts', difficulty: 'popular' },
+    { citizen: { name: 'Sung Jinwoo', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros les plus faibles qui deviennent les plus forts', difficulty: 'popular' },
 
     // ══ POPULAR — Dungeon Meshi ══
-    { citizen: { name: 'Laios Touden', img: 'https://static.wikia.nocookie.net/dungeon-meshi/images/4/4a/Laios_Anime.png' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'protagonistes naïfs passionnés par les monstres/combats', difficulty: 'intermediate' },
-    { citizen: { name: 'Marcille Donato', img: 'https://static.wikia.nocookie.net/dungeon-meshi/images/0/09/Marcille_Anime.png' }, undercover: { name: 'Sakura Haruno', img: 'https://static.wikia.nocookie.net/naruto/images/d/d5/Sakura_Haruno.png' }, tag: 'mages aux longs cheveux dans une équipe de choc', difficulty: 'intermediate' },
+    { citizen: { name: 'Laios Touden', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'protagonistes naïfs passionnés par les monstres/combats', difficulty: 'intermediate' },
+    { citizen: { name: 'Marcille Donato', img: '' }, undercover: { name: 'Sakura Haruno', img: '' }, tag: 'mages aux longs cheveux dans une équipe de choc', difficulty: 'intermediate' },
 
     // ══ POPULAR — Kakegurui ══
-    { citizen: { name: 'Yumeko Jabami', img: 'https://static.wikia.nocookie.net/kakegurui/images/5/56/Yumeko_Jabami_Anime.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'joueurs fous dont le plaisir vient du risque extrême', difficulty: 'intermediate' },
-    { citizen: { name: 'Kirari Momobami', img: 'https://static.wikia.nocookie.net/kakegurui/images/5/57/Kirari_Momobami_Anime.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'présidents manipulateurs qui dirigent par le jeu et la peur', difficulty: 'intermediate' },
+    { citizen: { name: 'Yumeko Jabami', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'joueurs fous dont le plaisir vient du risque extrême', difficulty: 'intermediate' },
+    { citizen: { name: 'Kirari Momobami', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'présidents manipulateurs qui dirigent par le jeu et la peur', difficulty: 'intermediate' },
 
     // ══ POPULAR — Mirai Nikki ══
-    { citizen: { name: 'Yuno Gasai', img: 'https://static.wikia.nocookie.net/futurediary/images/7/7c/Yuno_Gasai_Anime.png' }, undercover: { name: 'Himiko Toga', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/3/3e/Himiko_Toga_Anime.png' }, tag: 'yandere absolues, amour indissociable de la violence', difficulty: 'popular' },
+    { citizen: { name: 'Yuno Gasai', img: '' }, undercover: { name: 'Himiko Toga', img: '' }, tag: 'yandere absolues, amour indissociable de la violence', difficulty: 'popular' },
 
     // ══ POPULAR — Tokyo Revengers ══
-    { citizen: { name: 'Takemichi Hanagaki', img: 'https://static.wikia.nocookie.net/tokyorevengers/images/b/bc/Takemichi_Hanagaki_Anime.png' }, undercover: { name: 'Subaru Natsuki', img: 'https://static.wikia.nocookie.net/rezero/images/4/4f/Subaru_anime.png' }, tag: 'protagonistes qui voyagent dans le temps pour sauver ceux qu\'ils aiment', difficulty: 'popular' },
-    { citizen: { name: 'Mikey', img: 'https://static.wikia.nocookie.net/tokyorevengers/images/5/5e/Mikey_Anime.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'leaders charismatiques qui basculent vers l\'obscurité', difficulty: 'popular' },
+    { citizen: { name: 'Takemichi Hanagaki', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'protagonistes qui voyagent dans le temps pour sauver ceux qu\'ils aiment', difficulty: 'popular' },
+    { citizen: { name: 'Mikey', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'leaders charismatiques qui basculent vers l\'obscurité', difficulty: 'popular' },
 
     // ══ POPULAR — Psycho Pass ══
-    { citizen: { name: 'Akane Tsunemori', img: 'https://static.wikia.nocookie.net/psychopass/images/b/b4/Akane_Tsunemori.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'femmes policières/soldates qui questionnent leur système', difficulty: 'popular' },
-    { citizen: { name: 'Makishima Shougo', img: 'https://static.wikia.nocookie.net/psychopass/images/3/3a/Shougo_Makishima.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'intellectuels qui brisent la société par conviction', difficulty: 'popular' },
+    { citizen: { name: 'Akane Tsunemori', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'femmes policières/soldates qui questionnent leur système', difficulty: 'popular' },
+    { citizen: { name: 'Makishima Shougo', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'intellectuels qui brisent la société par conviction', difficulty: 'popular' },
 
     // ══ POPULAR — Gintama ══
-    { citizen: { name: 'Sakata Gintoki', img: 'https://static.wikia.nocookie.net/gintama/images/6/69/Gintoki_Sakata.png' }, undercover: { name: 'Spike Spiegel', img: 'https://static.wikia.nocookie.net/cowboybebop/images/7/77/Spike_spiegel.png' }, tag: 'héros décontractés au passé de guerrier légendaire caché', difficulty: 'popular' },
-    { citizen: { name: 'Takasugi Shinsuke', img: 'https://static.wikia.nocookie.net/gintama/images/e/ea/Shinsuke_Takasugi.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'anciens camarades devenus ennemis, consumés par la haine', difficulty: 'popular' },
+    { citizen: { name: 'Sakata Gintoki', img: '' }, undercover: { name: 'Spike Spiegel', img: '' }, tag: 'héros décontractés au passé de guerrier légendaire caché', difficulty: 'popular' },
+    { citizen: { name: 'Takasugi Shinsuke', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'anciens camarades devenus ennemis, consumés par la haine', difficulty: 'popular' },
 
     // ══ POPULAR — Dr Stone ══
-    { citizen: { name: 'Senku Ishigami', img: 'https://static.wikia.nocookie.net/dr-stone/images/6/67/Senku_Ishigami_Anime.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'génies qui résolvent tout par la science et la logique', difficulty: 'popular' },
-    { citizen: { name: 'Tsukasa Shishio', img: 'https://static.wikia.nocookie.net/dr-stone/images/b/b7/Tsukasa_Shishio_Anime.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'guerriers les plus forts au monde, orgueil absolu, dominer par la force', difficulty: 'popular' },
+    { citizen: { name: 'Senku Ishigami', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies qui résolvent tout par la science et la logique', difficulty: 'popular' },
+    { citizen: { name: 'Tsukasa Shishio', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'guerriers les plus forts au monde, orgueil absolu, dominer par la force', difficulty: 'popular' },
 
     // ══ POPULAR — Akame ga Kill ══
-    { citizen: { name: 'Akame', img: 'https://static.wikia.nocookie.net/akamegakill/images/f/f1/Akame_anime.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'guerrières à l\'épée formées pour tuer depuis l\'enfance', difficulty: 'popular' },
-    { citizen: { name: 'Esdeath', img: 'https://static.wikia.nocookie.net/akamegakill/images/3/3c/Esdeath_anime.png' }, undercover: { name: 'Frieza', img: 'https://static.wikia.nocookie.net/dragonball/images/9/9e/Frieza_First_Form.png' }, tag: 'généraux sadiques à la puissance de glace absolue', difficulty: 'popular' },
+    { citizen: { name: 'Akame', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'guerrières à l\'épée formées pour tuer depuis l\'enfance', difficulty: 'popular' },
+    { citizen: { name: 'Esdeath', img: '' }, undercover: { name: 'Frieza', img: '' }, tag: 'généraux sadiques à la puissance de glace absolue', difficulty: 'popular' },
 
     // ══ POPULAR — Hellsing ══
-    { citizen: { name: 'Alucard', img: 'https://static.wikia.nocookie.net/hellsing/images/9/95/Alucard.png' }, undercover: { name: 'DIO', img: 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png' }, tag: 'vampires invincibles d\'une élégance terrifiante', difficulty: 'intermediate' },
-    { citizen: { name: 'Integra Hellsing', img: 'https://static.wikia.nocookie.net/hellsing/images/7/7a/Integra.png' }, undercover: { name: 'Tsunade', img: 'https://static.wikia.nocookie.net/naruto/images/b/be/Tsunade.png' }, tag: 'femmes cheffes implacables qui commandent des monstres', difficulty: 'intermediate' },
+    { citizen: { name: 'Alucard', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'vampires invincibles d\'une élégance terrifiante', difficulty: 'intermediate' },
+    { citizen: { name: 'Integra Hellsing', img: '' }, undercover: { name: 'Tsunade', img: '' }, tag: 'femmes cheffes implacables qui commandent des monstres', difficulty: 'intermediate' },
 
     // ══ POPULAR — Food Wars ══
-    { citizen: { name: 'Yukihira Soma', img: 'https://static.wikia.nocookie.net/shokugekinosouma/images/1/17/Souma_Yukihira_anime.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'héros vantards qui battent les élites par le talent brut', difficulty: 'popular' },
-    { citizen: { name: 'Erina Nakiri', img: 'https://static.wikia.nocookie.net/shokugekinosouma/images/a/a9/Erina_Nakiri_anime.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'prodiges froids et arrogants qui évoluent grâce au héros', difficulty: 'popular' },
+    { citizen: { name: 'Yukihira Soma', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'héros vantards qui battent les élites par le talent brut', difficulty: 'popular' },
+    { citizen: { name: 'Erina Nakiri', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'prodiges froids et arrogants qui évoluent grâce au héros', difficulty: 'popular' },
 
     // ══ POPULAR — Kuroko no Basket ══
-    { citizen: { name: 'Kuroko Tetsuya', img: 'https://static.wikia.nocookie.net/kurokonobasuke/images/8/83/Tetsuya_Kuroko.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'personnages invisibles/discrets dont la force est de ne pas être vus', difficulty: 'popular' },
-    { citizen: { name: 'Aomine Daiki', img: 'https://static.wikia.nocookie.net/kurokonobasuke/images/9/94/Daiki_Aomine.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'joueurs/combattants qui s\'ennuient car personne ne les égale', difficulty: 'popular' },
+    { citizen: { name: 'Kuroko Tetsuya', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'personnages invisibles/discrets dont la force est de ne pas être vus', difficulty: 'popular' },
+    { citizen: { name: 'Aomine Daiki', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'joueurs/combattants qui s\'ennuient car personne ne les égale', difficulty: 'popular' },
 
     // ══ POPULAR — Fairy Tail extra ══
-    { citizen: { name: 'Gray Fullbuster', img: 'https://static.wikia.nocookie.net/fairytail/images/6/6f/Gray_Fullbuster_GMG.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'rivaux aux pouvoirs opposés, passé sombre, fierté froide', difficulty: 'popular' },
-    { citizen: { name: 'Zeref', img: 'https://static.wikia.nocookie.net/fairytail/images/0/07/Zeref_Dragneel.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'antagonistes qui ont vécu des siècles et cherchent la mort', difficulty: 'popular' },
+    { citizen: { name: 'Gray Fullbuster', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'rivaux aux pouvoirs opposés, passé sombre, fierté froide', difficulty: 'popular' },
+    { citizen: { name: 'Zeref', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'antagonistes qui ont vécu des siècles et cherchent la mort', difficulty: 'popular' },
 
     // ══ POPULAR — Bleach extra ══
-    { citizen: { name: 'Kisuke Urahara', img: 'https://static.wikia.nocookie.net/bleach/images/2/23/Kisuke_Urahara.png' }, undercover: { name: 'Gojo Satoru', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png' }, tag: 'génie excentrique caché sous un extérieur désinvolte', difficulty: 'popular' },
-    { citizen: { name: 'Toshiro Hitsugaya', img: 'https://static.wikia.nocookie.net/bleach/images/a/a4/Toushiro_Hitsugaya.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'prodiges à la glace, froids et sérieux', difficulty: 'popular' },
+    { citizen: { name: 'Kisuke Urahara', img: '' }, undercover: { name: 'Gojo Satoru', img: '' }, tag: 'génie excentrique caché sous un extérieur désinvolte', difficulty: 'popular' },
+    { citizen: { name: 'Toshiro Hitsugaya', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'prodiges à la glace, froids et sérieux', difficulty: 'popular' },
 
     // ══ POPULAR — Bungou Stray Dogs ══
-    { citizen: { name: 'Osamu Dazai', img: 'https://static.wikia.nocookie.net/bungoustraydogs/images/8/85/Osamu_Dazai_Anime.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'génies mystérieux et suicidaires qui orchestrent tout depuis l\'ombre', difficulty: 'popular' },
-    { citizen: { name: 'Atsushi Nakajima', img: 'https://static.wikia.nocookie.net/bungoustraydogs/images/4/41/Atsushi_Nakajima_Anime.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'orphelins sans confiance en eux qui portent une bête en eux', difficulty: 'popular' },
-    { citizen: { name: 'Ryunosuke Akutagawa', img: 'https://static.wikia.nocookie.net/bungoustraydogs/images/d/d2/Ryuunosuke_Akutagawa_Anime.png' }, undercover: { name: 'Sasuke Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png' }, tag: 'antagonistes sombres au passé douloureux, obsédés par un rival', difficulty: 'popular' },
+    { citizen: { name: 'Osamu Dazai', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies mystérieux et suicidaires qui orchestrent tout depuis l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Atsushi Nakajima', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'orphelins sans confiance en eux qui portent une bête en eux', difficulty: 'popular' },
+    { citizen: { name: 'Ryunosuke Akutagawa', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'antagonistes sombres au passé douloureux, obsédés par un rival', difficulty: 'popular' },
 
     // ══ POPULAR — Steins Gate ══
-    { citizen: { name: 'Okabe Rintarou', img: 'https://static.wikia.nocookie.net/steins-gate/images/e/ef/Okabe_Rintarou_Anime.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'génies excentriques qui portent le poids de chaque timeline', difficulty: 'intermediate' },
+    { citizen: { name: 'Okabe Rintarou', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies excentriques qui portent le poids de chaque timeline', difficulty: 'intermediate' },
 
     // ══ POPULAR — Dandadan ══
-    { citizen: { name: 'Okarun', img: 'https://static.wikia.nocookie.net/dandadan/images/3/3c/Ken_Takakura_Anime.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'garçons ordinaires propulsés dans un monde surnaturel', difficulty: 'popular' },
-    { citizen: { name: 'Momo Ayase', img: 'https://static.wikia.nocookie.net/dandadan/images/b/b4/Momo_Ayase_Anime.png' }, undercover: { name: 'Sakura Haruno', img: 'https://static.wikia.nocookie.net/naruto/images/d/d5/Sakura_Haruno.png' }, tag: 'héroïnes au caractère explosif avec des pouvoirs dormants', difficulty: 'popular' },
+    { citizen: { name: 'Okarun', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'garçons ordinaires propulsés dans un monde surnaturel', difficulty: 'popular' },
+    { citizen: { name: 'Momo Ayase', img: '' }, undercover: { name: 'Sakura Haruno', img: '' }, tag: 'héroïnes au caractère explosif avec des pouvoirs dormants', difficulty: 'popular' },
 
     // ══ POPULAR — Mashle ══
-    { citizen: { name: 'Mash Burnedead', img: 'https://static.wikia.nocookie.net/mashle/images/a/a6/Mash_Burnedead_Anime.png' }, undercover: { name: 'Saitama', img: 'https://static.wikia.nocookie.net/onepunchman/images/0/05/Saitama_Artwork.png' }, tag: 'protagonistes sans magie/pouvoir qui battent tout le monde à la force brute', difficulty: 'popular' },
+    { citizen: { name: 'Mash Burnedead', img: '' }, undercover: { name: 'Saitama', img: '' }, tag: 'protagonistes sans magie/pouvoir qui battent tout le monde à la force brute', difficulty: 'popular' },
 
     // ══ POPULAR — Hell\'s Paradise ══
-    { citizen: { name: 'Gabimaru', img: 'https://static.wikia.nocookie.net/jigokuraku/images/7/7c/Gabimaru_Anime.png' }, undercover: { name: 'Thorfinn', img: 'https://static.wikia.nocookie.net/vinlandsaga/images/2/23/Thorfinn_anime.png' }, tag: 'guerriers légendaires rongés par la culpabilité qui cherchent la paix', difficulty: 'popular' },
-    { citizen: { name: 'Sagiri', img: 'https://static.wikia.nocookie.net/jigokuraku/images/6/6b/Sagiri_Yamada_Anime.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'femmes guerrières qui questionnent leur humanité dans le combat', difficulty: 'popular' },
+    { citizen: { name: 'Gabimaru', img: '' }, undercover: { name: 'Thorfinn', img: '' }, tag: 'guerriers légendaires rongés par la culpabilité qui cherchent la paix', difficulty: 'popular' },
+    { citizen: { name: 'Sagiri', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'femmes guerrières qui questionnent leur humanité dans le combat', difficulty: 'popular' },
 
     // ══ POPULAR — Erased ══
-    { citizen: { name: 'Satoru Fujinuma', img: 'https://static.wikia.nocookie.net/erased/images/7/7f/Satoru_Fujinuma_Anime.png' }, undercover: { name: 'Subaru Natsuki', img: 'https://static.wikia.nocookie.net/rezero/images/4/4f/Subaru_anime.png' }, tag: 'protagonistes qui revivent le passé pour sauver des innocents', difficulty: 'intermediate' },
+    { citizen: { name: 'Satoru Fujinuma', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'protagonistes qui revivent le passé pour sauver des innocents', difficulty: 'intermediate' },
 
     // ══ POPULAR — Parasyte ══
-    { citizen: { name: 'Shinichi Izumi', img: 'https://static.wikia.nocookie.net/parasyte/images/8/8d/Shinichi_Izumi_Anime.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'humains fusionnés avec des créatures, perdent leur humanité', difficulty: 'popular' },
+    { citizen: { name: 'Shinichi Izumi', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'humains fusionnés avec des créatures, perdent leur humanité', difficulty: 'popular' },
 
     // ══ POPULAR — Devilman Crybaby ══
-    { citizen: { name: 'Akira Fudo', img: 'https://static.wikia.nocookie.net/devilman/images/5/5b/Akira_Fudou_Devilman_Crybaby.png' }, undercover: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, tag: 'héros qui se transforment en démons pour sauver l\'humanité', difficulty: 'popular' },
+    { citizen: { name: 'Akira Fudo', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'héros qui se transforment en démons pour sauver l\'humanité', difficulty: 'popular' },
 
     // ══ POPULAR — Durarara ══
-    { citizen: { name: 'Shizuo Heiwajima', img: 'https://static.wikia.nocookie.net/durarara/images/1/15/Shizuo_Heiwajima.png' }, undercover: { name: 'Kenpachi Zaraki', img: 'https://static.wikia.nocookie.net/bleach/images/a/a5/Kenpachi_Zaraki.png' }, tag: 'colosses qui vivent pour le combat, force dévastatrice incontrôlable', difficulty: 'popular' },
-    { citizen: { name: 'Izaya Orihara', img: 'https://static.wikia.nocookie.net/durarara/images/3/39/Izaya_Orihara.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'manipulateurs qui adorent observer les humains en chaos', difficulty: 'popular' },
+    { citizen: { name: 'Shizuo Heiwajima', img: '' }, undercover: { name: 'Kenpachi Zaraki', img: '' }, tag: 'colosses qui vivent pour le combat, force dévastatrice incontrôlable', difficulty: 'popular' },
+    { citizen: { name: 'Izaya Orihara', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'manipulateurs qui adorent observer les humains en chaos', difficulty: 'popular' },
 
     // ══ POPULAR — Blue Exorcist ══
-    { citizen: { name: 'Rin Okumura', img: 'https://static.wikia.nocookie.net/blue-exorcist/images/8/8b/Rin_Okumura_Anime.png' }, undercover: { name: 'Denji', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png' }, tag: 'fils de Satan/démon qui combat pour les humains', difficulty: 'popular' },
+    { citizen: { name: 'Rin Okumura', img: '' }, undercover: { name: 'Denji', img: '' }, tag: 'fils de Satan/démon qui combat pour les humains', difficulty: 'popular' },
 
     // ══ POPULAR — Shaman King ══
-    { citizen: { name: 'Yoh Asakura', img: 'https://i.imgur.com/lfPxazV.jpeg' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'héros décontractés à la puissance spirituelle extraordinaire', difficulty: 'popular' },
-    { citizen: { name: 'Hao Asakura', img: 'https://static.wikia.nocookie.net/shamanking/images/8/8c/Hao_Asakura_anime.png' }, undercover: { name: 'Madara Uchiha', img: 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png' }, tag: 'antagonistes légendaires revenus pour anéantir l\'humanité corrompue', difficulty: 'popular' },
+    { citizen: { name: 'Yoh Asakura', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'héros décontractés à la puissance spirituelle extraordinaire', difficulty: 'popular' },
+    { citizen: { name: 'Hao Asakura', img: '' }, undercover: { name: 'Madara Uchiha', img: '' }, tag: 'antagonistes légendaires revenus pour anéantir l\'humanité corrompue', difficulty: 'popular' },
 
     // ══ POPULAR — Inuyasha ══
-    { citizen: { name: 'Inuyasha', img: 'https://static.wikia.nocookie.net/inuyasha/images/c/c6/Inuyasha_anime.png' }, undercover: { name: 'Denji', img: 'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png' }, tag: 'demi-démons à l\'épée légendaire qui luttent contre leur nature', difficulty: 'intermediate' },
-    { citizen: { name: 'Sesshomaru', img: 'https://static.wikia.nocookie.net/inuyasha/images/5/55/Sesshomaru_anime.png' }, undercover: { name: 'Byakuya Kuchiki', img: 'https://static.wikia.nocookie.net/bleach/images/1/18/Byakuya_Kuchiki.png' }, tag: 'grands seigneurs démons froids et élégants', difficulty: 'intermediate' },
+    { citizen: { name: 'Inuyasha', img: '' }, undercover: { name: 'Denji', img: '' }, tag: 'demi-démons à l\'épée légendaire qui luttent contre leur nature', difficulty: 'intermediate' },
+    { citizen: { name: 'Sesshomaru', img: '' }, undercover: { name: 'Byakuya Kuchiki', img: '' }, tag: 'grands seigneurs démons froids et élégants', difficulty: 'intermediate' },
 
     // ══ POPULAR — SAO extra ══
-    { citizen: { name: 'Asuna', img: 'https://static.wikia.nocookie.net/swordartonline/images/9/92/Asuna_anime.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'combattantes redoutables qui se battent pour ceux qu\'elles aiment', difficulty: 'popular' },
+    { citizen: { name: 'Asuna', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'combattantes redoutables qui se battent pour ceux qu\'elles aiment', difficulty: 'popular' },
 
     // ══ POPULAR — Kagurabachi ══
-    { citizen: { name: 'Chihiro Rokuhira', img: 'https://static.wikia.nocookie.net/kagurabachi/images/c/c4/Chihiro_anime.png' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'fils de maître d\'armes qui vengent leur père, épée légendaire', difficulty: 'intermediate' },
+    { citizen: { name: 'Chihiro Rokuhira', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'fils de maître d\'armes qui vengent leur père, épée légendaire', difficulty: 'intermediate' },
 
     // ══ POPULAR — Sakamoto Days ══
-    { citizen: { name: 'Taro Sakamoto', img: 'https://static.wikia.nocookie.net/sakamotodays/images/5/5e/Taro_Sakamoto_Anime.png' }, undercover: { name: 'Loid Forger', img: 'https://static.wikia.nocookie.net/spy-x-family/images/5/52/Loid_Forger_anime.png' }, tag: 'tueurs professionnels reconvertis en pères de famille', difficulty: 'popular' },
+    { citizen: { name: 'Taro Sakamoto', img: '' }, undercover: { name: 'Loid Forger', img: '' }, tag: 'tueurs professionnels reconvertis en pères de famille', difficulty: 'popular' },
 
     // ══ POPULAR — To Your Eternity ══
-    { citizen: { name: 'Fushi', img: 'https://static.wikia.nocookie.net/toyoureternity/images/6/63/Fushi_Anime.png' }, undercover: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, tag: 'êtres immortels qui absorbent l\'humanité et portent ses douleurs', difficulty: 'intermediate' },
+    { citizen: { name: 'Fushi', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'êtres immortels qui absorbent l\'humanité et portent ses douleurs', difficulty: 'intermediate' },
 
     // ══ POPULAR — Kingdom ══
-    { citizen: { name: 'Xin', img: 'https://static.wikia.nocookie.net/kingdom/images/6/68/Xin_anime.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'guerriers sans naissance qui veulent devenir les plus grands généraux', difficulty: 'popular' },
-    { citizen: { name: 'Ou Ki', img: 'https://static.wikia.nocookie.net/kingdom/images/2/25/Ouki_anime.png' }, undercover: { name: 'Whitebeard', img: 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png' }, tag: 'généraux légendaires invincibles dont la mort marque une époque', difficulty: 'popular' },
+    { citizen: { name: 'Xin', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'guerriers sans naissance qui veulent devenir les plus grands généraux', difficulty: 'popular' },
+    { citizen: { name: 'Ou Ki', img: '' }, undercover: { name: 'Whitebeard', img: '' }, tag: 'généraux légendaires invincibles dont la mort marque une époque', difficulty: 'popular' },
 
     // ══ INTERMEDIATE — Toriko ══
-    { citizen: { name: 'Toriko', img: 'https://static.wikia.nocookie.net/toriko/images/6/6f/Toriko_anime.png' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'gourmands aux appétits surhumains qui cherchent les ingrédients ultimes', difficulty: 'intermediate' },
-    { citizen: { name: 'Coco', img: 'https://static.wikia.nocookie.net/toriko/images/5/5c/Coco_anime.png' }, undercover: { name: 'Shikamaru Nara', img: 'https://static.wikia.nocookie.net/naruto/images/d/d9/Shikamaru.png' }, tag: 'stratèges calmes et analytiques dans une équipe de choc', difficulty: 'intermediate' },
-    { citizen: { name: 'Zebra', img: 'https://static.wikia.nocookie.net/toriko/images/8/8b/Zebra_anime.png' }, undercover: { name: 'Kenpachi Zaraki', img: 'https://static.wikia.nocookie.net/bleach/images/a/a5/Kenpachi_Zaraki.png' }, tag: 'monstres de combat au son et à la brutalité absolue', difficulty: 'intermediate' },
+    { citizen: { name: 'Toriko', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'gourmands aux appétits surhumains qui cherchent les ingrédients ultimes', difficulty: 'intermediate' },
+    { citizen: { name: 'Coco', img: '' }, undercover: { name: 'Shikamaru Nara', img: '' }, tag: 'stratèges calmes et analytiques dans une équipe de choc', difficulty: 'intermediate' },
+    { citizen: { name: 'Zebra', img: '' }, undercover: { name: 'Kenpachi Zaraki', img: '' }, tag: 'monstres de combat au son et à la brutalité absolue', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Monster ══
-    { citizen: { name: 'Johan Liebert', img: 'https://static.wikia.nocookie.net/monster/images/6/6e/Johan_Liebert_anime.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'antagonistes blonds qui manipulent tout le monde vers la mort', difficulty: 'intermediate' },
-    { citizen: { name: 'Kenzo Tenma', img: 'https://static.wikia.nocookie.net/monster/images/3/3c/Kenzo_Tenma_anime.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'génies qui traquent obsessionnellement un monstre insaisissable', difficulty: 'intermediate' },
-    { citizen: { name: 'Heinrich Lunge', img: 'https://static.wikia.nocookie.net/monster/images/4/4e/Lunge_anime.png' }, undercover: { name: 'L Lawliet', img: 'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg' }, tag: 'inspecteurs méthodiques incapables de lâcher une affaire', difficulty: 'intermediate' },
+    { citizen: { name: 'Johan Liebert', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'antagonistes blonds qui manipulent tout le monde vers la mort', difficulty: 'intermediate' },
+    { citizen: { name: 'Kenzo Tenma', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies qui traquent obsessionnellement un monstre insaisissable', difficulty: 'intermediate' },
+    { citizen: { name: 'Heinrich Lunge', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'inspecteurs méthodiques incapables de lâcher une affaire', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Kaiji ══
-    { citizen: { name: 'Kaiji Itou', img: 'https://static.wikia.nocookie.net/kaiji/images/2/2e/Kaiji_Itou_anime.png' }, undercover: { name: 'Yumeko Jabami', img: 'https://static.wikia.nocookie.net/kakegurui/images/5/56/Yumeko_Jabami_Anime.png' }, tag: 'joueurs désespérés dans des games mortels aux règles tordues', difficulty: 'intermediate' },
+    { citizen: { name: 'Kaiji Itou', img: '' }, undercover: { name: 'Yumeko Jabami', img: '' }, tag: 'joueurs désespérés dans des games mortels aux règles tordues', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Rainbow ══
-    { citizen: { name: 'Sakuragi Rokurouta', img: 'https://i.imgur.com/lgOkYrF.jpeg' }, undercover: { name: 'Rock Lee', img: 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png' }, tag: 'prisonniers/guerriers au caractère solaire qui ne renoncent jamais', difficulty: 'intermediate' },
+    { citizen: { name: 'Sakuragi Rokurouta', img: '' }, undercover: { name: 'Rock Lee', img: '' }, tag: 'prisonniers/guerriers au caractère solaire qui ne renoncent jamais', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Hitman Reborn ══
-    { citizen: { name: 'Tsunayoshi Sawada', img: 'https://static.wikia.nocookie.net/reborn/images/e/e2/Tsuna_Anime.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'héros sans talent qui héritent d\'un destin de boss', difficulty: 'intermediate' },
-    { citizen: { name: 'Xanxus', img: 'https://static.wikia.nocookie.net/reborn/images/8/82/Xanxus_Anime.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'leaders violents et orgueilleux dont la brutalité est une forme de respect', difficulty: 'intermediate' },
-    { citizen: { name: 'Mukuro Rokudo', img: 'https://static.wikia.nocookie.net/reborn/images/c/c3/Mukuro_Rokudo_Anime.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'antagonistes au génie de l\'illusion qui veulent s\'emparer du monde', difficulty: 'intermediate' },
+    { citizen: { name: 'Tsunayoshi Sawada', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'héros sans talent qui héritent d\'un destin de boss', difficulty: 'intermediate' },
+    { citizen: { name: 'Xanxus', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'leaders violents et orgueilleux dont la brutalité est une forme de respect', difficulty: 'intermediate' },
+    { citizen: { name: 'Mukuro Rokudo', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'antagonistes au génie de l\'illusion qui veulent s\'emparer du monde', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Golden Kamuy ══
-    { citizen: { name: 'Saichi Sugimoto', img: 'https://static.wikia.nocookie.net/goldenkamuy/images/5/5e/Saichi_Sugimoto_anime.png' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'soldats immortels traumatisés par la guerre qui cherchent rédemption', difficulty: 'intermediate' },
-    { citizen: { name: 'Asirpa', img: 'https://static.wikia.nocookie.net/goldenkamuy/images/8/89/Asirpa_anime.png' }, undercover: { name: 'Nausicaa', img: 'https://static.wikia.nocookie.net/studio-ghibli/images/9/9e/Nausicaa.png' }, tag: 'guerrières autochtones à l\'unisson avec leur nature sauvage', difficulty: 'intermediate' },
-    { citizen: { name: 'Hijikata Toshizo', img: 'https://i.imgur.com/EByKtBO.jpeg' }, undercover: { name: 'Levi Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png' }, tag: 'soldats légendaires qui sacrifient tout pour leur idéal', difficulty: 'intermediate' },
+    { citizen: { name: 'Saichi Sugimoto', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'soldats immortels traumatisés par la guerre qui cherchent rédemption', difficulty: 'intermediate' },
+    { citizen: { name: 'Asirpa', img: '' }, undercover: { name: 'Nausicaa', img: '' }, tag: 'guerrières autochtones à l\'unisson avec leur nature sauvage', difficulty: 'intermediate' },
+    { citizen: { name: 'Hijikata Toshizo', img: '' }, undercover: { name: 'Levi Ackerman', img: '' }, tag: 'soldats légendaires qui sacrifient tout pour leur idéal', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Kenshin ══
-    { citizen: { name: 'Kenshin Himura', img: 'https://static.wikia.nocookie.net/rurouni-kenshin/images/d/d3/Kenshin_Himura_Anime.png' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'guerriers légendaires qui ont renoncé au meurtre mais pas à l\'épée', difficulty: 'intermediate' },
-    { citizen: { name: 'Makoto Shishio', img: 'https://static.wikia.nocookie.net/rurouni-kenshin/images/9/9d/Makoto_Shishio_Anime.png' }, undercover: { name: 'Griffith', img: 'https://static.wikia.nocookie.net/berserk/images/e/e8/Griffith_berserk.png' }, tag: 'révolutionnaires brûlés qui refont le monde selon leur loi', difficulty: 'intermediate' },
-    { citizen: { name: 'Sojiro Seta', img: 'https://static.wikia.nocookie.net/rurouni-kenshin/images/a/a2/Sojiro_Seta_Anime.png' }, undercover: { name: 'Killua Zoldyck', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png' }, tag: 'enfants assassins souriants formés pour tuer', difficulty: 'intermediate' },
+    { citizen: { name: 'Kenshin Himura', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'guerriers légendaires qui ont renoncé au meurtre mais pas à l\'épée', difficulty: 'intermediate' },
+    { citizen: { name: 'Makoto Shishio', img: '' }, undercover: { name: 'Griffith', img: '' }, tag: 'révolutionnaires brûlés qui refont le monde selon leur loi', difficulty: 'intermediate' },
+    { citizen: { name: 'Sojiro Seta', img: '' }, undercover: { name: 'Killua Zoldyck', img: '' }, tag: 'enfants assassins souriants formés pour tuer', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Hokuto no Ken ══
-    { citizen: { name: 'Kenshiro', img: 'https://static.wikia.nocookie.net/hokuto/images/e/e5/Kenshiro_anime.png' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'guerriers légendaires qui ne se battent que pour protéger les faibles', difficulty: 'intermediate' },
-    { citizen: { name: 'Raoh', img: 'https://static.wikia.nocookie.net/hokuto/images/b/b5/Raoh_anime.png' }, undercover: { name: 'Vegeta', img: 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png' }, tag: 'antagonistes d\'un orgueil absolu qui veulent régner sur l\'ère violente', difficulty: 'intermediate' },
+    { citizen: { name: 'Kenshiro', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'guerriers légendaires qui ne se battent que pour protéger les faibles', difficulty: 'intermediate' },
+    { citizen: { name: 'Raoh', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'antagonistes d\'un orgueil absolu qui veulent régner sur l\'ère violente', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Black Butler ══
-    { citizen: { name: 'Sebastian Michaelis', img: 'https://static.wikia.nocookie.net/kuroshitsuji/images/8/8c/Sebastian_Michaelis_Anime.png' }, undercover: { name: 'DIO', img: 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png' }, tag: 'démons d\'une élégance absolue au service d\'un maître', difficulty: 'intermediate' },
-    { citizen: { name: 'Ciel Phantomhive', img: 'https://static.wikia.nocookie.net/kuroshitsuji/images/4/45/Ciel_Phantomhive_Anime.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'nobles enfants qui vendent leur âme pour la vengeance', difficulty: 'intermediate' },
+    { citizen: { name: 'Sebastian Michaelis', img: '' }, undercover: { name: 'DIO', img: '' }, tag: 'démons d\'une élégance absolue au service d\'un maître', difficulty: 'intermediate' },
+    { citizen: { name: 'Ciel Phantomhive', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'nobles enfants qui vendent leur âme pour la vengeance', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Beastars ══
-    { citizen: { name: 'Legoshi', img: 'https://static.wikia.nocookie.net/beastars/images/e/e8/Legoshi_Anime.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'prédateurs qui luttent contre leur nature pour protéger ceux qu\'ils aiment', difficulty: 'intermediate' },
-    { citizen: { name: 'Louis', img: 'https://i.imgur.com/ORX1ng1.jpeg' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'aristocrates qui portent un poids impossible avec une façade parfaite', difficulty: 'intermediate' },
+    { citizen: { name: 'Legoshi', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'prédateurs qui luttent contre leur nature pour protéger ceux qu\'ils aiment', difficulty: 'intermediate' },
+    { citizen: { name: 'Louis', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'aristocrates qui portent un poids impossible avec une façade parfaite', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Claymore ══
-    { citizen: { name: 'Clare', img: 'https://static.wikia.nocookie.net/claymore/images/8/8b/Clare_anime.png' }, undercover: { name: 'Mikasa Ackerman', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png' }, tag: 'guerrières mi-humaines mi-monstres qui cherchent vengeance', difficulty: 'intermediate' },
-    { citizen: { name: 'Teresa', img: 'https://static.wikia.nocookie.net/claymore/images/4/46/Teresa_anime.png' }, undercover: { name: 'Gojo Satoru', img: 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png' }, tag: 'guerrières invincibles qui brisent toutes les règles par amour', difficulty: 'intermediate' },
+    { citizen: { name: 'Clare', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'guerrières mi-humaines mi-monstres qui cherchent vengeance', difficulty: 'intermediate' },
+    { citizen: { name: 'Teresa', img: '' }, undercover: { name: 'Gojo Satoru', img: '' }, tag: 'guerrières invincibles qui brisent toutes les règles par amour', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Trigun ══
-    { citizen: { name: 'Vash the Stampede', img: 'https://static.wikia.nocookie.net/trigun/images/c/c6/Vash_the_Stampede_Anime.png' }, undercover: { name: 'Son Goku', img: 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png' }, tag: 'guerriers légendaires en apparence idiots qui refusent de tuer', difficulty: 'intermediate' },
+    { citizen: { name: 'Vash the Stampede', img: '' }, undercover: { name: 'Son Goku', img: '' }, tag: 'guerriers légendaires en apparence idiots qui refusent de tuer', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — GTO ══
-    { citizen: { name: 'Onizuka Eikichi', img: 'https://static.wikia.nocookie.net/gto/images/b/b0/Onizuka_Anime.png' }, undercover: { name: 'Jiraiya', img: 'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png' }, tag: 'profs délinquants qui changent la vie de leurs élèves perdus', difficulty: 'intermediate' },
+    { citizen: { name: 'Onizuka Eikichi', img: '' }, undercover: { name: 'Jiraiya', img: '' }, tag: 'profs délinquants qui changent la vie de leurs élèves perdus', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Baccano ══
-    { citizen: { name: 'Ladd Russo', img: 'https://static.wikia.nocookie.net/baccano/images/5/5b/Ladd_Russo_anime.png' }, undercover: { name: 'Hisoka Morow', img: 'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png' }, tag: 'tueurs psychopathes euphoriques face à la mort', difficulty: 'intermediate' },
+    { citizen: { name: 'Ladd Russo', img: '' }, undercover: { name: 'Hisoka Morow', img: '' }, tag: 'tueurs psychopathes euphoriques face à la mort', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Magi ══
-    { citizen: { name: 'Sinbad', img: 'https://static.wikia.nocookie.net/magi/images/9/95/Sinbad_Anime.png' }, undercover: { name: 'Shanks', img: 'https://static.wikia.nocookie.net/onepiece/images/6/6b/Shanks_Anime_Infobox.png' }, tag: 'rois légendaires charismatiques dont la véritable ambition est cachée', difficulty: 'intermediate' },
-    { citizen: { name: 'Aladdin', img: 'https://static.wikia.nocookie.net/magi/images/4/41/Aladdin_Anime.png' }, undercover: { name: 'Naruto Uzumaki', img: 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png' }, tag: 'porteurs de magie légendaire avec une candeur désarmante', difficulty: 'intermediate' },
-    { citizen: { name: 'Alibaba Saluja', img: 'https://static.wikia.nocookie.net/magi/images/6/6a/Alibaba_Anime.png' }, undercover: { name: 'Izuku Midoriya', img: 'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png' }, tag: 'roturiers qui héritent d\'un pouvoir royal et apprennent à le porter', difficulty: 'intermediate' },
+    { citizen: { name: 'Sinbad', img: '' }, undercover: { name: 'Shanks', img: '' }, tag: 'rois légendaires charismatiques dont la véritable ambition est cachée', difficulty: 'intermediate' },
+    { citizen: { name: 'Aladdin', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'porteurs de magie légendaire avec une candeur désarmante', difficulty: 'intermediate' },
+    { citizen: { name: 'Alibaba Saluja', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'roturiers qui héritent d\'un pouvoir royal et apprennent à le porter', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Nausicaä ══
-    { citizen: { name: 'Nausicaa', img: 'https://static.wikia.nocookie.net/studio-ghibli/images/9/9e/Nausicaa.png' }, undercover: { name: 'Frieren', img: 'https://static.wikia.nocookie.net/frieren/images/d/d0/Frieren_anime.png' }, tag: 'héroïnes légendaires à la nature pacifique qui portent le destin du monde', difficulty: 'intermediate' },
+    { citizen: { name: 'Nausicaa', img: '' }, undercover: { name: 'Frieren', img: '' }, tag: 'héroïnes légendaires à la nature pacifique qui portent le destin du monde', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Inuyashiki ══
-    { citizen: { name: 'Inuyashiki', img: 'https://static.wikia.nocookie.net/inuyashiki/images/d/d9/Inuyashiki_anime.png' }, undercover: { name: 'Saitama', img: 'https://static.wikia.nocookie.net/onepunchman/images/0/05/Saitama_Artwork.png' }, tag: 'personnes ordinaires à la puissance surhumaine avec un cœur d\'or', difficulty: 'intermediate' },
-    { citizen: { name: 'Hiro Shishigami', img: 'https://static.wikia.nocookie.net/inuyashiki/images/5/5e/Hiro_anime.png' }, undercover: { name: 'Light Yagami', img: 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg' }, tag: 'adolescents qui se croient dieux et tuent sans remords', difficulty: 'intermediate' },
+    { citizen: { name: 'Inuyashiki', img: '' }, undercover: { name: 'Saitama', img: '' }, tag: 'personnes ordinaires à la puissance surhumaine avec un cœur d\'or', difficulty: 'intermediate' },
+    { citizen: { name: 'Hiro Shishigami', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'adolescents qui se croient dieux et tuent sans remords', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Pandora Hearts ══
-    { citizen: { name: 'Oz Vessalius', img: 'https://static.wikia.nocookie.net/pandorahearts/images/6/63/Oz_Anime.png' }, undercover: { name: 'Lelouch vi Britannia', img: 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg' }, tag: 'nobles au destin sombre liés à une entité monstrueuse', difficulty: 'intermediate' },
-    { citizen: { name: 'Jack Vessalius', img: 'https://static.wikia.nocookie.net/pandorahearts/images/8/8d/Jack_Vesalius_anime.png' }, undercover: { name: 'Sosuke Aizen', img: 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png' }, tag: 'manipulateurs à l\'apparence douce dont la trahison dévaste tout', difficulty: 'intermediate' },
+    { citizen: { name: 'Oz Vessalius', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'nobles au destin sombre liés à une entité monstrueuse', difficulty: 'intermediate' },
+    { citizen: { name: 'Jack Vessalius', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'manipulateurs à l\'apparence douce dont la trahison dévaste tout', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Afro Samurai ══
-    { citizen: { name: 'Afro Samurai', img: 'https://i.imgur.com/2549afro.jpeg' }, undercover: { name: 'Guts', img: 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png' }, tag: 'guerriers solitaires au katana légendaire qui marchent sur des cadavres', difficulty: 'intermediate' },
+    { citizen: { name: 'Afro Samurai', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'guerriers solitaires au katana légendaire qui marchent sur des cadavres', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Deadman Wonderland ══
-    { citizen: { name: 'Ganta Igarashi', img: 'https://static.wikia.nocookie.net/deadmanwonderland/images/1/12/Ganta_anime.png' }, undercover: { name: 'Eren Yeager', img: 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png' }, tag: 'innocents jetés dans un prison-jeu mortel pour un crime qu\'ils n\'ont pas commis', difficulty: 'intermediate' },
+    { citizen: { name: 'Ganta Igarashi', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'innocents jetés dans un prison-jeu mortel pour un crime qu\'ils n\'ont pas commis', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Darwin's Game ══
-    { citizen: { name: 'Kaname Sudo', img: 'https://static.wikia.nocookie.net/darwinsgame/images/c/c3/Kaname_anime.png' }, undercover: { name: 'Subaru Natsuki', img: 'https://static.wikia.nocookie.net/rezero/images/4/4f/Subaru_anime.png' }, tag: 'joueurs ordinaires propulsés dans un survival game mortel', difficulty: 'intermediate' },
+    { citizen: { name: 'Kaname Sudo', img: '' }, undercover: { name: 'Subaru Natsuki', img: '' }, tag: 'joueurs ordinaires propulsés dans un survival game mortel', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Mushishi ══
-    { citizen: { name: 'Ginko', img: 'https://static.wikia.nocookie.net/mushishi/images/4/4e/Ginko_anime.png' }, undercover: { name: 'Spike Spiegel', img: 'https://static.wikia.nocookie.net/cowboybebop/images/7/77/Spike_spiegel.png' }, tag: 'voyageurs solitaires qui errent pour réparer ce que les autres brisent', difficulty: 'intermediate' },
+    { citizen: { name: 'Ginko', img: '' }, undercover: { name: 'Spike Spiegel', img: '' }, tag: 'voyageurs solitaires qui errent pour réparer ce que les autres brisent', difficulty: 'intermediate' },
 
     // ══ INTERMEDIATE — Elfen Lied ══
-    { citizen: { name: 'Lucy', img: 'https://static.wikia.nocookie.net/elfenlied/images/5/5d/Lucy_Anime.png' }, undercover: { name: 'Ken Kaneki', img: 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg' }, tag: 'êtres transformés en monstres par la souffrance humaine', difficulty: 'intermediate' },
+    { citizen: { name: 'Lucy', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'êtres transformés en monstres par la souffrance humaine', difficulty: 'intermediate' },
+
+    // ══ NOUVELLES PAIRES POPULAIRES ══
+    { citizen: { name: 'Vegeta', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'princes de clan détruit, orgueil indestructible, rival du héros', difficulty: 'popular' },
+    { citizen: { name: 'Sosuke Aizen', img: '' }, undercover: { name: 'Madara Uchiha', img: '' }, tag: 'masterminds qui ont manipulé tout le monde pendant des années, se croient au-dessus de l\'humanité', difficulty: 'popular' },
+    { citizen: { name: 'Illumi Zoldyck', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'grands frères assassins d\'une famille d\'élite qui traumatisent leur petit frère pour le former', difficulty: 'popular' },
+    { citizen: { name: 'Roronoa Zoro', img: '' }, undercover: { name: 'Trafalgar Law', img: '' }, tag: 'épéistes froids, loyaux envers leur capitaine, code d\'honneur rigide', difficulty: 'popular' },
+    { citizen: { name: 'Eren Yeager', img: '' }, undercover: { name: 'Tomura Shigaraki', img: '' }, tag: 'enfants blessés qui évoluent en menace absolue pour détruire un système corrompu', difficulty: 'popular' },
+    { citizen: { name: 'Ken Kaneki', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'humains transformés en monstres qui luttent pour garder leur humanité', difficulty: 'popular' },
+    { citizen: { name: 'Light Yagami', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'génies qui se croient dieux, manipulent tout le monde, chute tragique calculée', difficulty: 'popular' },
+    { citizen: { name: 'Lelouch vi Britannia', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'génies qui sacrifient tout, jusqu\'à eux-mêmes, pour protéger ceux qu\'ils aiment', difficulty: 'popular' },
+    { citizen: { name: 'Meruem', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'êtres supérieurs qui découvrent l\'humanité et finissent par s\'y attacher', difficulty: 'popular' },
+    { citizen: { name: 'Chrollo Lucilfer', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'leaders charismatiques d\'organisations criminelles, calme absolu face à la mort', difficulty: 'popular' },
+    { citizen: { name: 'Gon Freecss', img: '' }, undercover: { name: 'Monkey D. Luffy', img: '' }, tag: 'enfants solaires à la naïveté terrifiante, amitié au-dessus de tout', difficulty: 'popular' },
+    { citizen: { name: 'Piccolo', img: '' }, undercover: { name: 'Levi Ackerman', img: '' }, tag: 'mentors froids et exigeants qui protègent leurs protégés en silence', difficulty: 'popular' },
+    { citizen: { name: 'Jiraiya', img: '' }, undercover: { name: 'Netero', img: '' }, tag: 'vieux maîtres décontractés d\'une puissance absolue qui meurent face au vrai ennemi', difficulty: 'popular' },
+    { citizen: { name: 'Minato Namikaze', img: '' }, undercover: { name: 'Kakashi Hatake', img: '' }, tag: 'ninjas légendaires qui meurent pour protéger leurs élèves', difficulty: 'popular' },
+    { citizen: { name: 'Shikamaru Nara', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies stratèges qui calculent dix coups d\'avance, fainéants en apparence', difficulty: 'popular' },
+    { citizen: { name: 'Obito Uchiha', img: '' }, undercover: { name: 'Reiner Braun', img: '' }, tag: 'soldats qui trahissent leur camp après un traumatisme, vivent avec leur masque', difficulty: 'popular' },
+    { citizen: { name: 'Frieza', img: '' }, undercover: { name: 'Meruem', img: '' }, tag: 'rois-nés de la destruction, élégance et cruauté absolues, mépris de l\'humanité', difficulty: 'popular' },
+    { citizen: { name: 'Gohan', img: '' }, undercover: { name: 'Tanjiro Kamado', img: '' }, tag: 'fils qui portent un héritage impossible, douceur cachant une puissance dévastatrice', difficulty: 'popular' },
+    { citizen: { name: 'Usopp', img: '' }, undercover: { name: 'Zenitsu Agatsuma', img: '' }, tag: 'couards qui trouvent leur courage au moment crucial', difficulty: 'popular' },
+    { citizen: { name: 'Boa Hancock', img: '' }, undercover: { name: 'Esdeath', img: '' }, tag: 'femmes d\'une beauté terrifiante dont la puissance est absolue', difficulty: 'popular' },
+    { citizen: { name: 'Whitebeard', img: '' }, undercover: { name: 'Netero', img: '' }, tag: 'patriarches légendaires au sommet de leur monde qui meurent debout', difficulty: 'popular' },
+    { citizen: { name: 'Ichigo Kurosaki', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'humains habités par une entité monstrueuse, dualité entre humanité et pouvoir', difficulty: 'popular' },
+    { citizen: { name: 'Yoruichi Shihoin', img: '' }, undercover: { name: 'Killua Zoldyck', img: '' }, tag: 'combattants à la vitesse absolue, décontractés, anciens nobles rebelles', difficulty: 'popular' },
+    { citizen: { name: 'Rukia Kuchiki', img: '' }, undercover: { name: 'Mikasa Ackerman', img: '' }, tag: 'guerrières compactes d\'une loyauté absolue envers le protagoniste', difficulty: 'popular' },
+    { citizen: { name: 'Sosuke Aizen', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'génies froids qui manipulent tout le monde pour imposer leur vision du monde parfait', difficulty: 'popular' },
+    { citizen: { name: 'Kurapika', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'survivants de clan, vengeance totale, yeux activés par la colère', difficulty: 'popular' },
+    { citizen: { name: 'Megumi Fushiguro', img: '' }, undercover: { name: 'Kurapika', img: '' }, tag: 'combattants sombres au plan à long terme, sacrifieraient tout pour leur objectif', difficulty: 'popular' },
+    { citizen: { name: 'Ryomen Sukuna', img: '' }, undercover: { name: 'Madara Uchiha', img: '' }, tag: 'entités légendaires d\'une puissance absolue qui considèrent les humains comme des insectes', difficulty: 'popular' },
+    { citizen: { name: 'Nanami Kento', img: '' }, undercover: { name: 'Roy Mustang', img: '' }, tag: 'militaires pragmatiques et froids, sens du devoir absolu, cachent leurs émotions', difficulty: 'popular' },
+    { citizen: { name: 'Levi Ackerman', img: '' }, undercover: { name: 'Killua Zoldyck', img: '' }, tag: 'assassins nés d\'une famille difficile, loyaux envers les rares personnes qui comptent', difficulty: 'popular' },
+    { citizen: { name: 'Armin Arlert', img: '' }, undercover: { name: 'Norman', img: '' }, tag: 'cerveaux fragiles physiquement dont le génie stratégique sauve tout le monde', difficulty: 'popular' },
+    { citizen: { name: 'Reiner Braun', img: '' }, undercover: { name: 'Obito Uchiha', img: '' }, tag: 'guerriers doubles qui trahissent leur camp et vivent avec leur culpabilité', difficulty: 'popular' },
+    { citizen: { name: 'Bakugo Katsuki', img: '' }, undercover: { name: 'Eustass Kid', img: '' }, tag: 'rivaux explosifs et orgueilleux aux pouvoirs destructeurs', difficulty: 'popular' },
+    { citizen: { name: 'Izuku Midoriya', img: '' }, undercover: { name: 'Rock Lee', img: '' }, tag: 'héros sans talent naturel qui compensent par l\'effort acharné', difficulty: 'popular' },
+    { citizen: { name: 'Kokushibo', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'aînés maudits consumés par la jalousie envers leur frère plus doué', difficulty: 'popular' },
+    { citizen: { name: 'Muichiro Tokito', img: '' }, undercover: { name: 'Killua Zoldyck', img: '' }, tag: 'enfants prodiges aux cheveux clairs, mémoire effacée, potentiel hors norme', difficulty: 'popular' },
+    { citizen: { name: 'Makima', img: '' }, undercover: { name: 'Sosuke Aizen', img: '' }, tag: 'manipulateurs absolus dont le vrai visage n\'est révélé qu\'à la fin', difficulty: 'popular' },
+    { citizen: { name: 'Aki Hayakawa', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'jeunes hommes calmes consumés par la vengeance, finissent par y perdre leur vie', difficulty: 'popular' },
+    { citizen: { name: 'Ken Kaneki', img: '' }, undercover: { name: 'Eren Yeager', img: '' }, tag: 'protagonistes qui perdent leur humanité progressivement, cheveux blancs après trauma', difficulty: 'popular' },
+    { citizen: { name: 'DIO', img: '' }, undercover: { name: 'Madara Uchiha', img: '' }, tag: 'antagonistes absolus d\'une puissance et élégance terrifiantes', difficulty: 'popular' },
+    { citizen: { name: 'Jotaro Kujo', img: '' }, undercover: { name: 'Kakashi Hatake', img: '' }, tag: 'combattants froids aux cheveux sombres, peu de mots, respectés de tous', difficulty: 'popular' },
+    { citizen: { name: 'Natsu Dragneel', img: '' }, undercover: { name: 'Monkey D. Luffy', img: '' }, tag: 'héros impulsifs qui protègent leur famille/nakama par-dessus tout', difficulty: 'popular' },
+    { citizen: { name: 'Gray Fullbuster', img: '' }, undercover: { name: 'Toshiro Hitsugaya', img: '' }, tag: 'utilisateurs de glace calmes, portent un traumatisme lié à leur maître', difficulty: 'popular' },
+    { citizen: { name: 'Zeref', img: '' }, undercover: { name: 'Pain (Nagato)', img: '' }, tag: 'antagonistes aux pouvoirs de mort qui veulent en finir avec leur propre existence', difficulty: 'popular' },
+    { citizen: { name: 'Ban', img: '' }, undercover: { name: 'Guts', img: '' }, tag: 'guerriers immortels au passé douloureux, marqués par une perte tragique', difficulty: 'popular' },
+    { citizen: { name: 'Lelouch vi Britannia', img: '' }, undercover: { name: 'Light Yagami', img: '' }, tag: 'génies masqués manipulateurs à la chute tragique calculée', difficulty: 'popular' },
+    { citizen: { name: 'Asta', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'seuls sans magie/quirk, compensent par la ténacité absolue', difficulty: 'popular' },
+    { citizen: { name: 'Rin Itoshi', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'prodiges orgueilleux qui veulent dépasser un aîné légendaire', difficulty: 'popular' },
+    { citizen: { name: 'Shinji Ikari', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'jeunes hommes brisés qui s\'effondrent sous le poids des attentes', difficulty: 'popular' },
+    { citizen: { name: 'Makishima Shougo', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'intellectuels élégants qui manipulent la société selon leur propre vision du monde', difficulty: 'popular' },
+    { citizen: { name: 'Osamu Dazai', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies mystérieux et suicidaires qui orchestrent tout depuis l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Xin', img: '' }, undercover: { name: 'Rock Lee', img: '' }, tag: 'guerriers sans noblesse qui atteignent le sommet par l\'effort acharné', difficulty: 'popular' },
+    { citizen: { name: 'Emma', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'héros à l\'optimisme indestructible qui refusent de sacrifier quiconque', difficulty: 'popular' },
+    { citizen: { name: 'Norman', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'génies froids qui sacrifient leur humanité pour sauver les autres', difficulty: 'popular' },
+    { citizen: { name: 'Sung Jinwoo', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'combattants solitaires qui progressent seuls dans l\'ombre jusqu\'à dépasser tous les autres', difficulty: 'popular' },
+    { citizen: { name: 'Sakata Gintoki', img: '' }, undercover: { name: 'Shanks', img: '' }, tag: 'guerriers légendaires décontractés qui cachent leur vraie puissance', difficulty: 'popular' },
+    { citizen: { name: 'Takasugi Shinsuke', img: '' }, undercover: { name: 'Itachi Uchiha', img: '' }, tag: 'anciens camarades consumés par la haine qui avancent vers leur mort choisie', difficulty: 'popular' },
+    { citizen: { name: 'Senku Ishigami', img: '' }, undercover: { name: 'Norman', img: '' }, tag: 'génies qui planifient tout des années à l\'avance, cerveau comme seule arme', difficulty: 'popular' },
+    { citizen: { name: 'Mikey', img: '' }, undercover: { name: 'Sasuke Uchiha', img: '' }, tag: 'leaders charismatiques consumés par l\'obscurité, sauvés par leur ami d\'enfance', difficulty: 'popular' },
+    { citizen: { name: 'Rengoku Kyojuro', img: '' }, undercover: { name: 'Whitebeard', img: '' }, tag: 'figures paternelles flamboyantes qui meurent en protégeant les plus jeunes', difficulty: 'popular' },
+    { citizen: { name: 'Giyu Tomioka', img: '' }, undercover: { name: 'Kakashi Hatake', img: '' }, tag: 'combattants solitaires au regard vide qui cachent une profonde culpabilité', difficulty: 'popular' },
 
 ];
 
