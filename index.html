@@ -843,26 +843,281 @@ const FIXED_IDS = {
 
 // Imgur URLs for characters not found on Jikan
 const IMGUR_URLS = {
-    'Yoh Asakura':       'https://i.imgur.com/lfPxazV.jpeg',
-    'Emma':              'https://i.imgur.com/sLSDqCw.jpeg',
-    'Louis':             'https://i.imgur.com/ORX1ng1.jpeg',
-    'Zuko':              'https://i.imgur.com/hmVCS84.jpeg',
-    'Choso':             'https://i.imgur.com/OcKy2jg.jpeg',
-    'King (OPM)':        'https://i.imgur.com/JKdQKl3.jpeg',
-    'Jin':               'https://i.imgur.com/yRcf0hC.jpeg',
-    'Fuu':               'https://i.imgur.com/WLuQyAr.jpeg',
-    'King (NnT)':        'https://i.imgur.com/wLYadvS.jpeg',
-    'Joker':             'https://i.imgur.com/MMlgdXm.jpeg',
-    'Mashiba Ryo':       'https://i.imgur.com/mBoJxlm.jpeg',
-    'Tatsumi':           'https://i.imgur.com/wEnCUHG.jpeg',
-    'Kanki':             'https://i.imgur.com/kqLTF2O.jpeg',
-    'Ousen':             'https://i.imgur.com/UdVZdzz.jpeg',
-    'Ouhon':             'https://i.imgur.com/vMYbJaL.jpeg',
-    'Mouten':            'https://i.imgur.com/wvbIqEc.jpeg',
-    'Riboku':            'https://i.imgur.com/9z9yVnv.jpeg',
-    'Kyou Kai':          'https://i.imgur.com/zqisRht.jpeg',
-    'Sakuragi Rokurouta':'https://i.imgur.com/lgOkYrF.jpeg',
-    'Hijikata Toshizo':  'https://i.imgur.com/EByKtBO.jpeg',
+    // ── Imgur originals ──
+    'Yoh Asakura':          'https://i.imgur.com/lfPxazV.jpeg',
+    'Emma':                 'https://i.imgur.com/sLSDqCw.jpeg',
+    'Louis':                'https://i.imgur.com/ORX1ng1.jpeg',
+    'Zuko':                 'https://i.imgur.com/hmVCS84.jpeg',
+    'Choso':                'https://i.imgur.com/OcKy2jg.jpeg',
+    'King (OPM)':           'https://i.imgur.com/JKdQKl3.jpeg',
+    'Jin':                  'https://i.imgur.com/yRcf0hC.jpeg',
+    'Fuu':                  'https://i.imgur.com/WLuQyAr.jpeg',
+    'King (NnT)':           'https://i.imgur.com/wLYadvS.jpeg',
+    'Joker':                'https://i.imgur.com/MMlgdXm.jpeg',
+    'Mashiba Ryo':          'https://i.imgur.com/mBoJxlm.jpeg',
+    'Tatsumi':              'https://i.imgur.com/wEnCUHG.jpeg',
+    'Kanki':                'https://i.imgur.com/kqLTF2O.jpeg',
+    'Ousen':                'https://i.imgur.com/UdVZdzz.jpeg',
+    'Ouhon':                'https://i.imgur.com/vMYbJaL.jpeg',
+    'Mouten':               'https://i.imgur.com/wvbIqEc.jpeg',
+    'Riboku':               'https://i.imgur.com/9z9yVnv.jpeg',
+    'Kyou Kai':             'https://i.imgur.com/zqisRht.jpeg',
+    'Sakuragi Rokurouta':   'https://i.imgur.com/lgOkYrF.jpeg',
+    'Hijikata Toshizo':     'https://i.imgur.com/EByKtBO.jpeg',
+    // ── Naruto ──
+    'Naruto Uzumaki':       'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png',
+    'Sasuke Uchiha':        'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png',
+    'Kakashi Hatake':       'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png',
+    'Itachi Uchiha':        'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png',
+    'Minato Namikaze':      'https://static.wikia.nocookie.net/naruto/images/b/b3/Minato_Namikaze.png',
+    'Rock Lee':             'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png',
+    'Might Guy':            'https://static.wikia.nocookie.net/naruto/images/9/93/Guy_Migth.png',
+    'Hinata Hyuga':         'https://static.wikia.nocookie.net/naruto/images/b/b2/Hinata_Hyuga.png',
+    'Sakura Haruno':        'https://static.wikia.nocookie.net/naruto/images/d/d5/Sakura_Haruno.png',
+    'Neji Hyuga':           'https://static.wikia.nocookie.net/naruto/images/c/ce/Neji_Hyuga.png',
+    'Obito Uchiha':         'https://static.wikia.nocookie.net/naruto/images/1/1d/Tobi.png',
+    'Pain (Nagato)':        'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png',
+    'Orochimaru':           'https://static.wikia.nocookie.net/naruto/images/8/87/Orochimaru_anime.png',
+    'Jiraiya':              'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png',
+    'Shikamaru Nara':       'https://static.wikia.nocookie.net/naruto/images/d/d9/Shikamaru.png',
+    'Madara Uchiha':        'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png',
+    'Gaara':                'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png',
+    'Kabuto Yakushi':       'https://static.wikia.nocookie.net/naruto/images/9/96/Kabuto_Yakushi.png',
+    'Tsunade':              'https://static.wikia.nocookie.net/naruto/images/b/be/Tsunade.png',
+    // ── Dragon Ball ──
+    'Son Goku':             'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png',
+    'Vegeta':               'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png',
+    'Frieza':               'https://static.wikia.nocookie.net/dragonball/images/9/9e/Frieza_First_Form.png',
+    'Bardock':              'https://static.wikia.nocookie.net/dragonball/images/1/12/Bardock_anime.png',
+    'Piccolo':              'https://static.wikia.nocookie.net/dragonball/images/5/52/Piccolo_Artwork.png',
+    'Gohan':                'https://static.wikia.nocookie.net/dragonball/images/b/b2/Gohan-Dragon-Ball-Super.png',
+    'Cell':                 'https://static.wikia.nocookie.net/dragonball/images/4/47/Cell_Perfect_Form.png',
+    'Trunks':               'https://static.wikia.nocookie.net/dragonball/images/e/e8/Trunks_Super.png',
+    'Android 18':           'https://static.wikia.nocookie.net/dragonball/images/a/a5/Android18DBSuper.png',
+    // ── One Piece ──
+    'Monkey D. Luffy':      'https://static.wikia.nocookie.net/onepiece/images/7/7b/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png',
+    'Roronoa Zoro':         'https://static.wikia.nocookie.net/onepiece/images/5/5d/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png',
+    'Trafalgar Law':        'https://static.wikia.nocookie.net/onepiece/images/f/f8/Trafalgar_D._Water_Law_Anime_Post_Timeskip_Infobox.png',
+    'Portgas D. Ace':       'https://static.wikia.nocookie.net/onepiece/images/4/4b/Portgas_D._Ace_Anime_Post_Timeskip_Infobox.png',
+    'Sabo':                 'https://static.wikia.nocookie.net/onepiece/images/3/34/Sabo_Anime_Post_Timeskip_Infobox.png',
+    'Shanks':               'https://static.wikia.nocookie.net/onepiece/images/6/6b/Shanks_Anime_Infobox.png',
+    'Doflamingo':           'https://static.wikia.nocookie.net/onepiece/images/0/09/Donquixote_Doflamingo_Anime_Post_Timeskip_Infobox.png',
+    'Nico Robin':           'https://static.wikia.nocookie.net/onepiece/images/e/e1/Nico_Robin_Anime_Post_Timeskip_Infobox.png',
+    'Whitebeard':           'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png',
+    'Eustass Kid':          'https://static.wikia.nocookie.net/onepiece/images/d/d3/Eustass_Kid_Anime_Post_Timeskip_Infobox.png',
+    'Sanji':                'https://static.wikia.nocookie.net/onepiece/images/9/9d/Sanji_Anime_Post_Timeskip_Infobox.png',
+    'Boa Hancock':          'https://static.wikia.nocookie.net/onepiece/images/b/b3/Boa_Hancock_Anime_Infobox.png',
+    'Crocodile':            'https://static.wikia.nocookie.net/onepiece/images/7/74/Crocodile_Anime_Post_Timeskip_Infobox.png',
+    'Kaido':                'https://static.wikia.nocookie.net/onepiece/images/5/5c/Kaido_Anime_Infobox.png',
+    'Usopp':                'https://static.wikia.nocookie.net/onepiece/images/3/33/Usopp_Anime_Post_Timeskip_Infobox.png',
+    'Brook':                'https://static.wikia.nocookie.net/onepiece/images/2/2b/Brook_Anime_Post_Timeskip_Infobox.png',
+    'Franky':               'https://static.wikia.nocookie.net/onepiece/images/e/e1/Franky_Anime_Post_Timeskip_Infobox.png',
+    // ── Bleach ──
+    'Ichigo Kurosaki':      'https://static.wikia.nocookie.net/bleach/images/7/7f/Ichigo_Kurosaki.png',
+    'Sosuke Aizen':         'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png',
+    'Byakuya Kuchiki':      'https://static.wikia.nocookie.net/bleach/images/1/18/Byakuya_Kuchiki.png',
+    'Kenpachi Zaraki':      'https://static.wikia.nocookie.net/bleach/images/a/a5/Kenpachi_Zaraki.png',
+    'Ulquiorra Cifer':      'https://static.wikia.nocookie.net/bleach/images/5/52/Ulquiorra_arrancar.png',
+    'Grimmjow Jaegerjaquez':'https://static.wikia.nocookie.net/bleach/images/d/df/Grimmjow_Jaegerjaquez.png',
+    'Rukia Kuchiki':        'https://static.wikia.nocookie.net/bleach/images/1/1e/Rukia_Kuchiki_anime.png',
+    'Kisuke Urahara':       'https://static.wikia.nocookie.net/bleach/images/2/23/Kisuke_Urahara.png',
+    'Toshiro Hitsugaya':    'https://static.wikia.nocookie.net/bleach/images/a/a4/Toushiro_Hitsugaya.png',
+    'Yoruichi Shihoin':     'https://static.wikia.nocookie.net/bleach/images/d/d5/Yoruichi_Shihoin.png',
+    // ── Hunter x Hunter ──
+    'Killua Zoldyck':       'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png',
+    'Gon Freecss':          'https://static.wikia.nocookie.net/hunterxhunter/images/8/8a/Gon_Freecss_2011.png',
+    'Hisoka Morow':         'https://static.wikia.nocookie.net/hunterxhunter/images/3/32/Hisoka_2011.png',
+    'Kurapika':             'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png',
+    'Chrollo Lucilfer':     'https://static.wikia.nocookie.net/hunterxhunter/images/4/47/Chrollo_2011.png',
+    'Illumi Zoldyck':       'https://static.wikia.nocookie.net/hunterxhunter/images/b/b0/Illumi_2011.png',
+    'Meruem':               'https://static.wikia.nocookie.net/hunterxhunter/images/5/5e/Meruem_2011.png',
+    'Netero':               'https://static.wikia.nocookie.net/hunterxhunter/images/6/62/Netero_2011.png',
+    'Ging Freecss':         'https://static.wikia.nocookie.net/hunterxhunter/images/9/9f/Ging_Freecss_2011.png',
+    // ── Death Note ──
+    'Light Yagami':         'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg',
+    'L Lawliet':            'https://static.wikia.nocookie.net/deathnote/images/a/a4/L_lawliet.jpg',
+    // ── FMA ──
+    'Edward Elric':         'https://static.wikia.nocookie.net/fma/images/4/41/Edward_Elric_anime.png',
+    'Alphonse Elric':       'https://static.wikia.nocookie.net/fma/images/1/16/Alphonse_Elric_anime.png',
+    'Roy Mustang':          'https://static.wikia.nocookie.net/fma/images/6/6a/Roy_Mustang.png',
+    'Father':               'https://static.wikia.nocookie.net/fma/images/8/82/Father_FMA.png',
+    // ── Attack on Titan ──
+    'Eren Yeager':          'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png',
+    'Levi Ackerman':        'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png',
+    'Mikasa Ackerman':      'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png',
+    'Reiner Braun':         'https://static.wikia.nocookie.net/shingekinokyojin/images/d/d0/Reiner_Braun_character_image.png',
+    'Armin Arlert':         'https://static.wikia.nocookie.net/shingekinokyojin/images/5/52/Armin_Arlert_character_image.png',
+    // ── Jujutsu Kaisen ──
+    'Gojo Satoru':          'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png',
+    'Ryomen Sukuna':        'https://static.wikia.nocookie.net/jujutsu-kaisen/images/e/e6/Ryomen_Sukuna_Anime.png',
+    'Megumi Fushiguro':     'https://static.wikia.nocookie.net/jujutsu-kaisen/images/6/6c/Megumi_Fushiguro.png',
+    'Yuji Itadori':         'https://static.wikia.nocookie.net/jujutsu-kaisen/images/d/d3/Yuji_Itadori_anime.png',
+    'Nanami Kento':         'https://static.wikia.nocookie.net/jujutsu-kaisen/images/8/8e/Nanami_Kento_anime.png',
+    'Toji Fushiguro':       'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/10/Toji_Fushiguro_anime.png',
+    // ── JoJo ──
+    'DIO':                  'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png',
+    'Jotaro Kujo':          'https://static.wikia.nocookie.net/jojo/images/3/3f/Jotaro_Kujo_%28Anime%29.png',
+    'Giorno Giovanna':      'https://static.wikia.nocookie.net/jojo/images/a/a2/Giorno_Giovanna.png',
+    'Yoshikage Kira':       'https://static.wikia.nocookie.net/jojo/images/f/f7/Kira_Yoshikage_Anime.png',
+    'Joseph Joestar':       'https://static.wikia.nocookie.net/jojo/images/6/6c/Joseph_Joestar_Anime.png',
+    'Josuke Higashikata':   'https://static.wikia.nocookie.net/jojo/images/4/4b/Josuke_Higashikata.png',
+    // ── One Punch Man ──
+    'Saitama':              'https://static.wikia.nocookie.net/onepunchman/images/0/05/Saitama_Artwork.png',
+    'Genos':                'https://static.wikia.nocookie.net/onepunchman/images/b/bb/Genos_anime.png',
+    'Garou':                'https://static.wikia.nocookie.net/onepunchman/images/1/10/Garou_anime.png',
+    // ── Code Geass ──
+    'Lelouch vi Britannia': 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg',
+    // ── Demon Slayer ──
+    'Tanjiro Kamado':       'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/0d/Tanjiro_Kamado.png',
+    'Giyu Tomioka':         'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/3/36/Giyu_Tomioka.png',
+    'Muichiro Tokito':      'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/a/a9/Muichiro_Tokito.png',
+    'Rengoku Kyojuro':      'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/06/Kyojuro_Rengoku.png',
+    'Zenitsu Agatsuma':     'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/4/40/Zenitsu_Agatsuma.png',
+    'Kokushibo':            'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/e/ec/Kokushibo_anime.png',
+    // ── Berserk ──
+    'Guts':                 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png',
+    'Griffith':             'https://static.wikia.nocookie.net/berserk/images/e/e8/Griffith_berserk.png',
+    // ── Chainsaw Man ──
+    'Denji':                'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png',
+    'Makima':               'https://static.wikia.nocookie.net/chainsaw-man/images/7/77/Makima_Anime.png',
+    'Power':                'https://static.wikia.nocookie.net/chainsaw-man/images/c/c2/Power_anime.png',
+    'Aki Hayakawa':         'https://static.wikia.nocookie.net/chainsaw-man/images/a/a4/Aki_Hayakawa_anime.png',
+    // ── Tokyo Ghoul ──
+    'Ken Kaneki':           'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg',
+    'Touka Kirishima':      'https://static.wikia.nocookie.net/tokyoghoul/images/d/d9/Touka_Kirishima_anime.png',
+    'Kishou Arima':         'https://static.wikia.nocookie.net/tokyoghoul/images/8/88/Kishou_Arima_anime.png',
+    // ── MHA ──
+    'Izuku Midoriya':       'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b9/Izuku_Midoriya_Anime.png',
+    'Bakugo Katsuki':       'https://static.wikia.nocookie.net/bokunoheroacademia/images/b/b5/Katsuki_Bakugo_Anime.png',
+    'Himiko Toga':          'https://static.wikia.nocookie.net/bokunoheroacademia/images/3/3e/Himiko_Toga_Anime.png',
+    'Tomura Shigaraki':     'https://static.wikia.nocookie.net/bokunoheroacademia/images/5/5e/Tomura_Shigaraki_Anime.png',
+    // ── Cowboy Bebop ──
+    'Spike Spiegel':        'https://static.wikia.nocookie.net/cowboybebop/images/7/77/Spike_spiegel.png',
+    // ── Samurai Champloo ──
+    'Mugen':                'https://static.wikia.nocookie.net/samuraichamploo/images/3/37/Mugen-sama.png',
+    // ── Fairy Tail ──
+    'Natsu Dragneel':       'https://static.wikia.nocookie.net/fairytail/images/9/9c/Natsu_Dragneel_2.png',
+    'Erza Scarlet':         'https://static.wikia.nocookie.net/fairytail/images/3/31/Erza_anime.png',
+    'Gray Fullbuster':      'https://static.wikia.nocookie.net/fairytail/images/6/6f/Gray_Fullbuster_GMG.png',
+    'Zeref':                'https://static.wikia.nocookie.net/fairytail/images/0/07/Zeref_Dragneel.png',
+    // ── 7 Deadly Sins ──
+    'Meliodas':             'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/3/3c/Meliodas_Sds.png',
+    'Ban':                  'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/5/52/Ban_new_design.png',
+    // ── Haikyuu ──
+    'Shoyo Hinata':         'https://static.wikia.nocookie.net/haikyuu/images/b/b7/Shoyo_Hinata_anime.png',
+    'Tobio Kageyama':       'https://static.wikia.nocookie.net/haikyuu/images/2/22/Tobio_Kageyama_anime.png',
+    'Keiji Akaashi':        'https://static.wikia.nocookie.net/haikyuu/images/0/0f/Akaashi_Keiji_anime.png',
+    // ── Saint Seiya ──
+    'Seiya de Pégase':      'https://static.wikia.nocookie.net/saintseiya/images/3/3a/Seiya_01.jpg',
+    'Ikki de Phénix':       'https://static.wikia.nocookie.net/saintseiya/images/e/e9/Ikki_SS.jpg',
+    // ── YuYu Hakusho ──
+    'Yusuke Urameshi':      'https://static.wikia.nocookie.net/yuyuhakusho/images/0/09/Yusuke_Urameshi.png',
+    'Hiei':                 'https://static.wikia.nocookie.net/yuyuhakusho/images/2/24/Hiei_%28anime%29.png',
+    'Kurama':               'https://static.wikia.nocookie.net/yuyuhakusho/images/a/a5/Kurama_2011.png',
+    'Toguro':               'https://static.wikia.nocookie.net/yuyuhakusho/images/5/5e/Younger_Toguro.png',
+    'Shinobu Sensui':       'https://static.wikia.nocookie.net/yuyuhakusho/images/4/44/Sensui.png',
+    // ── Akira ──
+    'Tetsuo Shima':         'https://static.wikia.nocookie.net/akira-comic/images/9/9d/Tetsuo_Shima_Akira.jpeg',
+    // ── Fire Force ──
+    'Shinra Kusakabe':      'https://static.wikia.nocookie.net/fire-force/images/a/aa/Shinra_Kusakabe_Anime.png',
+    // ── Soul Eater ──
+    'Maka Albarn':          'https://static.wikia.nocookie.net/souleater/images/1/14/Maka_Albarn_Anime.png',
+    'Death the Kid':        'https://static.wikia.nocookie.net/souleater/images/b/b2/Soul_Eater_Death_The_Kid_Render.png',
+    // ── Hajime no Ippo ──
+    'Makunouchi Ippo':      'https://static.wikia.nocookie.net/ippo/images/f/fa/IppoMakunouchi.png',
+    // ── Baki ──
+    'Baki Hanma':           'https://static.wikia.nocookie.net/bakihanma/images/7/75/Baki_render.png',
+    // ── Mob Psycho ──
+    'Mob (Kageyama Shigeo)':'https://static.wikia.nocookie.net/mob-psycho-100/images/1/12/Mob_in_Mob_Psycho_100.png',
+    'Reigen Arataka':       'https://static.wikia.nocookie.net/mob-psycho-100/images/5/5b/Reigen_anime.png',
+    // ── Frieren ──
+    'Frieren':              'https://static.wikia.nocookie.net/frieren/images/d/d0/Frieren_anime.png',
+    'Himmel':               'https://static.wikia.nocookie.net/frieren/images/6/6f/Himmel_anime.png',
+    // ── Re:Zero ──
+    'Subaru Natsuki':       'https://static.wikia.nocookie.net/rezero/images/4/4f/Subaru_anime.png',
+    'Rem':                  'https://static.wikia.nocookie.net/rezero/images/0/04/Rem_anime.png',
+    'Roswaal':              'https://static.wikia.nocookie.net/rezero/images/e/e8/Roswaal_anime.png',
+    // ── Overlord ──
+    'Ainz Ooal Gown':       'https://static.wikia.nocookie.net/overlordmaruyama/images/3/30/Ainz_Ooal_Gown.png',
+    // ── Vinland Saga ──
+    'Thorfinn':             'https://static.wikia.nocookie.net/vinlandsaga/images/2/23/Thorfinn_anime.png',
+    'Askeladd':             'https://static.wikia.nocookie.net/vinlandsaga/images/d/dc/Askeladd_anime.png',
+    // ── Black Clover ──
+    'Asta':                 'https://static.wikia.nocookie.net/blackclover/images/a/ab/Asta_Anime.png',
+    'Yuno':                 'https://static.wikia.nocookie.net/blackclover/images/8/8c/Yuno_Anime.png',
+    'Yami Sukehiro':        'https://static.wikia.nocookie.net/blackclover/images/d/dd/Yami_Sukehiro_anime.png',
+    // ── Noragami ──
+    'Yato':                 'https://static.wikia.nocookie.net/noragami/images/b/b4/Yato_anime.png',
+    // ── D.Gray-Man ──
+    'Allen Walker':         'https://static.wikia.nocookie.net/dgrayman/images/7/74/Allen_Walker_anime.png',
+    'Yu Kanda':             'https://static.wikia.nocookie.net/dgrayman/images/b/b2/Kanda_anime.png',
+    'Millennium Earl':      'https://static.wikia.nocookie.net/dgrayman/images/d/d3/Millennium_Earl_anime.png',
+    // ── Spy x Family ──
+    'Loid Forger':          'https://static.wikia.nocookie.net/spy-x-family/images/5/52/Loid_Forger_anime.png',
+    'Yor Forger':           'https://static.wikia.nocookie.net/spy-x-family/images/1/19/Yor_Forger_anime.png',
+    // ── SAO ──
+    'Kirito':               'https://static.wikia.nocookie.net/swordartonline/images/2/21/Kirito_Aincrad_Arc.png',
+    'Asuna':                'https://static.wikia.nocookie.net/swordartonline/images/9/92/Asuna_anime.png',
+    // ── Tensei Slime ──
+    'Rimuru Tempest':       'https://static.wikia.nocookie.net/tensura/images/a/ae/Rimuru_Slime.png',
+    // ── Pokemon ──
+    'Ash Ketchum':          'https://static.wikia.nocookie.net/pokemon/images/8/87/Ash_Ketchum.png',
+    'Mewtwo':               'https://static.wikia.nocookie.net/pokemon/images/1/1d/Mewtwo_%28anime%29.png',
+    'Gary Oak':             'https://static.wikia.nocookie.net/pokemon/images/5/5f/Gary_Oak.png',
+    // ── Evangelion ──
+    'Shinji Ikari':         'https://static.wikia.nocookie.net/evangelion/images/8/81/Shinji_Ikari.png',
+    'Rei Ayanami':          'https://static.wikia.nocookie.net/evangelion/images/0/0c/Rei_Ayanami.png',
+    'Asuka Langley':        'https://static.wikia.nocookie.net/evangelion/images/d/d5/Asuka_Langley_Soryu.png',
+    // ── Detective Conan ──
+    'Conan Edogawa':        'https://static.wikia.nocookie.net/detectiveconan/images/b/b2/Conan_Edogawa.png',
+    'Gin':                  'https://static.wikia.nocookie.net/detectiveconan/images/8/8a/Gin.png',
+    // ── Blue Lock ──
+    'Isagi Yoichi':         'https://static.wikia.nocookie.net/bluelock/images/1/1d/Yoichi_Isagi.png',
+    'Rin Itoshi':           'https://static.wikia.nocookie.net/bluelock/images/d/d3/Rin_Itoshi.png',
+    // ── Assassination Classroom ──
+    'Koro-sensei':          'https://static.wikia.nocookie.net/ansatsukyoshitsu/images/b/b7/Korosensei_Anime.png',
+    'Karma Akabane':        'https://static.wikia.nocookie.net/ansatsukyoshitsu/images/4/42/Karma_Akabane_Anime.png',
+    // ── Promised Neverland ──
+    'Ray':                  'https://static.wikia.nocookie.net/thepromisedneverland/images/a/a2/Ray_Anime.png',
+    'Norman':               'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png',
+    // ── Solo Leveling ──
+    'Sung Jinwoo':          'https://static.wikia.nocookie.net/solo-leveling/images/c/c4/Sung_Jinwoo.png',
+    // ── Kakegurui ──
+    'Yumeko Jabami':        'https://static.wikia.nocookie.net/kakegurui/images/5/56/Yumeko_Jabami_Anime.png',
+    'Kirari Momobami':      'https://static.wikia.nocookie.net/kakegurui/images/5/57/Kirari_Momobami_Anime.png',
+    // ── Mirai Nikki ──
+    'Yuno Gasai':           'https://static.wikia.nocookie.net/futurediary/images/7/7c/Yuno_Gasai_Anime.png',
+    // ── Tokyo Revengers ──
+    'Takemichi Hanagaki':   'https://static.wikia.nocookie.net/tokyorevengers/images/b/bc/Takemichi_Hanagaki_Anime.png',
+    'Mikey':                'https://static.wikia.nocookie.net/tokyorevengers/images/5/5e/Mikey_Anime.png',
+    // ── Psycho-Pass ──
+    'Akane Tsunemori':      'https://static.wikia.nocookie.net/psychopass/images/b/b4/Akane_Tsunemori.png',
+    'Makishima Shougo':     'https://static.wikia.nocookie.net/psychopass/images/3/3a/Shougo_Makishima.png',
+    // ── Gintama ──
+    'Sakata Gintoki':       'https://static.wikia.nocookie.net/gintama/images/6/69/Gintoki_Sakata.png',
+    'Takasugi Shinsuke':    'https://static.wikia.nocookie.net/gintama/images/e/ea/Shinsuke_Takasugi.png',
+    // ── Dr. Stone ──
+    'Senku Ishigami':       'https://static.wikia.nocookie.net/dr-stone/images/6/67/Senku_Ishigami_Anime.png',
+    'Tsukasa Shishio':      'https://static.wikia.nocookie.net/dr-stone/images/b/b7/Tsukasa_Shishio_Anime.png',
+    // ── Akame ga Kill ──
+    'Akame':                'https://static.wikia.nocookie.net/akamegakill/images/f/f1/Akame_anime.png',
+    'Esdeath':              'https://static.wikia.nocookie.net/akamegakill/images/3/3c/Esdeath_anime.png',
+    // ── Hellsing ──
+    'Alucard':              'https://static.wikia.nocookie.net/hellsing/images/9/95/Alucard.png',
+    'Integra Hellsing':     'https://static.wikia.nocookie.net/hellsing/images/7/7a/Integra.png',
+    // ── Food Wars ──
+    'Yukihira Soma':        'https://static.wikia.nocookie.net/shokugekinosouma/images/1/17/Souma_Yukihira_anime.png',
+    'Erina Nakiri':         'https://static.wikia.nocookie.net/shokugekinosouma/images/a/a9/Erina_Nakiri_anime.png',
+    // ── Kuroko no Basket ──
+    'Kuroko Tetsuya':       'https://static.wikia.nocookie.net/kurokonobasuke/images/8/83/Tetsuya_Kuroko.png',
+    'Aomine Daiki':         'https://static.wikia.nocookie.net/kurokonobasuke/images/9/94/Daiki_Aomine.png',
+    // ── Bungou Stray Dogs ──
+    'Osamu Dazai':          'https://static.wikia.nocookie.net/bungoustraydogs/images/8/85/Osamu_Dazai_Anime.png',
+    'Atsushi Nakajima':     'https://static.wikia.nocookie.net/bungoustraydogs/images/4/41/Atsushi_Nakajima_Anime.png',
+    'Ryunosuke Akutagawa':  'https://static.wikia.nocookie.net/bungoustraydogs/images/d/d2/Ryuunosuke_Akutagawa_Anime.png',
+    // ── Kingdom ──
+    'Xin':                  'https://static.wikia.nocookie.net/kingdom/images/6/68/Xin_anime.png',
+    'Ou Ki':                'https://static.wikia.nocookie.net/kingdom/images/2/25/Ouki_anime.png',
 };
 
 async function fetchAniListImage(characterName) {
