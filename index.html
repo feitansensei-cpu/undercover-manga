@@ -1416,7 +1416,6 @@ const PAIRS = [
     { citizen: { name: 'Natsu Dragneel', img: '' }, undercover: { name: 'Monkey D. Luffy', img: '' }, tag: 'héros impulsifs qui protègent leur famille/nakama par-dessus tout', difficulty: 'popular' },
     { citizen: { name: 'Gray Fullbuster', img: '' }, undercover: { name: 'Toshiro Hitsugaya', img: '' }, tag: 'utilisateurs de glace calmes, portent un traumatisme lié à leur maître', difficulty: 'popular' },
     { citizen: { name: 'Zeref', img: '' }, undercover: { name: 'Pain (Nagato)', img: '' }, tag: 'antagonistes aux pouvoirs de mort qui veulent en finir avec leur propre existence', difficulty: 'popular' },
-    { citizen: { name: 'Rin Itoshi', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'prodiges orgueilleux qui veulent dépasser un aîné légendaire', difficulty: 'popular' },
     { citizen: { name: 'Shinji Ikari', img: '' }, undercover: { name: 'Ken Kaneki', img: '' }, tag: 'jeunes hommes brisés qui s\'effondrent sous le poids des attentes', difficulty: 'popular' },
     { citizen: { name: 'Makishima Shougo', img: '' }, undercover: { name: 'Lelouch vi Britannia', img: '' }, tag: 'intellectuels élégants qui manipulent la société selon leur propre vision du monde', difficulty: 'popular' },
     { citizen: { name: 'Osamu Dazai', img: '' }, undercover: { name: 'L Lawliet', img: '' }, tag: 'génies mystérieux et suicidaires qui orchestrent tout depuis l\'ombre', difficulty: 'popular' },
@@ -1503,13 +1502,6 @@ const PAIRS = [
     { citizen: { name: 'Sosuke Aizen', img: '' }, undercover: { name: 'Ami (20th Century Boys)', img: '' }, tag: 'leaders qui construisent une organisation secrète derrière une façade parfaite, révèlent leur vrai visage trop tard', difficulty: 'intermediate' },
 
     // ══ PAIRES DE REMPLACEMENT — PERSONNAGES SPORTIFS ══
-    { citizen: { name: 'Aomine Daiki', img: '' }, undercover: { name: 'Kenpachi Zaraki', img: '' }, tag: 'combattants instinctifs qui s\'ennuient car personne ne les égale, ne s\'entraînent pas, cherchent désespérément un rival digne', difficulty: 'popular' },
-    { citizen: { name: 'Aomine Daiki', img: '' }, undercover: { name: 'Garou', img: '' }, tag: 'prodiges solitaires consumés par l\'ennui de tout gagner, cherchent un adversaire à leur hauteur pour se sentir vivants', difficulty: 'popular' },
-    { citizen: { name: 'Tobio Kageyama', img: '' }, undercover: { name: 'Vegeta', img: '' }, tag: 'prodiges arrogants surnommés "roi" par leurs pairs, perfectionnistes obsessionnels qui apprennent laborieusement le travail d\'équipe', difficulty: 'popular' },
-    { citizen: { name: 'Shoyo Hinata', img: '' }, undercover: { name: 'Naruto Uzumaki', img: '' }, tag: 'héros au physique sous-estimé, solaires et bruyants, compensent leurs lacunes par une détermination et un instinct hors norme', difficulty: 'popular' },
-    { citizen: { name: 'Makunouchi Ippo', img: '' }, undercover: { name: 'Izuku Midoriya', img: '' }, tag: 'protagonistes timides et doux au quotidien qui deviennent redoutables dans leur domaine grâce à l\'effort acharné', difficulty: 'popular' },
-    { citizen: { name: 'Isagi Yoichi', img: '' }, undercover: { name: 'Shikamaru Nara', img: '' }, tag: 'stratèges analytiques qui lisent le terrain avant tout le monde, cerveaux froids cachés derrière une apparence banale', difficulty: 'popular' },
-    { citizen: { name: 'Keiji Akaashi', img: '' }, undercover: { name: 'Kakashi Hatake', img: '' }, tag: 'personnages calmes et analytiques qui gèrent un génie instable et imprévisible dans leur équipe', difficulty: 'popular' },
 
 
     // ══ NOUVELLES PAIRES — BASÉES SUR SYSTÈME DE TAGS ══
@@ -1619,7 +1611,6 @@ const PAIRS = [
 
     // N1 communs : Cerveau + Discret + Stratège invisible + Orchestrer depuis l'ombre
     // Kuroko vs Shikamaru
-    { citizen: { name: 'Kuroko Tetsuya', img: '' }, undercover: { name: 'Shikamaru Nara', img: '' }, tag: 'personnages discrets et sous-estimés qui orchestrent la victoire depuis l\'ombre sans jamais être sous les projecteurs', difficulty: 'popular' },
 
     // N1 communs : Prodige arrogant + "roi" + Apprend le travail d'équipe
     // Kageyama vs Vegeta
@@ -1636,6 +1627,14 @@ const PAIRS = [
     // N1 communs : Calme analytique + Gère un génie instable
     // Akaashi vs Kakashi
 
+
+
+    // ══ PAIRES INTRA-SPORT (tags N1 validés) ══
+    { citizen: { name: 'Tobio Kageyama', img: 'https://static.wikia.nocookie.net/haikyuu/images/2/22/Tobio_Kageyama_anime.png' }, undercover: { name: 'Aomine Daiki', img: '' }, tag: 'prodiges sportifs au talent absolu qui dominent sans effort, perdent goût à la victoire facile', difficulty: 'popular' },
+    { citizen: { name: 'Rin Itoshi', img: 'https://static.wikia.nocookie.net/bluelock/images/d/d3/Rin_Itoshi.png' }, undercover: { name: 'Tobio Kageyama', img: 'https://static.wikia.nocookie.net/haikyuu/images/2/22/Tobio_Kageyama_anime.png' }, tag: 'prodiges froids au talent naturel extraordinaire, surnommés "roi", obsédés par dépasser un aîné', difficulty: 'popular' },
+    { citizen: { name: 'Shoyo Hinata', img: 'https://static.wikia.nocookie.net/haikyuu/images/b/b7/Shoyo_Hinata_anime.png' }, undercover: { name: 'Makunouchi Ippo', img: 'https://static.wikia.nocookie.net/ippo/images/f/fa/IppoMakunouchi.png' }, tag: 'sportifs au physique sous-estimé qui compensent par un effort acharné et un instinct hors norme', difficulty: 'popular' },
+    { citizen: { name: 'Kuroko Tetsuya', img: '' }, undercover: { name: 'Isagi Yoichi', img: '' }, tag: 'sportifs discrets et sous-estimés dont le génie analytique orchestre la victoire dans l\'ombre', difficulty: 'popular' },
+    { citizen: { name: 'Aomine Daiki', img: '' }, undercover: { name: 'Rin Itoshi', img: 'https://static.wikia.nocookie.net/bluelock/images/d/d3/Rin_Itoshi.png' }, tag: 'prodiges sportifs froids et isolés dont le talent absolu les sépare de tous les autres joueurs', difficulty: 'popular' },
 
 ];
 
