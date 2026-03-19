@@ -2182,22 +2182,23 @@ function calculateRoundScores() {
 
     players.forEach(p => {
         if (p.name === undercover) {
-            // Base: +10 per citizen who didn't vote UC, -10 per citizen who did
+            // +10 per citizen who voted wrong (missed UC)
+            // -10 per citizen who voted correctly (found UC) — implicit via citizensWhoVotedWrong
             const gain = citizensWhoVotedWrong * 10;
-            const loss = votesOnUndercover * 10;
-            // Bonus +5 if no citizen found UC (perfect bluff)
-            const bonus = undercoverPerfect ? 5 : 0;
-            gameState.scores[p.name] += (gain - loss + bonus);
+            gameState.scores[p.name] += gain;
         } else {
             const votedCorrectly = votes[p.name] === undercover;
-            const alliesWhoVotedWrong = players.filter(x =>
+            // +5 if voted correctly, -5 if voted wrong
+            const selfScore = votedCorrectly ? 5 : -5;
+            // +10 per ally who voted correctly, -10 per ally who voted wrong
+            const alliesCorrect = players.filter(x =>
+                x.name !== undercover && x.name !== p.name && votes[x.name] === undercover
+            ).length;
+            const alliesWrong = players.filter(x =>
                 x.name !== undercover && x.name !== p.name && votes[x.name] !== undercover
             ).length;
-            // Base: +10 if voted correctly, -10 per ally who voted wrong
-            // Bonus +5 if voted correctly (individual bonus)
-            const base = (votedCorrectly ? 10 : 0) - (alliesWhoVotedWrong * 10);
-            const bonus = votedCorrectly ? 5 : 0;
-            gameState.scores[p.name] += base + bonus;
+            const allyScore = (alliesCorrect * 10) - (alliesWrong * 10);
+            gameState.scores[p.name] += selfScore + allyScore;
         }
     });
 
