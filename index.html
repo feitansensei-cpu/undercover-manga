@@ -1425,10 +1425,9 @@ async function beginNewRound() {
     gameState.hints = {};
     gameState.votes = {};
     gameState.currentHintPhase = 1;
+    gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
     gameState.roundId = Date.now();
     gameState.currentPairImgs = { citizen: '', undercover: '' };
-    gameState.roundStartPlayerIdx = Math.floor(Math.random() * gameState.players.length);
-    gameState.currentTurnIdx = gameState.roundStartPlayerIdx;
 
     // Filter pairs by difficulty
     const diff = gameState.settings?.difficulty || 'popular';
@@ -1453,12 +1452,19 @@ async function beginNewRound() {
     gameState.usedPairIndices.push(pairIdx);
     gameState.undercoverName = shuffle(gameState.players.map(p => p.name))[0];
 
+    // Preload images before opening the round so they are visible immediately when available
+    const preloadedImgs = await prefetchPairImagesClean(pairIdx);
+    gameState.currentPairImgs = {
+        citizen: preloadedImgs?.citizen || '',
+        undercover: preloadedImgs?.undercover || ''
+    };
+
     // Go directly to hints screen — no reveal screen anymore
     gameState.screen = 'game-hints';
     await saveGame();
     render();
 
-    // Fetch images in background AFTER save — doesn't block the round
+    // Safety refresh in background in case one image arrives later
     fetchImagesBackground(pairIdx, gameState.roundId);
 }
 
@@ -1552,8 +1558,8 @@ window.submitHint = async function() {
     // Advance turn
     const nextTurnIdx = gameState.currentTurnIdx + 1;
     if (nextTurnIdx >= gameState.players.length) {
-        // All players wrote for this phase — next phase starts from the same player as phase 1
-        const nextPhaseStart = gameState.roundStartPlayerIdx || 0;
+        // All players wrote for this phase — next phase starts at player AFTER the last one
+        const nextPhaseStart = (gameState.currentTurnIdx + 1) % gameState.players.length;
         if (gameState.currentHintPhase < gameState.settings.hintsPerRound) {
             // Next phase — start from next player after last (wraps around, never same player twice in a row)
             gameState.currentHintPhase += 1;
