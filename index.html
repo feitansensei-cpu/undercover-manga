@@ -1425,7 +1425,8 @@ async function beginNewRound() {
     gameState.hints = {};
     gameState.votes = {};
     gameState.currentHintPhase = 1;
-    gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
+    gameState.players = shuffle(gameState.players);
+  gameState.currentTurnIdx = 0;
     gameState.roundId = Date.now();
     gameState.currentPairImgs = { citizen: '', undercover: '' };
 
