@@ -1425,10 +1425,10 @@ async function beginNewRound() {
     gameState.hints = {};
     gameState.votes = {};
     gameState.currentHintPhase = 1;
-    gameState.players = shuffle(gameState.players);
-  gameState.currentTurnIdx = 0;
     gameState.roundId = Date.now();
     gameState.currentPairImgs = { citizen: '', undercover: '' };
+    gameState.roundStartPlayerIdx = Math.floor(Math.random() * gameState.players.length);
+    gameState.currentTurnIdx = gameState.roundStartPlayerIdx;
 
     // Filter pairs by difficulty
     const diff = gameState.settings?.difficulty || 'popular';
@@ -1552,8 +1552,8 @@ window.submitHint = async function() {
     // Advance turn
     const nextTurnIdx = gameState.currentTurnIdx + 1;
     if (nextTurnIdx >= gameState.players.length) {
-        // All players wrote for this phase — next phase starts at player AFTER the last one
-        const nextPhaseStart = (gameState.currentTurnIdx + 1) % gameState.players.length;
+        // All players wrote for this phase — next phase starts from the SAME starting player as this round
+        const nextPhaseStart = gameState.roundStartPlayerIdx || 0;
         if (gameState.currentHintPhase < gameState.settings.hintsPerRound) {
             // Next phase — start from next player after last (wraps around, never same player twice in a row)
             gameState.currentHintPhase += 1;
@@ -2022,8 +2022,12 @@ function renderHints(app) {
     const imgs = gameState.currentPairImgs || {};
     const myChar = {
         name: isUndercover ? pair.undercover.name : pair.citizen.name,
-        img: isUndercover ? (imgs.undercover || '') : (imgs.citizen || '')
+        img: isUndercover
+            ? (imgs.undercover || pair.undercover.img || '')
+            : (imgs.citizen || pair.citizen.img || '')
     };
+    if (imgs.citizen) pair.citizen.img = imgs.citizen;
+    if (imgs.undercover) pair.undercover.img = imgs.undercover;
     const phase = gameState.currentHintPhase;
     const totalPhases = gameState.settings.hintsPerRound;
     const currentPlayer = gameState.players[gameState.currentTurnIdx || 0];
