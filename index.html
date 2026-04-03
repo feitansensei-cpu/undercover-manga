@@ -846,30 +846,86 @@ const FIXED_IDS = {
 
 // Imgur URLs for characters not found on Jikan
 const IMGUR_URLS = {
-    'Yoh Asakura':       'https://i.imgur.com/lfPxazV.jpeg',
-    'Emma':              'https://i.imgur.com/sLSDqCw.jpeg',
-    'Louis':             'https://i.imgur.com/ORX1ng1.jpeg',
-    'Zuko':              'https://i.imgur.com/hmVCS84.jpeg',
-    'Choso':             'https://i.imgur.com/OcKy2jg.jpeg',
-    'King (OPM)':        'https://i.imgur.com/JKdQKl3.jpeg',
-    'Jin':               'https://i.imgur.com/yRcf0hC.jpeg',
-    'Fuu':               'https://i.imgur.com/WLuQyAr.jpeg',
-    'King (NnT)':        'https://i.imgur.com/wLYadvS.jpeg',
-    'Joker':             'https://i.imgur.com/MMlgdXm.jpeg',
-    'Mashiba Ryo':       'https://i.imgur.com/mBoJxlm.jpeg',
-    'Tatsumi':           'https://i.imgur.com/wEnCUHG.jpeg',
-    'Kanki':             'https://i.imgur.com/kqLTF2O.jpeg',
-    'Ousen':             'https://i.imgur.com/UdVZdzz.jpeg',
-    'Ouhon':             'https://i.imgur.com/vMYbJaL.jpeg',
-    'Mouten':            'https://i.imgur.com/wvbIqEc.jpeg',
-    'Riboku':            'https://i.imgur.com/9z9yVnv.jpeg',
-    'Kyou Kai':          'https://i.imgur.com/zqisRht.jpeg',
-    'Sakuragi Rokurouta':'https://i.imgur.com/lgOkYrF.jpeg',
-    'Hijikata Toshizo':  'https://i.imgur.com/EByKtBO.jpeg',
-    // Personnages retournant la mauvaise image via Jikan — fixés ici
-    'Kaido':             'https://static.wikia.nocookie.net/onepiece/images/5/5c/Kaido_Anime_Infobox.png',
-    'Askeladd':          'https://static.wikia.nocookie.net/vinlandsaga/images/d/dc/Askeladd_anime.png',
-    'Gaara':             'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png',
+    'Afro Samurai': 'https://static.wikia.nocookie.net/afrosamurai/images/5/5b/Afro_Samurai.png',
+    'Aki Hayakawa': 'https://static.wikia.nocookie.net/chainsaw-man/images/a/a4/Aki_Hayakawa_anime.png',
+    'Akira Fudo': 'https://static.wikia.nocookie.net/devilman/images/5/5b/Akira_Fudou_Devilman_Crybaby.png',
+    'Alphonse Elric': 'https://static.wikia.nocookie.net/fma/images/1/16/Alphonse_Elric_anime.png',
+    'Alucard': 'https://static.wikia.nocookie.net/hellsing/images/9/95/Alucard.png',
+    'Ami (20th Century Boys)': 'https://static.wikia.nocookie.net/20thcenturyboys/images/2/2e/Friend.png',
+    'Askeladd': 'https://static.wikia.nocookie.net/vinlandsaga/images/d/dc/Askeladd_anime.png',
+    'Chihiro Rokuhira': 'https://static.wikia.nocookie.net/kagurabachi/images/c/c4/Chihiro_anime.png',
+    'Ciel Phantomhive': 'https://static.wikia.nocookie.net/kuroshitsuji/images/4/45/Ciel_Phantomhive_Anime.png',
+    'DIO': 'https://static.wikia.nocookie.net/jojo/images/9/95/DIO_ASB_Render.png',
+    'Dabi': 'https://static.wikia.nocookie.net/bokunoheroacademia/images/d/d6/Dabi_Anime.png',
+    'Denji': 'https://static.wikia.nocookie.net/chainsaw-man/images/c/c7/Denji_Anime.png',
+    'Edward Elric': 'https://static.wikia.nocookie.net/fma/images/4/41/Edward_Elric_anime.png',
+    'Eren Yeager': 'https://static.wikia.nocookie.net/shingekinokyojin/images/7/7f/Eren_Yeager_manga.png',
+    'Gaara': 'https://static.wikia.nocookie.net/naruto/images/2/2f/Gaara_Part_II.png',
+    'Gabimaru': 'https://static.wikia.nocookie.net/jigokuraku/images/7/7c/Gabimaru_Anime.png',
+    'Genos': 'https://static.wikia.nocookie.net/onepunchman/images/b/bb/Genos_anime.png',
+    'Ging Freecss': 'https://static.wikia.nocookie.net/hunterxhunter/images/9/9f/Ging_Freecss_2011.png',
+    'Gojo Satoru': 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/1/14/Gojo_Satoru_Anime.png',
+    'Gon Freecss': 'https://static.wikia.nocookie.net/hunterxhunter/images/8/8a/Gon_Freecss_2011.png',
+    'Griffith': 'https://static.wikia.nocookie.net/berserk/images/e/e8/Griffith_berserk.png',
+    'Guts': 'https://static.wikia.nocookie.net/berserk/images/0/0b/Guts_manga.png',
+    'Hao Asakura': 'https://static.wikia.nocookie.net/shamanking/images/8/8c/Hao_Asakura_anime.png',
+    'Ichigo Kurosaki': 'https://static.wikia.nocookie.net/bleach/images/7/7f/Ichigo_Kurosaki.png',
+    'Inuyasha': 'https://static.wikia.nocookie.net/inuyasha/images/c/c6/Inuyasha_anime.png',
+    'Itachi Uchiha': 'https://static.wikia.nocookie.net/naruto/images/b/bb/Itachi_Uchiha.png',
+    'Jiraiya': 'https://static.wikia.nocookie.net/naruto/images/9/94/Jiraiya.png',
+    'Johan Liebert': 'https://static.wikia.nocookie.net/monster/images/6/6e/Johan_Liebert_anime.png',
+    'Joseph Joestar': 'https://static.wikia.nocookie.net/jojo/images/6/6c/Joseph_Joestar_Anime.png',
+    'Josuke Higashikata': 'https://static.wikia.nocookie.net/jojo/images/4/4b/Josuke_Higashikata.png',
+    'Jotaro Kujo': 'https://static.wikia.nocookie.net/jojo/images/3/3f/Jotaro_Kujo_%28Anime%29.png',
+    'Kabuto Yakushi': 'https://static.wikia.nocookie.net/naruto/images/9/96/Kabuto_Yakushi.png',
+    'Kakashi Hatake': 'https://static.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png',
+    'Ken Kaneki': 'https://static.wikia.nocookie.net/tokyoghoul/images/1/19/Ken_Kaneki_profile.jpg',
+    'Kenpachi Zaraki': 'https://static.wikia.nocookie.net/bleach/images/a/a5/Kenpachi_Zaraki.png',
+    'Kenshin Himura': 'https://static.wikia.nocookie.net/rurouni-kenshin/images/d/d3/Kenshin_Himura_Anime.png',
+    'Killua Zoldyck': 'https://static.wikia.nocookie.net/hunterxhunter/images/4/4e/Killua_Zoldyck_2011.png',
+    'Kurapika': 'https://static.wikia.nocookie.net/hunterxhunter/images/c/c6/Kurapika_ch285.png',
+    'Lelouch vi Britannia': 'https://static.wikia.nocookie.net/codegeass/images/6/6e/Lelouch_lamperouge.jpg',
+    'Levi Ackerman': 'https://static.wikia.nocookie.net/shingekinokyojin/images/b/b2/Levi_character_image.png',
+    'Light Yagami': 'https://static.wikia.nocookie.net/deathnote/images/9/9c/Light_yagami.jpg',
+    'Madara Uchiha': 'https://static.wikia.nocookie.net/naruto/images/4/46/Madara_Uchiha.png',
+    'Meliodas': 'https://static.wikia.nocookie.net/nanatsu-no-taizai/images/3/3c/Meliodas_Sds.png',
+    'Might Guy': 'https://static.wikia.nocookie.net/naruto/images/9/93/Guy_Migth.png',
+    'Mikasa Ackerman': 'https://static.wikia.nocookie.net/shingekinokyojin/images/8/85/Mikasa_Ackerman_character_image.png',
+    'Naruto Uzumaki': 'https://static.wikia.nocookie.net/naruto/images/0/09/Naruto_Uzumaki.png',
+    'Natsu Dragneel': 'https://static.wikia.nocookie.net/fairytail/images/9/9c/Natsu_Dragneel_2.png',
+    'Norman': 'https://static.wikia.nocookie.net/thepromisedneverland/images/9/9c/Norman_Anime.png',
+    'Obito Uchiha': 'https://static.wikia.nocookie.net/naruto/images/1/1d/Tobi.png',
+    'Okabe Rintarou': 'https://static.wikia.nocookie.net/steins-gate/images/e/ef/Okabe_Rintarou_Anime.png',
+    'Osamu Dazai': 'https://static.wikia.nocookie.net/bungoustraydogs/images/8/85/Osamu_Dazai_Anime.png',
+    'Pain (Nagato)': 'https://static.wikia.nocookie.net/naruto/images/f/f9/Pain.png',
+    'Portgas D. Ace': 'https://static.wikia.nocookie.net/onepiece/images/4/4b/Portgas_D._Ace_Anime_Post_Timeskip_Infobox.png',
+    'Reiner Braun': 'https://static.wikia.nocookie.net/shingekinokyojin/images/d/d0/Reiner_Braun_character_image.png',
+    'Rock Lee': 'https://static.wikia.nocookie.net/naruto/images/9/9a/Rock_Lee.png',
+    'Roy Mustang': 'https://static.wikia.nocookie.net/fma/images/6/6a/Roy_Mustang.png',
+    'Ryomen Sukuna': 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/e/e6/Ryomen_Sukuna_Anime.png',
+    'Sabo': 'https://static.wikia.nocookie.net/onepiece/images/3/34/Sabo_Anime_Post_Timeskip_Infobox.png',
+    'Saichi Sugimoto': 'https://static.wikia.nocookie.net/goldenkamuy/images/5/5e/Saichi_Sugimoto_anime.png',
+    'Sakata Gintoki': 'https://static.wikia.nocookie.net/gintama/images/6/69/Gintoki_Sakata.png',
+    'Sasuke Uchiha': 'https://static.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_2.png',
+    'Shinichi Izumi': 'https://static.wikia.nocookie.net/parasyte/images/8/8d/Shinichi_Izumi_Anime.png',
+    'Shoto Todoroki': 'https://static.wikia.nocookie.net/bokunoheroacademia/images/a/a0/Shoto_Todoroki_Anime.png',
+    'Sojiro Seta': 'https://static.wikia.nocookie.net/rurouni-kenshin/images/a/a2/Sojiro_Seta_Anime.png',
+    'Son Goku': 'https://static.wikia.nocookie.net/dragonball/images/5/5b/Goku_Dragon_Ball_Super.png',
+    'Sosuke Aizen': 'https://static.wikia.nocookie.net/bleach/images/1/19/Aizen_ep190.png',
+    'Subaru Natsuki': 'https://static.wikia.nocookie.net/rezero/images/4/4f/Subaru_anime.png',
+    'Takasugi Shinsuke': 'https://static.wikia.nocookie.net/gintama/images/e/ea/Shinsuke_Takasugi.png',
+    'Tanjiro Kamado': 'https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/0/0d/Tanjiro_Kamado.png',
+    'Thorfinn': 'https://static.wikia.nocookie.net/vinlandsaga/images/2/23/Thorfinn_anime.png',
+    'Tomura Shigaraki': 'https://static.wikia.nocookie.net/bokunoheroacademia/images/5/5e/Tomura_Shigaraki_Anime.png',
+    'Trafalgar Law': 'https://static.wikia.nocookie.net/onepiece/images/f/f8/Trafalgar_D._Water_Law_Anime_Post_Timeskip_Infobox.png',
+    'Trunks': 'https://static.wikia.nocookie.net/dragonball/images/e/e8/Trunks_Super.png',
+    'Usopp': 'https://static.wikia.nocookie.net/onepiece/images/3/33/Usopp_Anime_Post_Timeskip_Infobox.png',
+    'Vash the Stampede': 'https://static.wikia.nocookie.net/trigun/images/c/c6/Vash_the_Stampede_Anime.png',
+    'Vegeta': 'https://static.wikia.nocookie.net/dragonball/images/7/7e/Vegeta_Dragon_Ball_Super.png',
+    'Whitebeard': 'https://static.wikia.nocookie.net/onepiece/images/4/43/Edward_Newgate_Anime_Post_Timeskip_Infobox.png',
+    'Yuji Itadori': 'https://static.wikia.nocookie.net/jujutsu-kaisen/images/d/d3/Yuji_Itadori_anime.png',
+    'Zeref': 'https://static.wikia.nocookie.net/fairytail/images/0/07/Zeref_Dragneel.png',
+    'Zuko': 'https://i.imgur.com/hmVCS84.jpeg',
 };
 
 async function fetchAniListImage(characterName) {
@@ -1495,15 +1551,16 @@ window.submitHint = async function() {
     // Advance turn
     const nextTurnIdx = gameState.currentTurnIdx + 1;
     if (nextTurnIdx >= gameState.players.length) {
-        // All players wrote for this phase
+        // All players wrote for this phase — next phase starts at player AFTER the last one
+        const nextPhaseStart = (gameState.currentTurnIdx + 1) % gameState.players.length;
         if (gameState.currentHintPhase < gameState.settings.hintsPerRound) {
-            // Next phase — reset turn order
+            // Next phase — start from next player after last (wraps around, never same player twice in a row)
             gameState.currentHintPhase += 1;
-            gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
+            gameState.currentTurnIdx = nextPhaseStart;
         } else {
             // All phases done — go to vote
             gameState.screen = 'game-vote';
-            gameState.currentTurnIdx = Math.floor(Math.random() * gameState.players.length);
+            gameState.currentTurnIdx = nextPhaseStart;
         }
     } else {
         gameState.currentTurnIdx = nextTurnIdx;
